@@ -1,6 +1,6 @@
 import axios from '../axios';
 
-const baseUrl = 'classes/';
+const baseUrl = 'courses/';
 export const apiClasses = {
   getClasses: () => {
     const url = baseUrl;

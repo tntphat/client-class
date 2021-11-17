@@ -6,6 +6,9 @@ import { Typography } from '@material-ui/core';
 import { Button } from '@mui/material';
 import useStyles from './SignIn.styles';
 import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { doLogin } from '../../../redux/slice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 export const SignIn = ({}) => {
   const {
@@ -13,19 +16,24 @@ export const SignIn = ({}) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
+    dispatch(doLogin(data))
+      .then(unwrapResult)
+      .then(() => {
+        history.push('/');
+      });
   };
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
       <InputText
         classNameLabel={classes.label}
-        error={errors.email}
-        label="Email"
-        name="email"
+        error={errors.mail}
+        label="Mail"
+        name="mail"
         register={register}
         rules={{ required: true }}
       />
@@ -35,6 +43,7 @@ export const SignIn = ({}) => {
         error={errors.password}
         label="Password"
         name="password"
+        type="password"
         register={register}
       />
 

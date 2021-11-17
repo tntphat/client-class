@@ -1,0 +1,56 @@
+import { apiUser } from '../../../services/api';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+export const doCreateUser = createAsyncThunk('user@post/createUser', async (params) => {
+  const result = await apiUser.createUser(params);
+  return result.data;
+});
+
+export const doLogin = createAsyncThunk('user@post/login', async (params) => {
+  const result = await apiUser.login(params);
+  return result.data;
+});
+
+const initialState = {
+  isLoading: false,
+  user: null,
+  error: null,
+};
+
+const slice = createSlice({
+  name: 'user@',
+  initialState: initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    //create user
+    builder.addCase(doCreateUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(doCreateUser.fulfilled, (state, action) => {
+      state.user = action.payload.content.user;
+      state.isLoading = false;
+    });
+    builder.addCase(doCreateUser.rejected, (state, action) => {
+      const error = action.error;
+      state.error = error;
+      state.isLoading = false;
+    });
+
+    //login
+    builder.addCase(doLogin.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(doLogin.fulfilled, (state, action) => {
+      state.user = action.payload.content.user;
+      state.isLoading = false;
+    });
+    builder.addCase(doLogin.rejected, (state, action) => {
+      const error = action.error;
+      state.error = error;
+      state.isLoading = false;
+    });
+  },
+});
+const { reducer: userReducer } = slice;
+
+export default userReducer;

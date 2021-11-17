@@ -8,7 +8,7 @@ import { doGetClasses } from '../../redux/slice';
 export const Home = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { listClasses } = useSelector((state) => state.classesSlice);
+  const { listClasses } = useSelector((state) => state.classes);
   // console.log(listClasses);
   useEffect(() => {
     dispatch(doGetClasses());

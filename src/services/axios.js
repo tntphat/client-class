@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const baseURL = 'https://server-classes-manager.herokuapp.com/';
+const baseURL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.REACT_APP_SERVER_LOCAL
+    : process.env.REACT_APP_SERVER_CLASSES_MANAGER_URL;
 
 const axiosMy = axios.create({
   baseURL: baseURL,
@@ -14,8 +17,6 @@ axiosMy.interceptors.response.use(
     return res;
   },
   (err) => {
-    // if (err.response.status === 401) {
-    // }
     throw err;
   },
 );

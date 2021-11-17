@@ -1,11 +1,14 @@
 import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { ErrroMessage, InputText } from '../../common';
 import React from 'react';
 import { TextField, InputLabel, Typography } from '@material-ui/core';
 import { Button } from '@mui/material';
 import useStyles from './Register.styles';
 import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { doCreateUser } from '../../../redux/slice';
 
 export const Register = ({}) => {
   const {
@@ -16,8 +19,14 @@ export const Register = ({}) => {
 
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(doCreateUser(data))
+      .then(unwrapResult)
+      .then((res) => {
+        history.push('/');
+      });
   };
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
@@ -27,30 +36,26 @@ export const Register = ({}) => {
         label="Name"
         name="name"
         register={register}
-      />
-      <InputText
-        classNameLabel={classes.label}
-        error={errors.phone}
-        label="Phone Number"
-        name="phone"
-        register={register}
-      />
-
-      <InputText
-        classNameLabel={classes.label}
-        error={errors.email}
-        label="Email"
-        name="email"
-        register={register}
         rules={{ required: true }}
       />
 
       <InputText
         classNameLabel={classes.label}
+        error={errors.mail}
+        label="Mail"
+        name="mail"
+        register={register}
+        rules={{ required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/ }}
+      />
+
+      <InputText
+        type="password"
+        classNameLabel={classes.label}
         error={errors.password}
         label="Password"
         name="password"
         register={register}
+        rules={{ required: true }}
       />
 
       <Typography className={classes.subText}>

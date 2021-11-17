@@ -8,6 +8,7 @@ export const PrivateRouter = ({
   footer: Footer,
   exact,
   path,
+  title,
 }) => {
   useEffect(() => {
     // dispatch(doGetCurrentUser());
@@ -19,7 +20,7 @@ export const PrivateRouter = ({
       path={path}
       render={(props) => {
         return (
-          <Layout header={Header} footer={Footer}>
+          <Layout title={title} header={Header} footer={Footer}>
             <Component {...props} />
           </Layout>
         );
