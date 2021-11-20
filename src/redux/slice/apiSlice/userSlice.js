@@ -11,6 +11,11 @@ export const doLogin = createAsyncThunk('user@post/login', async (params) => {
   return result.data;
 });
 
+export const doAuthSocial = createAsyncThunk('user@post/authSocial', async (params) => {
+  const result = await apiUser.authSocial(params);
+  return result.data;
+});
+
 const initialState = {
   isLoading: false,
   user: null,
@@ -45,6 +50,20 @@ const slice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(doLogin.rejected, (state, action) => {
+      const error = action.error;
+      state.error = error;
+      state.isLoading = false;
+    });
+
+    //authSocial
+    builder.addCase(doAuthSocial.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(doAuthSocial.fulfilled, (state, action) => {
+      state.user = action.payload.content.user;
+      state.isLoading = false;
+    });
+    builder.addCase(doAuthSocial.rejected, (state, action) => {
       const error = action.error;
       state.error = error;
       state.isLoading = false;

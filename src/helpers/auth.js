@@ -1,35 +1,54 @@
-export async function login() {
+export async function login(callback) {
   const authResponse = await new Promise((resolve, reject) =>
-    window.FB.login(
-      function (response) {
-        if (response.status === 'connected') {
-          FB.api('/me?fields=id,email,name,picture.width(720).height(720)', function (data) {
-            resolve(data);
-          });
-        }
-      },
-      { scope: 'email' },
-    ),
+    window.FB.login(function (response) {
+      console.log(response, 'res');
+      if (response.status === 'connected') {
+        FB.api('/me?fields=id,email,name,picture.width(720).height(720)', function (data) {
+          resolve({ data, accessToken: response.authResponse.accessToken });
+        });
+      }
+    }),
   );
-  console.log(authResponse);
+  callback(authResponse);
+  // console.log(authResponse);
   if (!authResponse) return;
 }
 
-export function logout() {
-  window.FB.logout(function (res) {
-    console.log(res, 'aaa');
-  });
+export function logOutFb() {
+  window.FB.logout(function (res) {});
 }
 
-// async function apiAuthenticate(accessToken, setData) {
-//   axios
-//     .get(`https://graph.facebook.com/me?fields=id,name,email,birthday&access_token=${accessToken}`)
-//     .then((response) => {
-//       console.log('res: ', response);
-//       setData(response.data);
-//     });
-// }
-// console.log('a');
+export function logOutGg() {
+  window.gapi.auth2
+    .getAuthInstance()
+    .signOut()
+    .then(function () {
+      console.log('User signed out.');
+    });
+}
+
+export const authWithGg = (clientId, onSuccess, onFailure) => {
+  console.log(process.env.NODE_ENV);
+  window.onGoogleScriptLoad = () => {
+    const _gapi = window.gapi;
+
+    _gapi.load('auth2', () => {
+      (async () => {
+        const _googleAuth = await _gapi.auth2.init({
+          client_id: clientId,
+        });
+        _googleAuth.attachClickHandler(
+          document.getElementById('customBtn'),
+          {
+            prompt: 'consent',
+          },
+          onSuccess,
+          onFailure,
+        );
+      })();
+    });
+  };
+};
 export const loadScript = () => {
   const appId =
     process.env.NODE_ENV === 'development'

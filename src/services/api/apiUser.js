@@ -10,4 +10,8 @@ export const apiUser = {
     const url = baseUrl + 'login';
     return axios.post(url, params);
   },
+  authSocial: (params) => {
+    const url = baseUrl + 'authSocial';
+    return axios.post(url, params);
+  },
 };
