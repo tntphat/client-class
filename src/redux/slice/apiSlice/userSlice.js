@@ -30,10 +30,15 @@ const initialState = {
 const slice = createSlice({
   name: 'user@',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    doClearError(state, action) {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     //create user
     builder.addCase(doCreateUser.pending, (state) => {
+      state.error = null;
       state.isLoading = true;
     });
     builder.addCase(doCreateUser.fulfilled, (state, action) => {
@@ -49,6 +54,7 @@ const slice = createSlice({
     //login
     builder.addCase(doLogin.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(doLogin.fulfilled, (state, action) => {
       // state.user = action.payload.content.user;
@@ -62,6 +68,7 @@ const slice = createSlice({
 
     //authSocial
     builder.addCase(doAuthSocial.pending, (state) => {
+      state.error = null;
       state.isLoading = true;
     });
     builder.addCase(doAuthSocial.fulfilled, (state, action) => {
@@ -76,6 +83,7 @@ const slice = createSlice({
 
     //GetInforUser
     builder.addCase(doGetInforUser.pending, (state) => {
+      state.error = null;
       state.isLoading = true;
     });
     builder.addCase(doGetInforUser.fulfilled, (state, action) => {
@@ -89,6 +97,8 @@ const slice = createSlice({
     });
   },
 });
-const { reducer: userReducer } = slice;
+const { reducer: userReducer, actions } = slice;
 
 export default userReducer;
+
+export const { doClearError } = actions;

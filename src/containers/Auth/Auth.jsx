@@ -6,20 +6,24 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import useStyles from './Auth.styles';
 import { Register, SignIn } from '../../components/Auth';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authWithGg, loadScript, login, loginGg } from '../../helpers';
-import { doAuthSocial } from '../../redux/slice';
+import { doAuthSocial, doClearError } from '../../redux/slice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { ConfirmDialog } from '../../components/common';
 
 export const Auth = () => {
   // state
   const [tab, setTab] = useState(1);
+  const [openDialog, setOpenDialog] = useState(false);
   const classes = useStyles();
   const location = useLocation();
   const Tab = location.state?.Tab;
   const history = useHistory();
 
   const dispatch = useDispatch();
+
+  const { error } = useSelector((state) => state.user);
   // useEffect
 
   useEffect(() => {
@@ -29,8 +33,14 @@ export const Auth = () => {
   }, []);
 
   useEffect(() => {
-    setTab(Tab);
+    if (Tab >= 0) setTab(Tab);
   }, [Tab]);
+
+  useEffect(() => {
+    if (error) {
+      setOpenDialog(true);
+    }
+  }, [error]);
 
   // handle
   const onSuccess = (googleUser) => {
@@ -66,6 +76,10 @@ export const Auth = () => {
       });
   };
 
+  const onCloseDialog = () => {
+    dispatch(doClearError());
+    setOpenDialog(false);
+  };
   return (
     <Box className={classes.root}>
       <Box mb={2}>
@@ -100,6 +114,15 @@ export const Auth = () => {
       </Box>
 
       {tab === 0 ? <Register /> : <SignIn />}
+
+      <ConfirmDialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        onClickAction={onCloseDialog}
+        textBtn="Ok"
+      >
+        {tab ? 'Wrong mail or password' : 'Existed mail. Please register with another mail'}
+      </ConfirmDialog>
     </Box>
   );
 };
