@@ -1,0 +1,46 @@
+.cld-card{
+    margin-top: 100px;
+    background-image: url("https://www.gstatic.com/classroom/themes/Biology.jpg");
+    display: flex;
+    align-items: flex-end;
+    border: solid 2px grey;
+    width: 800px;
+    height: 200px;
+    border-radius: 15px;
+}
+
+.cld-infor {
+    display: block;
+    margin: 15px;
+    color: white;
+}
+
+.cl-code {
+    border: solid 1px rgb(187, 187, 187);
+    border-radius: 15px;
+    width: 200px;
+    height: 100px;
+}
+
+.cl-code-header {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.cl-infor {
+    border: solid 1px rgb(187, 187, 187);
+    border-radius: 15px;
+    width: 100%;
+    margin-left: 25px;
+}
+
+.cl-body {
+    display: flex;
+    margin-top: 25px;
+}
+
+.cl-card {
+    padding: 10px
+}

@@ -5,6 +5,7 @@ import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderLayout } from '../layouts';
 import { Header } from '../components/common';
+import { ClassDetail } from '../containers/ClassDetail/ClassDetails';
 
 // import { Header, Footer } from '../components';
 
@@ -29,6 +30,15 @@ export const Routers = () => {
           exact={true}
           path={'/home2'}
           component={Home2}
+          layout={HeaderLayout}
+          header={<Header />}
+        />
+      </Switch>
+      <Switch>
+        <PrivateRouter
+          exact={true}
+          path={'/course/:id'}
+          component={ClassDetail}
           layout={HeaderLayout}
           header={<Header />}
         />

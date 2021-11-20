@@ -17,16 +17,16 @@ export const Header = ({ title }) => {
   // const name = useSelector(state => state.currentClass.name)
   return (
     <Box className={classes.root} sx={{ flexGrow: 1 }}>
-      <AppBar position="static" className={classes.nav}>
+      <AppBar position="static" style={{backgroundColor: "white"}} className={classes.nav}>
         <Toolbar variant="dense" className={classes.toolBar}>
-          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+          <IconButton size="large" edge="start" style={{color: "black"}} color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {/* {name || 'AAAA'} */}
             Title
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button style={{color: "black", backgroundColor:"#2ecc71"}}>Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
