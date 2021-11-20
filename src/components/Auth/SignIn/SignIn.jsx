@@ -9,6 +9,7 @@ import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { doLogin } from '../../../redux/slice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { login } from '../../../helpers';
 
 export const SignIn = ({}) => {
   const {
@@ -23,8 +24,8 @@ export const SignIn = ({}) => {
     // console.log(data);
     dispatch(doLogin(data))
       .then(unwrapResult)
-      .then(() => {
-        history.push('/');
+      .then((res) => {
+        login(res.token);
       });
   };
   return (

@@ -7,9 +7,8 @@ import useStyles from './Auth.styles';
 import { Register, SignIn } from '../../components/Auth';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { authWithGg, loadScript, login, logOutFb, logOutGg } from '../../helpers';
-import FacebookLogin from 'react-facebook-login';
-import { doAuthSocial, doCreateUser, doLogin } from '../../redux/slice';
+import { authWithGg, loadScript, login, loginGg } from '../../helpers';
+import { doAuthSocial } from '../../redux/slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 export const Auth = () => {
@@ -44,8 +43,8 @@ export const Auth = () => {
       }),
     )
       .then(unwrapResult)
-      .then(() => {
-        history.push('/');
+      .then((res) => {
+        login(res.token);
       });
   };
 
@@ -62,8 +61,8 @@ export const Auth = () => {
       }),
     )
       .then(unwrapResult)
-      .then(() => {
-        history.push('/');
+      .then((res) => {
+        login(res.token);
       });
   };
 
@@ -90,7 +89,7 @@ export const Auth = () => {
         variant="contained"
         fullWidth
         className={classes.btn}
-        onClick={() => login(onSuccessLoginFb)}
+        onClick={() => loginGg(onSuccessLoginFb)}
       >
         Sign in with Facebook
       </Button>
