@@ -18,7 +18,7 @@ export const PublicRouter = ({
       path={path}
       render={(props) => {
         if (token) {
-          return <Redirect to="/home" />;
+          return <Redirect to="/courses" />;
         } else
           return (
             <Layout header={Header} footer={Footer}>

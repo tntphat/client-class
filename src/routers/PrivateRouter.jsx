@@ -13,6 +13,7 @@ export const PrivateRouter = ({
   exact,
   path,
   title,
+  fullWidth,
 }) => {
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.user);
@@ -30,7 +31,7 @@ export const PrivateRouter = ({
           return <Redirect to="/" />;
         }
         return (
-          <Layout title={title} header={Header} footer={Footer}>
+          <Layout fullWidth={fullWidth} title={title} header={Header} footer={Footer}>
             <Component {...props} />
           </Layout>
         );

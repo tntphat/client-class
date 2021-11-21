@@ -14,6 +14,7 @@ export function ConfirmDialog({ openDialog, setOpenDialog, onClickAction, childr
   return (
     <div>
       <Dialog
+        style={{ maxWidth: 'unset' }}
         open={openDialog}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -22,9 +23,11 @@ export function ConfirmDialog({ openDialog, setOpenDialog, onClickAction, childr
         <DialogContent>{children}</DialogContent>
         <DialogActions>
           {/* <Button onClick={handleClose}>Disagree</Button> */}
-          <Button onClick={onClickAction} autoFocus>
-            {textBtn || 'Agree'}
-          </Button>
+          {onClickAction ? (
+            <Button onClick={onClickAction} autoFocus>
+              {textBtn || 'Agree'}
+            </Button>
+          ) : null}
         </DialogActions>
       </Dialog>
     </div>

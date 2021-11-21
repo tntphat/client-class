@@ -3,10 +3,15 @@ import React from 'react';
 import { Header } from '../../components/common';
 import useStyles from './HeaderLayout.styles';
 
-export const HeaderLayout = ({ children, header }) => {
+export const HeaderLayout = ({ children, header, fullWidth }) => {
   const classes = useStyles();
   return (
-    <Paper square variant="none" className={classes.root}>
+    <Paper
+      style={{ maxWidth: fullWidth ? 'unset' : 800 }}
+      square
+      variant="none"
+      className={classes.root}
+    >
       <Box className={classes.header}>{header}</Box>
       <Box className={classes.center}>{children}</Box>
     </Paper>

@@ -6,6 +6,11 @@ export const doGetClasses = createAsyncThunk('classes@get/GetClasses', async () 
   return result.data;
 });
 
+export const doAddClass = createAsyncThunk('classes@add/addClass', async (param) => {
+  const result = await apiClasses.addClass(param);
+  return result.data;
+});
+
 const initialState = {
   isLoading: false,
   listClasses: [],
@@ -17,7 +22,7 @@ const slice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    //get general
+    //get classes
     builder.addCase(doGetClasses.pending, (state) => {
       state.isLoading = true;
     });
@@ -26,6 +31,20 @@ const slice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(doGetClasses.rejected, (state, action) => {
+      const error = action.error;
+      state.error = error;
+      state.isLoading = false;
+    });
+
+    //add class
+    builder.addCase(doAddClass.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(doAddClass.fulfilled, (state, action) => {
+      state.listClasses = [...state.listClasses, action.payload];
+      state.isLoading = false;
+    });
+    builder.addCase(doAddClass.rejected, (state, action) => {
       const error = action.error;
       state.error = error;
       state.isLoading = false;
