@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Auth, Home, Home2 } from '../containers';
+import { Auth, Courses, Home, Home2 } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderLayout } from '../layouts';
 import { Header } from '../components/common';
+import { Invitation } from '../containers/Invitation/Invitation';
 
 // import { Header, Footer } from '../components';
 
@@ -24,10 +25,27 @@ export const Routers = () => {
 
         <PrivateRouter
           exact={true}
+          path={'/courses'}
+          component={Courses}
+          layout={HeaderLayout}
+          fullWidth={true}
+          header={<Header />}
+        />
+
+        <PrivateRouter
+          exact={true}
           path={'/home2'}
           component={Home2}
           layout={HeaderLayout}
           header={<Header />}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={'/invitation'}
+          component={Invitation}
+          layout={BlankLayout}
+          // header={<Header />}
         />
 
         <PublicRouter exact={true} path={'/auth'} component={Auth} layout={BlankLayout} />
