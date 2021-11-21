@@ -5,101 +5,86 @@ import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import useStyles from './Auth.styles';
 import { Register, SignIn } from '../../components/Auth';
-import { useLocation } from 'react-router-dom';
-import { loadScript, login, logout } from '../../helpers';
-import FacebookLogin from 'react-facebook-login';
-
-// import FacebookLogin from 'react-facebook-login';
-
-const googleClientId = '1017250446015-7cdiqru941mjct7o9rdoonrjrdbo75ja.apps.googleusercontent.com';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { authWithGg, loadScript, login, loginGg } from '../../helpers';
+import { doAuthSocial, doClearError } from '../../redux/slice';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { ConfirmDialog } from '../../components/common';
 
 export const Auth = () => {
   // state
   const [tab, setTab] = useState(1);
+  const [openDialog, setOpenDialog] = useState(false);
   const classes = useStyles();
   const location = useLocation();
   const Tab = location.state?.Tab;
+  const history = useHistory();
 
-  const [googleAuth, setGoogleAuth] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [imageUrl, setImageUrl] = useState();
+  const dispatch = useDispatch();
 
-  const [dataFb, setDataFb] = useState();
+  const { error } = useSelector((state) => state.user);
   // useEffect
 
   useEffect(() => {
-    window.onGoogleScriptLoad = () => {
-      const _gapi = window.gapi;
-
-      _gapi.load('auth2', () => {
-        (async () => {
-          const _googleAuth = await _gapi.auth2.init({
-            client_id: googleClientId,
-          });
-          _googleAuth.attachClickHandler(
-            document.getElementById('customBtn'),
-            {
-              prompt: 'consent',
-            },
-            onSuccess,
-            onFailure,
-          );
-          setGoogleAuth(_googleAuth);
-        })();
-      });
-    };
+    authWithGg(process.env.REACT_APP_GOOGLE_CLIENT_ID, onSuccess, onFailure);
 
     loadScript();
   }, []);
 
   useEffect(() => {
-    setTab(Tab);
+    if (Tab >= 0) setTab(Tab);
   }, [Tab]);
 
   useEffect(() => {
-    console.log(dataFb);
-  }, [dataFb]);
+    if (error) {
+      setOpenDialog(true);
+    }
+  }, [error]);
 
   // handle
   const onSuccess = (googleUser) => {
-    setIsLoggedIn(true);
     const profile = googleUser.getBasicProfile();
-    setName(profile.getName());
-    setEmail(profile.getEmail());
-    setImageUrl(profile.getImageUrl());
+    dispatch(
+      doAuthSocial({
+        mail: profile.getEmail(),
+        name: profile.getName(),
+        ggToken: googleUser.wc.id_token,
+      }),
+    )
+      .then(unwrapResult)
+      .then((res) => {
+        login(res.token);
+      });
   };
 
   const onFailure = () => {
     setIsLoggedIn(false);
   };
 
-  const logOut = () => {
-    (async () => {
-      await googleAuth.signOut();
-      setIsLoggedIn(false);
-    })();
+  const onSuccessLoginFb = ({ data, accessToken }) => {
+    dispatch(
+      doAuthSocial({
+        mail: data.email,
+        name: data.name,
+        fbToken: accessToken,
+      }),
+    )
+      .then(unwrapResult)
+      .then((res) => {
+        login(res.token);
+      });
   };
 
+  const onCloseDialog = () => {
+    dispatch(doClearError());
+    setOpenDialog(false);
+  };
   return (
     <Box className={classes.root}>
       <Box mb={2}>
         <Typography variant="h4">{tab === 0 ? 'Register' : 'Sign In'}</Typography>
       </Box>
-
-      {isLoggedIn && (
-        <div>
-          <div>
-            <img src={imageUrl} />
-          </div>
-          <div>{name}</div>
-          <div>{email}</div>
-          <button className="btn-primary" onClick={logOut}>
-            Log Out
-          </button>
-        </div>
-      )}
 
       <Button
         id="customBtn"
@@ -118,28 +103,10 @@ export const Auth = () => {
         variant="contained"
         fullWidth
         className={classes.btn}
-        onClick={() => login(setDataFb)}
+        onClick={() => loginGg(onSuccessLoginFb)}
       >
         Sign in with Facebook
       </Button>
-      {/* <Button onClick={logout}> log out </Button> */}
-      {/* <div
-        class="fb-login-button"
-        data-width=""
-        data-size="large"
-        data-button-type="continue_with"
-        data-layout="default"
-        data-auto-logout-link="false"
-        data-use-continue-as="false"
-      ></div> */}
-
-      {/* <FacebookLogin
-        appId="1069750190503076"
-        autoLoad={true}
-        fields="name,email,picture"
-        // onClick={componentClicked}
-        callback={responseFacebook}
-      /> */}
       <Box sx={{ display: 'flex' }} alignItems="center" flexDirection="row">
         <div className={classes.divider} />
         <Typography className={classes.or}> Or </Typography>
@@ -147,6 +114,15 @@ export const Auth = () => {
       </Box>
 
       {tab === 0 ? <Register /> : <SignIn />}
+
+      <ConfirmDialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        onClickAction={onCloseDialog}
+        textBtn="Ok"
+      >
+        {tab ? 'Wrong mail or password' : 'Existed mail. Please register with another mail'}
+      </ConfirmDialog>
     </Box>
   );
 };

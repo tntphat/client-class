@@ -25,7 +25,7 @@ export const Register = ({}) => {
     dispatch(doCreateUser(data))
       .then(unwrapResult)
       .then((res) => {
-        history.push('/');
+        history.push({ pathname: '/auth', state: { Tab: 1 } });
       });
   };
   return (

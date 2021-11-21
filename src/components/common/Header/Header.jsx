@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import useStyles from './Header.styles';
 import { useSelector } from 'react-redux';
+import { logout } from '../../../helpers/auth';
 
 export const Header = ({ title }) => {
   const classes = useStyles();
@@ -26,7 +27,9 @@ export const Header = ({ title }) => {
             {/* {name || 'AAAA'} */}
             Title
           </Typography>
-          <Button style={{color: "black", backgroundColor:"#2ecc71"}}>Login</Button>
+          <Button onClick={logout} style={{color: "black", backgroundColor:"#2ecc71"}} color="inherit">
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

@@ -16,7 +16,7 @@ export const Home = () => {
   return (
     <Box>
       Home
-      <Button onClick={() => history.push('/home2')}>click</Button>
+      <Button onClick={() => history.push('/auth')}>auth</Button>
     </Box>
   );
 };

@@ -13,10 +13,8 @@ export const Routers = () => {
   return (
     <Router>
       <Switch>
-        <PrivateRouter exact={true} path={'/'} component={Home} layout={BlankLayout} />
-      </Switch>
+        <PublicRouter exact={true} path={'/'} component={Home} layout={BlankLayout} />
 
-      <Switch>
         <PrivateRouter
           exact={true}
           path={'/home'}
@@ -24,8 +22,7 @@ export const Routers = () => {
           layout={HeaderLayout}
           header={<Header />}
         />
-      </Switch>
-      <Switch>
+
         <PrivateRouter
           exact={true}
           path={'/home2'}
@@ -44,6 +41,7 @@ export const Routers = () => {
         />
       </Switch>
       <Switch>
+
         <PublicRouter exact={true} path={'/auth'} component={Auth} layout={BlankLayout} />
       </Switch>
     </Router>

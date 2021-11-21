@@ -1,35 +1,56 @@
-export async function login() {
+import { LOCAL_STORAGE_TOKEN } from '../constants';
+
+export async function loginGg(callback) {
   const authResponse = await new Promise((resolve, reject) =>
-    window.FB.login(
-      function (response) {
-        if (response.status === 'connected') {
-          FB.api('/me?fields=id,email,name,picture.width(720).height(720)', function (data) {
-            resolve(data);
-          });
-        }
-      },
-      { scope: 'email' },
-    ),
+    window.FB.login(function (response) {
+      console.log(response, 'res');
+      if (response.status === 'connected') {
+        FB.api('/me?fields=id,email,name,picture.width(720).height(720)', function (data) {
+          resolve({ data, accessToken: response.authResponse.accessToken });
+        });
+      }
+    }),
   );
-  console.log(authResponse);
+  callback(authResponse);
+  // console.log(authResponse);
   if (!authResponse) return;
 }
 
-export function logout() {
-  window.FB.logout(function (res) {
-    console.log(res, 'aaa');
-  });
+export function logOutFb() {
+  window.FB.logout(function (res) {});
 }
 
-// async function apiAuthenticate(accessToken, setData) {
-//   axios
-//     .get(`https://graph.facebook.com/me?fields=id,name,email,birthday&access_token=${accessToken}`)
-//     .then((response) => {
-//       console.log('res: ', response);
-//       setData(response.data);
-//     });
-// }
-// console.log('a');
+export function logOutGg() {
+  window.gapi.auth2
+    .getAuthInstance()
+    .signOut()
+    .then(function () {
+      console.log('User signed out.');
+    });
+}
+
+export const authWithGg = (clientId, onSuccess, onFailure) => {
+  console.log(process.env.NODE_ENV);
+  window.onGoogleScriptLoad = () => {
+    const _gapi = window.gapi;
+
+    _gapi.load('auth2', () => {
+      (async () => {
+        const _googleAuth = await _gapi.auth2.init({
+          client_id: clientId,
+        });
+        _googleAuth.attachClickHandler(
+          document.getElementById('customBtn'),
+          {
+            prompt: 'consent',
+          },
+          onSuccess,
+          onFailure,
+        );
+      })();
+    });
+  };
+};
 export const loadScript = () => {
   const appId =
     process.env.NODE_ENV === 'development'
@@ -74,4 +95,60 @@ export const loadScript = () => {
     js.onload = window.onGoogleScriptLoad;
     firstJs.parentNode.insertBefore(js, firstJs);
   })();
+};
+
+export const setCookie = (day, value, key, domain) => {
+  let now = new Date();
+  let time = now.getTime();
+  let expireTime = time + day * 86400 * 1000;
+  now.setTime(expireTime);
+
+  let domainString;
+  if (domain) {
+    domainString = `;domain=${domain}`;
+  } else {
+    domainString = ``;
+  }
+
+  document.cookie = `${key}=${value};expires=${now.toUTCString()}${domainString};path=/`;
+};
+
+export const deletetAllCookieOfDomain = (domain) => {
+  let cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) setCookie(1, '', cookies[i].split('=')[0], domain);
+};
+
+export const readCookie = (name) => {
+  let nameEQ = name + '=';
+  let ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+};
+
+// export let regNumber = /^\d+$/;
+
+export let regNumber = /^[0-9]+$/;
+
+export function deleteAllCookies() {
+  var allCookies = document.cookie.split(';');
+
+  for (var i = 0; i < allCookies.length; i++)
+    document.cookie = allCookies[i] + '=;expires=' + new Date(0).toUTCString();
+}
+
+export const login = (token) => {
+  deleteAllCookies();
+  setCookie(365, token, LOCAL_STORAGE_TOKEN, window.location.hostname);
+  window.location.replace('/');
+};
+
+export const logout = () => {
+  deletetAllCookieOfDomain(window.location.hostname);
+  // logOutFb();
+  // logOutGg();
+  window.location.replace('/');
 };
