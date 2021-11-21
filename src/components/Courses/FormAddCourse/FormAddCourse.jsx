@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -22,6 +22,7 @@ export const FormAddCourse = ({ setOpenDialog }) => {
 
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+      <Typography variant="h4">Add new class </Typography>
       <InputText
         error={errors.name}
         label="name"

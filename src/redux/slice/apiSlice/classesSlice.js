@@ -27,7 +27,7 @@ const slice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(doGetClasses.fulfilled, (state, action) => {
-      state.listClasses = action.payload;
+      state.listClasses = action.payload.courseList;
       state.isLoading = false;
     });
     builder.addCase(doGetClasses.rejected, (state, action) => {
