@@ -1,0 +1,84 @@
+.cld-card{
+    margin-top: 25px;
+    background-image: url("https://www.gstatic.com/classroom/themes/Biology.jpg");
+    display: flex;
+    align-items: flex-end;
+    border: solid 2px grey;
+    width: 800px;
+    height: 200px;
+    border-radius: 15px;
+}
+
+.cld-infor {
+    display: block;
+    margin: 15px;
+    color: white;
+}
+
+.cl-code {
+    border: solid 1px rgb(187, 187, 187);
+    border-radius: 15px;
+    width: 200px;
+    height: 100px;
+}
+
+.cl-code-header {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.cl-infor {
+    border: solid 1px rgb(187, 187, 187);
+    border-radius: 15px;
+    width: 100%;
+    margin-left: 25px;
+}
+
+.cl-body {
+    display: flex;
+    margin-top: 25px;
+}
+
+.cl-card {
+    padding: 10px
+}
+
+.cl-hidden {
+    display: none;
+}
+
+.cl-nav {
+    display: flex;
+    justify-content: center;
+
+}
+
+.cl-head-mem {
+    margin: 25px 0px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: gray solid 1px;
+    color: rgb(24, 67, 255);
+}
+
+.cl-card-mem {
+    display: flex;
+    margin: 15px 0px;
+    padding: 10px 0px;
+    border-bottom: solid 1px rgb(187, 187, 187);
+    box-shadow: gray 2px;
+}
+
+.cl-icon {
+    margin-right: 15px;
+    color: rgb(24, 67, 255);
+    display: flex;
+    align-items: center;
+}
+
+.cl-btn {
+    background-color: white;
+    color: rgb(36, 196, 36);
+}
