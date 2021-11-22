@@ -14,6 +14,10 @@ export const apiUser = {
   //   const url = baseUrl + 'authSocial';
   //   return axios.post(url, params);
   // },
+  getUserInClass: (param) => {
+    const url = baseUrl + 'getUserInClass';
+    return axios.post(url, param);
+  },
   getInforUser: () => {
     const url = baseUrl;
     return axios.get(url);
