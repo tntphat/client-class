@@ -6,10 +6,11 @@ import Button from '@mui/material/Button';
 import "./ClassDetail.css"
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import Avatar from '@mui/material/Avatar';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { ModalAddUser } from '../../components/common';
@@ -24,7 +25,7 @@ export const ClassDetail = () => {
     const [openStudent, setOpenStudent] = useState(false)
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
-    const [waitApi, setwaitApi] = useState(false)
+    const [openNotify, setOpenNotify] = useState(false)
     const [inforApi, setInforApi] = useState(null)
     const [teachers, setTeachers] = useState([])
     const [students, setStudents] = useState([])
@@ -33,7 +34,7 @@ export const ClassDetail = () => {
 
     const handleChange = async (event, newValue) => {
         setValue(newValue);
-        if (newValue == "2") {
+        if (newValue == "2" && teachers.length === 0 && students.length === 0) {
             setLoading(true);
             getStudentAndTeacher(id)
         }
@@ -47,7 +48,7 @@ export const ClassDetail = () => {
         if (linkInvite === null) {
             let linkInvite = await apiClasses.getLinkInvite({ courseId: id, teacherId: user.id })
             console.log("linkInvite", linkInvite);
-            setLinkInvite(linkInvite);
+            setLinkInvite(linkInvite?.data?.invitationLink ?? null);
         }
 
     };
@@ -100,13 +101,16 @@ export const ClassDetail = () => {
             setLoading(true);
             let res = await apiClasses.inviteByEmail(param);
             if (res) {
-                setwaitApi(false)
+                console.log("ré", res);
+                setInforApi(res?.data?.message ?? '')
+                setOpenNotify(true)
                 setLoading(false)
             }
         } catch (error) {
             console.log("ádga", error);
-            setInforApi(error.message);
+            // setInforApi(error.message);
             setLoading(false)
+            setOpenNotify(true)
         }
 
     }
@@ -124,48 +128,48 @@ export const ClassDetail = () => {
             setLoading(true);
             let res = await apiClasses.inviteByEmail(param);
             if (res) {
-                setwaitApi(false)
+                setInforApi(res?.data?.message ?? '')
+                setOpenNotify(true)
                 setLoading(false)
             }
         } catch (error) {
-            setInforApi(error.message);
+            console.log("Lỗi api", error);
+            setInforApi(error);
             setLoading(false)
+            setOpenNotify(true)
         }
     }
 
     const handleGenLink = () => {
-
+        if (linkInvite) {
+            navigator.clipboard.writeText(linkInvite)
+            setAnchorEl(null);
+        }
     }
 
-
+    const handleCloseNotify = () => {
+        setOpenNotify(false)
+    }
+    
     return (
         <div>
-            {/* <Modal
-                open={loading}
-                onClose={handleClose}
+            <Modal
+                open={openNotify}
+                onClose={handleCloseNotify}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                sx={{display: "flex", justifyContent: "center"}}
             >
-                {
-                    waitApi ?
-                        (
-                            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <CircularProgress />
-                            </Box>
-                        ) : (
+                <Box sx={{backgroundColor:"white", width: 250, height: 150, borderRadius: "5px"}} >
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Thông tin
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        {inforApi}
+                    </Typography>
+                </Box>
 
-                            <Box sx={style} >
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Thông tin
-                                </Typography>
-                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                    {inforApi}
-                                </Typography>
-                            </Box>
-                        )
-                }
-
-            </Modal> */}
+            </Modal>
             <div className="cl-nav">
                 <Tabs
                     value={value}
@@ -210,16 +214,16 @@ export const ClassDetail = () => {
                                         >
                                             <MenuItem onClick={handleGenLink}>
                                                 <div style={{ display: "flex" }}>
-                                                    <p>Link mời</p>
+
                                                     {
                                                         linkInvite ?
-                                                            <div className='link-invite'>
-                                                                {linkInvite}
+                                                            <div style={{ display: "flex", alignItems: "center", paddingLeft: 15 }}>
+                                                                <p style={{ paddingRight: 15 }}>Copy link mời</p> <ContentCopyIcon /> {linkInvite}
                                                             </div> :
-                                                            <div style={{ display: "flex", alignItems: "center" }}>
-                                                                <CircularProgress size={24} />
-                                                            </div> 
-                                                            
+                                                            <div style={{ display: "flex", alignItems: "center", paddingLeft: 15 }}>
+                                                                <p style={{ paddingRight: 15 }}>Đang tạo link mời </p><CircularProgress size={24} />
+                                                            </div>
+
                                                     }
 
                                                 </div>
@@ -246,7 +250,7 @@ export const ClassDetail = () => {
                             <div className="cl-head-mem">
                                 <div style={{ fontSize: 30 }}>Giáo viên</div>
                                 <div className="cl-icon">
-                                    <Button variant="text" onClick={() => setOpenTeacher(true)}><PersonAddIcon /></Button>
+                                    <Button variant="text" disabled={!data?.isTeacher ?? false} onClick={() => setOpenTeacher(true)}><PersonAddIcon /></Button>
                                 </div>
                             </div>
                             <div>
@@ -254,9 +258,13 @@ export const ClassDetail = () => {
                                     teachers.map(i => (
                                         <div className="cl-card-mem" key={i.id}>
                                             <div className="cl-icon">
-                                                <AccountCircleIcon />
+                                                <Avatar sx={{ bgcolor: '#e15f41', cursor: 'pointer' }}>
+                                                    {i?.name.trim()[0]}
+                                                </Avatar>
                                             </div>
-                                            {i.name}
+                                            <div style={{ display: "flex", alignItems: "center" }}>
+                                                {i.name}
+                                            </div>
                                         </div>
                                     ))
                                 }
@@ -267,7 +275,7 @@ export const ClassDetail = () => {
                             <div className="cl-head-mem">
                                 <div style={{ fontSize: 30 }}>Học sinh</div>
                                 <div className="cl-icon">
-                                    <Button variant="text" onClick={() => setOpenStudent(true)}><PersonAddIcon /></Button>
+                                    <Button variant="text" disabled={!data?.isTeacher ?? false} onClick={() => setOpenStudent(true)}><PersonAddIcon /></Button>
                                 </div>
                             </div>
                             <div>
@@ -275,9 +283,13 @@ export const ClassDetail = () => {
                                     students.map(i => (
                                         <div className="cl-card-mem" key={i.id}>
                                             <div className="cl-icon">
-                                                <AccountCircleIcon />
+                                                <Avatar sx={{ bgcolor: '#e15f41', cursor: 'pointer' }}>
+                                                    {i?.name.trim()[0]}
+                                                </Avatar>
                                             </div>
-                                            {i.name}
+                                            <div style={{ display: "flex", alignItems: "center" }}>
+                                                {i.name}
+                                            </div>
                                         </div>
                                     ))
                                 }

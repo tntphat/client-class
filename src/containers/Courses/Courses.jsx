@@ -26,7 +26,7 @@ export const Courses = () => {
   };
   return (
     <Box pt={5} mx={5}>
-      <Button onClick={handleOpenDialog} startIcon={<AddOutlinedIcon />}>
+      <Button variant="outlined" onClick={handleOpenDialog} startIcon={<AddOutlinedIcon />}>
         New Class
       </Button>
       {isLoading ? (

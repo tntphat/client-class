@@ -22,4 +22,8 @@ export const apiUser = {
     const url = baseUrl;
     return axios.get(url);
   },
+  updateInforUser: (params) => {
+    const url = baseUrl;
+    return axios.put(url, params);
+  },
 };

@@ -4,3 +4,4 @@ export * from './Auth/Auth';
 export * from './Courses/Courses';
 export * from './Invitation/Invitation';
 export * from './ClassDetail/ClassDetails';
+export * from './Profile/Profile';

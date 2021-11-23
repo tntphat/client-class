@@ -150,5 +150,5 @@ export const logout = () => {
   deletetAllCookieOfDomain(window.location.hostname);
   // logOutFb();
   // logOutGg();
-  window.location.replace('/');
+  window.location.replace('/auth');
 };

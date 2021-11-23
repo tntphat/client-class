@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Auth, Courses, Home, Home2, ClassDetail, Invitation } from '../containers';
+import { Auth, Courses, Home, Home2, ClassDetail, Invitation, Profile } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderLayout } from '../layouts';
@@ -12,7 +12,7 @@ export const Routers = () => {
   return (
     <Router>
       <Switch>
-        <PublicRouter exact={true} path={'/'} component={Home} layout={BlankLayout} />
+        {/* <PublicRouter exact={true} path={'/'} component={Home} layout={BlankLayout} /> */}
 
         <PrivateRouter
           exact={true}
@@ -24,7 +24,7 @@ export const Routers = () => {
 
         <PrivateRouter
           exact={true}
-          path={'/courses'}
+          path={'/'}
           component={Courses}
           layout={HeaderLayout}
           fullWidth={true}
@@ -38,8 +38,7 @@ export const Routers = () => {
           layout={HeaderLayout}
           header={<Header />}
         />
-      </Switch>
-      <Switch>
+
         <PrivateRouter
           exact={true}
           path={'/course/:id'}
@@ -47,14 +46,21 @@ export const Routers = () => {
           layout={HeaderLayout}
           header={<Header />}
         />
-      </Switch>
-      <Switch>
+
         <PrivateRouter
           exact={true}
           path={'/invitation'}
           component={Invitation}
           layout={BlankLayout}
           // header={<Header />}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={'/profile'}
+          component={Profile}
+          layout={HeaderLayout}
+          header={<Header />}
         />
 
         <PublicRouter exact={true} path={'/auth'} component={Auth} layout={BlankLayout} />

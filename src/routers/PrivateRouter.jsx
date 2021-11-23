@@ -28,7 +28,7 @@ export const PrivateRouter = ({
       render={(props) => {
         if (error) {
           logout();
-          return <Redirect to="/" />;
+          return <Redirect to="/auth" />;
         }
         return (
           <Layout fullWidth={fullWidth} title={title} header={Header} footer={Footer}>
