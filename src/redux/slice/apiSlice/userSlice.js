@@ -21,6 +21,11 @@ export const doGetInforUser = createAsyncThunk('user@get/getInforUser', async ()
   return result.data;
 });
 
+export const doUpdateInforUser = createAsyncThunk('user@put/updateInforUser', async (params) => {
+  const result = await apiUser.updateInforUser(params);
+  return result.data;
+});
+
 const initialState = {
   isLoading: false,
   user: null,
@@ -91,6 +96,21 @@ const slice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(doGetInforUser.rejected, (state, action) => {
+      const error = action.error;
+      state.error = error;
+      state.isLoading = false;
+    });
+
+    //UpdateInforUser
+    builder.addCase(doUpdateInforUser.pending, (state) => {
+      state.error = null;
+      state.isLoading = true;
+    });
+    builder.addCase(doUpdateInforUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(doUpdateInforUser.rejected, (state, action) => {
       const error = action.error;
       state.error = error;
       state.isLoading = false;

@@ -12,6 +12,7 @@ const useStyles = makeStyles(() => ({
     left: 0,
     right: 0,
     height: 60,
+    zIndex: 100,
   },
   center: {
     marginTop: 60,

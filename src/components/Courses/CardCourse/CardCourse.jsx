@@ -8,14 +8,18 @@ import Typography from '@mui/material/Typography';
 
 import useStyles from './CardCourse.styles';
 
-export default function CardClass({ name, subject, id }) {
+export default function CardClass({ name, subject, id, teacherName, isTeacher }) {
   const classes = useStyles();
   return (
     <Card className={classes.root} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        height="140"
-        image={`https://picsum.photos/id/${id}/300/200`}
+        height="50"
+        image={
+          isTeacher
+            ? 'https://gstatic.com/classroom/themes/Geography.jpg'
+            : `https://gstatic.com/classroom/themes/img_read.jpg`
+        }
         alt="green iguana"
       />
       <CardContent>
@@ -23,15 +27,14 @@ export default function CardClass({ name, subject, id }) {
           {name}
         </Typography>
         <Typography variant="caption" color="text.secondary">
-          {/* {subject} */}
-          Tên giáo viên
+          {teacherName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {subject}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button variant="contained" size="small">
+        <Button variant="contained" size="small" color={isTeacher ? 'primary' : 'secondary'}>
           go to class
         </Button>
       </CardActions>

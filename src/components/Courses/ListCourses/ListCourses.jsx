@@ -13,8 +13,15 @@ export const ListCourses = ({ ListCourses }) => {
         // width: '100%',
       }}
     >
-      {ListCourses?.map((a) => (
-        <CardCourse id={a.id} name={a.name} key={a.id} subject={a.subject} />
+      {ListCourses?.map((course) => (
+        <CardCourse
+          id={course.id}
+          name={course.name}
+          key={course.id}
+          teacherName={course.teacherName}
+          subject={course.subject}
+          isTeacher={course.isTeacher}
+        />
       ))}
     </Box>
   );

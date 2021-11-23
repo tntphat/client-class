@@ -25,7 +25,7 @@ export const FormAddCourse = ({ setOpenDialog }) => {
       <Typography variant="h4">Add new class </Typography>
       <InputText
         error={errors.name}
-        label="name"
+        label="Name"
         name="name"
         register={register}
         rules={{ required: true }}
@@ -33,7 +33,7 @@ export const FormAddCourse = ({ setOpenDialog }) => {
 
       <InputText
         error={errors.subject}
-        label="subject"
+        label="Subject"
         name="subject"
         register={register}
         rules={{ required: true }}
@@ -41,11 +41,13 @@ export const FormAddCourse = ({ setOpenDialog }) => {
 
       <InputText
         error={errors.description}
-        label="description"
+        label="Description"
         name="description"
         register={register}
       />
-      <Button type="submit">Ok</Button>
+      <Button variant="contained" type="submit">
+        Ok
+      </Button>
     </form>
   );
 };

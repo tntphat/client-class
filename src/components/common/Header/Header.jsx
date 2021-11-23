@@ -29,6 +29,7 @@ export const Header = () => {
   };
   const handleNavigateProfile = () => {
     setAnchorEl(null);
+    history.push('/profile');
   };
   const handleNavigateAuth = () => {
     history.push('/auth');
@@ -47,7 +48,13 @@ export const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography color="#000" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            onClick={() => history.push('/')}
+            color="#000"
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, cursor: 'pointer' }}
+          >
             Classrooms Manager
           </Typography>
           {user ? (

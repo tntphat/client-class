@@ -60,7 +60,9 @@ export const Register = ({}) => {
 
       <Typography className={classes.subText}>
         Already a member?
-        <span onClick={() => history.push({ pathname: '/auth', state: { Tab: 1 } })}>Sign In</span>
+        <span onClick={() => history.replace({ pathname: '/auth', state: { Tab: 1 } })}>
+          Sign In
+        </span>
       </Typography>
       <Box mt={2}>
         <Button color="primary" variant="contained" fullWidth type="submit">
