@@ -14,7 +14,7 @@ export const apiClasses = {
     const url = baseUrl + "sendInvitation";
     return axios.post(url, param);
   },
-  inviteByLink: (param) => {
+  getLinkInvite: (param) => {
     const url = baseUrl + "createInvitationLink";
     return axios.post(url, param);
   },

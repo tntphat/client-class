@@ -29,6 +29,8 @@ export const ClassDetail = () => {
     const [teachers, setTeachers] = useState([])
     const [students, setStudents] = useState([])
 
+    const [linkInvite, setLinkInvite] = useState(null)
+
     const handleChange = async (event, newValue) => {
         setValue(newValue);
         if (newValue == "2") {
@@ -40,8 +42,14 @@ export const ClassDetail = () => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const handleClick = (event) => {
+    const handleClick = async (event) => {
         setAnchorEl(event.currentTarget);
+        if (linkInvite === null) {
+            let linkInvite = await apiClasses.getLinkInvite({ courseId: id, teacherId: user.id })
+            console.log("linkInvite", linkInvite);
+            setLinkInvite(linkInvite);
+        }
+
     };
     const handleClose = () => {
         setAnchorEl(null);
@@ -203,9 +211,16 @@ export const ClassDetail = () => {
                                             <MenuItem onClick={handleGenLink}>
                                                 <div style={{ display: "flex" }}>
                                                     <p>Link mời</p>
-                                                    <div style={{display:"flex", alignItems:"center"}}>
-                                                        <CircularProgress size={24} />
-                                                    </div>
+                                                    {
+                                                        linkInvite ?
+                                                            <div className='link-invite'>
+                                                                {linkInvite}
+                                                            </div> :
+                                                            <div style={{ display: "flex", alignItems: "center" }}>
+                                                                <CircularProgress size={24} />
+                                                            </div> 
+                                                            
+                                                    }
 
                                                 </div>
                                             </MenuItem>
