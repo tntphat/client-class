@@ -198,9 +198,14 @@ export const ClassDetail = () => {
                                 <div className="cl-code">
                                     <div className="cl-code-header">
                                         <p>Mã lớp</p>
-                                        <IconButton aria-label="settings" onClick={handleClick}>
-                                            <MoreVertIcon />
-                                        </IconButton>
+                                        {
+                                            data?.isTeacher ?
+                                                <IconButton aria-label="settings" onClick={handleClick}>
+                                                    <MoreVertIcon />
+                                                </IconButton> :
+                                                <div></div>
+                                        }
+
                                         <Menu
                                             id="basic-menu"
                                             anchorEl={anchorEl}
@@ -221,13 +226,9 @@ export const ClassDetail = () => {
                                                             <div style={{ display: "flex", alignItems: "center", paddingLeft: 15 }}>
                                                                 <p style={{ paddingRight: 15 }}>Đang tạo link mời </p><CircularProgress size={24} />
                                                             </div>
-
                                                     }
-
                                                 </div>
                                             </MenuItem>
-
-
                                         </Menu>
                                     </div>
                                     <div style={{ marginLeft: 15 }}>
@@ -257,11 +258,11 @@ export const ClassDetail = () => {
                             <div>
                                 {
                                     teachers.length === 0 &&
-                                        <div className="cl-card-mem">
-                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                Không có giáo viên
-                                            </div>
+                                    <div className="cl-card-mem">
+                                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            Không có giáo viên
                                         </div>
+                                    </div>
                                 }
                                 {
                                     teachers.map(i => (
@@ -293,11 +294,11 @@ export const ClassDetail = () => {
                             <div>
                                 {
                                     students.length === 0 &&
-                                        <div className="cl-card-mem">
-                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                Không có học sinh
-                                            </div>
-                                        </div> 
+                                    <div className="cl-card-mem">
+                                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            Không có học sinh
+                                        </div>
+                                    </div>
                                 }
 
                                 {
@@ -313,8 +314,8 @@ export const ClassDetail = () => {
                                                     {i.name}
                                                 </div>
                                             </div>
-                                            <div style={{paddingLeft: "15px"}}>
-                                                {i.studentId ? <p>{i.studentId}</p> : <p>____</p>}
+                                            <div style={{ paddingLeft: "15px" }}>
+                                                {i?.studentId ? <p>{i?.studentId}</p> : <p>____</p>}
                                             </div>
                                         </div>
                                     ))
