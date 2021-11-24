@@ -1,4 +1,4 @@
-import { Button, Typography, Divider } from '@mui/material';
+import { Button, Typography, Divider, Container, CircularProgress } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -23,7 +23,7 @@ export const Auth = () => {
 
   const dispatch = useDispatch();
 
-  const { error } = useSelector((state) => state.user);
+  const { error, isLoading } = useSelector((state) => state.user);
   // useEffect
 
   useEffect(() => {
@@ -123,6 +123,26 @@ export const Auth = () => {
       >
         {tab ? 'Wrong mail or password' : 'Existed mail. Please register with another mail'}
       </ConfirmDialog>
+
+      {/* <Container fixed> */}
+      {isLoading ? (
+        <Box
+          sx={{
+            bgcolor: 'rgba(0,0,0,.2)',
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            left: 0,
+            bottom: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : null}
+      {/* </Container> */}
     </Box>
   );
 };
