@@ -7,9 +7,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import useStyles from './CardCourse.styles';
+import { useHistory } from 'react-router';
 
 export default function CardClass({ name, subject, id, teacherName, isTeacher }) {
   const classes = useStyles();
+  const history = useHistory()
   return (
     <Card className={classes.root} sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -34,7 +36,7 @@ export default function CardClass({ name, subject, id, teacherName, isTeacher })
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button variant="contained" size="small" color={isTeacher ? 'primary' : 'secondary'}>
+        <Button variant="contained" size="small" onClick={() => history.push("/course/" + id)} color={isTeacher ? 'primary' : 'secondary'}>
           go to class
         </Button>
       </CardActions>
