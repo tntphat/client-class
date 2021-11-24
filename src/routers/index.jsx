@@ -49,7 +49,7 @@ export const Routers = () => {
 
         <PrivateRouter
           exact={true}
-          path={'/invitation'}
+          path={'/courses/joinClassByLink'}
           component={Invitation}
           layout={BlankLayout}
           // header={<Header />}
