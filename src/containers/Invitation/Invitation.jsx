@@ -1,28 +1,39 @@
 import { Box, Typography, Button, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import useStyles from './Invitation.styles';
 import { apiClasses } from '../../services/api';
 
 export const Invitation = () => {
   const [nameCourse, setNameCourse] = useState('');
+  const [idCourse, setIdCourse] = useState(0);
   const history = useHistory();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const token = params.get('token');
   const dispatch = useDispatch();
   const classes = useStyles();
-
+  console.log(token);
   const { user, isLoading } = useSelector((state) => state.user);
 
   useEffect(() => {
     apiClasses
-      .getClassDetail(1)
+      .getInforByToken(token)
       .then((res) => {
         setNameCourse(res.data.name);
+        setIdCourse(res.data.id);
       })
       .catch(() => {
         history.push('/');
       });
   }, []);
+
+  const handleClickJoin = () => {
+    apiClasses.joinClassByLink(token).then(() => {
+      history.push(`/course/${idCourse}`);
+    });
+  };
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -39,7 +50,9 @@ export const Invitation = () => {
             </b>
           </Typography>
           <Box mt={1}>
-            <Button variant="contained">Join</Button>
+            <Button onClick={handleClickJoin} variant="contained">
+              Join
+            </Button>
           </Box>
         </Box>
       )}
