@@ -70,6 +70,15 @@
 
 .cl-card-mem {
     display: flex;
+    justify-content: space-between;
+    margin: 15px 0px;
+    padding: 10px 0px;
+    border-bottom: solid 1px rgb(187, 187, 187);
+    box-shadow: gray 2px;
+}
+
+.cl-card-mem-teacher {
+    display: flex;
     margin: 15px 0px;
     padding: 10px 0px;
     border-bottom: solid 1px rgb(187, 187, 187);

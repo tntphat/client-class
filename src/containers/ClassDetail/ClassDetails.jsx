@@ -107,8 +107,7 @@ export const ClassDetail = () => {
                 setLoading(false)
             }
         } catch (error) {
-            console.log("ádga", error);
-            // setInforApi(error.message);
+            setInforApi("Đã có lỗi xảy ra");
             setLoading(false)
             setOpenNotify(true)
         }
@@ -133,8 +132,7 @@ export const ClassDetail = () => {
                 setLoading(false)
             }
         } catch (error) {
-            console.log("Lỗi api", error);
-            setInforApi(error);
+            setInforApi("Đã có lỗi xảy ra");
             setLoading(false)
             setOpenNotify(true)
         }
@@ -150,7 +148,7 @@ export const ClassDetail = () => {
     const handleCloseNotify = () => {
         setOpenNotify(false)
     }
-    
+
     return (
         <div>
             <Modal
@@ -158,9 +156,9 @@ export const ClassDetail = () => {
                 onClose={handleCloseNotify}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                sx={{display: "flex", justifyContent: "center"}}
+                sx={{ display: "flex", justifyContent: "center" }}
             >
-                <Box sx={{backgroundColor:"white", width: 250, height: 150, borderRadius: "5px"}} >
+                <Box sx={{ backgroundColor: "white", width: 250, height: 150, borderRadius: "5px", padding: "10px" }} >
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Thông tin
                     </Typography>
@@ -250,13 +248,24 @@ export const ClassDetail = () => {
                             <div className="cl-head-mem">
                                 <div style={{ fontSize: 30 }}>Giáo viên</div>
                                 <div className="cl-icon">
-                                    <Button variant="text" disabled={!data?.isTeacher ?? false} onClick={() => setOpenTeacher(true)}><PersonAddIcon /></Button>
+                                    {
+                                        data?.isTeacher && <Button variant="text" disabled={!data?.isTeacher ?? false} onClick={() => setOpenTeacher(true)}><PersonAddIcon /></Button>
+                                    }
+
                                 </div>
                             </div>
                             <div>
                                 {
+                                    teachers.length === 0 &&
+                                        <div className="cl-card-mem">
+                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                Không có giáo viên
+                                            </div>
+                                        </div>
+                                }
+                                {
                                     teachers.map(i => (
-                                        <div className="cl-card-mem" key={i.id}>
+                                        <div className="cl-card-mem-teacher" key={i.id}>
                                             <div className="cl-icon">
                                                 <Avatar sx={{ bgcolor: '#e15f41', cursor: 'pointer' }}>
                                                     {i?.name.trim()[0]}
@@ -275,20 +284,37 @@ export const ClassDetail = () => {
                             <div className="cl-head-mem">
                                 <div style={{ fontSize: 30 }}>Học sinh</div>
                                 <div className="cl-icon">
-                                    <Button variant="text" disabled={!data?.isTeacher ?? false} onClick={() => setOpenStudent(true)}><PersonAddIcon /></Button>
+                                    {
+                                        data?.isTeacher && <Button variant="text" disabled={!data?.isTeacher ?? false} onClick={() => setOpenStudent(true)}><PersonAddIcon /></Button>
+                                    }
+
                                 </div>
                             </div>
                             <div>
                                 {
+                                    students.length === 0 &&
+                                        <div className="cl-card-mem">
+                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                Không có học sinh
+                                            </div>
+                                        </div> 
+                                }
+
+                                {
                                     students.map(i => (
                                         <div className="cl-card-mem" key={i.id}>
-                                            <div className="cl-icon">
-                                                <Avatar sx={{ bgcolor: '#e15f41', cursor: 'pointer' }}>
-                                                    {i?.name.trim()[0]}
-                                                </Avatar>
+                                            <div style={{ display: "flex" }}>
+                                                <div className="cl-icon">
+                                                    <Avatar sx={{ bgcolor: '#e15f41', cursor: 'pointer' }}>
+                                                        {i?.name.trim()[0]}
+                                                    </Avatar>
+                                                </div>
+                                                <div style={{ display: "flex", alignItems: "center" }}>
+                                                    {i.name}
+                                                </div>
                                             </div>
-                                            <div style={{ display: "flex", alignItems: "center" }}>
-                                                {i.name}
+                                            <div style={{paddingLeft: "15px"}}>
+                                                {i.studentId ? <p>{i.studentId}</p> : <p>____</p>}
                                             </div>
                                         </div>
                                     ))
