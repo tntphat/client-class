@@ -34,7 +34,7 @@ export const Courses = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <ListCourses ListCourses={listClasses} />
+        <ListCourses listCourses={listClasses} />
       )}
 
       <ConfirmDialog openDialog={openDialog} setOpenDialog={setOpenDialog} textBtn="Ok">
