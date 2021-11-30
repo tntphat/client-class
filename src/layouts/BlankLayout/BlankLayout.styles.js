@@ -5,6 +5,8 @@ const useStyles = makeStyles(() => ({
     maxWidth: 800,
     width: '100%',
     minHeight: '100vh',
+    position: 'relative',
+    overflow: 'hidden',
   },
 }));
 

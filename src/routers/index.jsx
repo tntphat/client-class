@@ -1,6 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Auth, Courses, Home, Home2, ClassDetail, Invitation, Profile } from '../containers';
+import {
+  Auth,
+  Courses,
+  Home,
+  Home2,
+  ClassDetail,
+  Invitation,
+  Profile,
+  Grades,
+} from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderLayout } from '../layouts';
@@ -64,6 +73,14 @@ export const Routers = () => {
         />
 
         <PublicRouter exact={true} path={'/auth'} component={Auth} layout={BlankLayout} />
+        <PrivateRouter
+          exact={true}
+          path={'/grades/:id'}
+          component={Grades}
+          layout={BlankLayout}
+          bgColor="#ffcccc"
+          fullWidth
+        />
       </Switch>
     </Router>
   );
