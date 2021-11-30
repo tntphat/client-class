@@ -126,7 +126,9 @@ export const ClassDetail = () => {
             }
             setLoading(true);
             let res = await apiClasses.inviteByEmail(param);
+            console.log("resafa ", res);
             if (res) {
+                
                 setInforApi(res?.data?.message ?? '')
                 setOpenNotify(true)
                 setLoading(false)

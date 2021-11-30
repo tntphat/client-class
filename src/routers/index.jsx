@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Auth, Courses, Home, Home2, ClassDetail, Invitation, Profile } from '../containers';
+import { Auth, Courses, Home, Home2, ClassDetail, Invitation, Profile, ClassInfor, ClassMem } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderLayout } from '../layouts';
@@ -43,6 +43,20 @@ export const Routers = () => {
           exact={true}
           path={'/course/:id'}
           component={ClassDetail}
+          layout={HeaderLayout}
+          header={<Header />}
+        />
+        <PrivateRouter
+          exact={true}
+          path={'/course/:id/infor'}
+          component={ClassInfor}
+          layout={HeaderLayout}
+          header={<Header />}
+        />
+        <PrivateRouter
+          exact={true}
+          path={'/course/:id/mem'}
+          component={ClassMem}
           layout={HeaderLayout}
           header={<Header />}
         />
