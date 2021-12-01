@@ -19,7 +19,6 @@ export const Grades = () => {
 
   const CheckIsTeacher = async (id) => {
     let d = await apiClasses.getClassDetail(id);
-    console.log('data', d);
     if (d.data.isTeacher) {
       return true;
     } else {
@@ -64,7 +63,6 @@ export const Grades = () => {
         : [{ id: 0, title: '', gradePercentage: '' }],
     );
   };
-  console.log(list);
   const handleUpdateCard = (data, index) => {
     list[index].title = data.title;
     list[index].gradePercentage = data.gradePercentage;

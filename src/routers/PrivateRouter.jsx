@@ -21,7 +21,6 @@ export const PrivateRouter = ({
   useEffect(() => {
     dispatch(doGetInforUser());
   }, []);
-  console.log('error: ', error);
   return (
     <Route
       exact={exact}
