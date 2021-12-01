@@ -36,7 +36,7 @@ export default function CardClass({ name, subject, id, teacherName, isTeacher })
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button variant="contained" size="small" onClick={() => history.push("/course/" + id)} color={isTeacher ? 'primary' : 'secondary'}>
+        <Button variant="contained" size="small" onClick={() => history.push("/course/" + id + "/infor")} color={isTeacher ? 'primary' : 'secondary'}>
           go to class
         </Button>
       </CardActions>

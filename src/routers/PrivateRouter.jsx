@@ -14,6 +14,7 @@ export const PrivateRouter = ({
   path,
   title,
   fullWidth,
+  bgColor,
 }) => {
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.user);
@@ -31,7 +32,13 @@ export const PrivateRouter = ({
           return <Redirect to="/auth" />;
         }
         return (
-          <Layout fullWidth={fullWidth} title={title} header={Header} footer={Footer}>
+          <Layout
+            fullWidth={fullWidth}
+            title={title}
+            header={Header}
+            footer={Footer}
+            bgColor={bgColor}
+          >
             <Component {...props} />
           </Layout>
         );

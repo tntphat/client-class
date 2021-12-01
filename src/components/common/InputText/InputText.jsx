@@ -2,21 +2,36 @@ import { InputLabel, TextField } from '@material-ui/core';
 import React from 'react';
 import { ErrroMessage } from '..';
 
-export const InputText = ({ register, label, name, error, rules, classNameLabel, ...rest }) => {
+export const InputText = ({
+  register,
+  label,
+  outlinedLabel,
+  name,
+  error,
+  rules,
+  classNameLabel,
+  className,
+  errMsgRow,
+  ...rest
+}) => {
   return (
     <>
-      <InputLabel className={classNameLabel} htmlFor={name}>
-        {label}
-      </InputLabel>
+      {label ? (
+        <InputLabel className={classNameLabel} htmlFor={name}>
+          {label}
+        </InputLabel>
+      ) : null}
       <TextField
         {...rest}
+        className={className}
         id={name}
+        label={outlinedLabel}
         margin="dense"
         variant="outlined"
         {...register(name, rules)}
         fullWidth
       />
-      <ErrroMessage error={error} />
+      <ErrroMessage errMsgRow error={error} />
     </>
   );
 };

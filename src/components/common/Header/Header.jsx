@@ -55,7 +55,7 @@ export const Header = () => {
             component="div"
             sx={{ flexGrow: 1, cursor: 'pointer' }}
           >
-            Classrooms Manager
+            Classrooms Managerss
           </Typography>
           {user ? (
             <div>

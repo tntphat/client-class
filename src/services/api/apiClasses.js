@@ -11,11 +11,11 @@ export const apiClasses = {
     return axios.get(url);
   },
   inviteByEmail: (param) => {
-    const url = baseUrl + "sendInvitation";
+    const url = baseUrl + 'sendInvitation';
     return axios.post(url, param);
   },
   getLinkInvite: (param) => {
-    const url = baseUrl + "createInvitationLink";
+    const url = baseUrl + 'createInvitationLink';
     return axios.post(url, param);
   },
   addClass: (param) => {
@@ -29,5 +29,13 @@ export const apiClasses = {
   getInforByToken: (token) => {
     const url = baseUrl + 'courseInfoFromToken';
     return axios.get(url + `/${token}`);
+  },
+  updateGradeStructure: (param) => {
+    const url = baseUrl + 'updateGradeStructure';
+    return axios.post(url, param);
+  },
+  getGradeStructure: (courseId) => {
+    const url = baseUrl + 'getGradeStructure/';
+    return axios.get(url + `${courseId}`);
   },
 };

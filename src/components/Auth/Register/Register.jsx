@@ -45,7 +45,13 @@ export const Register = ({}) => {
         label="Mail"
         name="mail"
         register={register}
-        rules={{ required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/ }}
+        rules={{
+          required: true,
+          pattern: {
+            value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+            message: 'Please fill in a valid email',
+          },
+        }}
       />
 
       <InputText

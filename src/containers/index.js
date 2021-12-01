@@ -7,3 +7,4 @@ export * from './ClassInfor/ClassInfor';
 export * from './ClassMem/ClassMem';
 export * from './ClassDetail/ClassDetails';
 export * from './Profile/Profile';
+export * from './Grades/Grades';

@@ -1,10 +1,21 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Auth, Courses, Home, Home2, ClassDetail, Invitation, Profile, ClassInfor, ClassMem } from '../containers';
+import {
+  Auth,
+  Courses,
+  Home,
+  Home2,
+  ClassDetail,
+  Invitation,
+  Profile,
+  Grades,
+  ClassInfor,
+  ClassMem
+} from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderLayout } from '../layouts';
-import { Header } from '../components/common';
+import { Header, HeaderClassDetail } from '../components/common';
 
 // import { Header, Footer } from '../components';
 
@@ -51,14 +62,14 @@ export const Routers = () => {
           path={'/course/:id/infor'}
           component={ClassInfor}
           layout={HeaderLayout}
-          header={<Header />}
+          header={<HeaderClassDetail val='infor'/>}
         />
         <PrivateRouter
           exact={true}
           path={'/course/:id/mem'}
           component={ClassMem}
           layout={HeaderLayout}
-          header={<Header />}
+          header={<HeaderClassDetail val='mem'/>}
         />
 
         <PrivateRouter
@@ -78,6 +89,14 @@ export const Routers = () => {
         />
 
         <PublicRouter exact={true} path={'/auth'} component={Auth} layout={BlankLayout} />
+        <PrivateRouter
+          exact={true}
+          path={'/grades/:id'}
+          component={Grades}
+          layout={BlankLayout}
+          bgColor="#ffcccc"
+          fullWidth
+        />
       </Switch>
     </Router>
   );

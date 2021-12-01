@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { apiClasses } from '../../services/api';
 import { useSelector } from 'react-redux'
 import "./ClassInfor.css"
@@ -12,13 +12,16 @@ import { SpinnerWrapper } from '../../components/common';
 
 export const ClassInfor = () => {
     let { id } = useParams();
+    const history =useHistory();
     const user = useSelector(state => state.user.user)
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorElGrade, setAnchorElGrade] = useState(null);
     const [linkInvite, setLinkInvite] = useState(null)
 
     const open = Boolean(anchorEl);
+    const openGrade = Boolean(anchorElGrade);
 
     useEffect(() => {
         getInfor(id);
@@ -55,6 +58,14 @@ export const ClassInfor = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleCloseGrade = () => {
+        setAnchorElGrade(null);
+    };
+
+    const handleClickGrade = async (event) => {
+        setAnchorElGrade(event.currentTarget)
+    };
+    
 
     return (
         <SpinnerWrapper loading={loading}>
@@ -67,43 +78,70 @@ export const ClassInfor = () => {
                 </div>
                 <div className="cl-body">
                     <div className="cl-code">
-                        <div className="cl-code-header">
-                            <p>Mã lớp</p>
-                            {
-                                data?.isTeacher ?
-                                    <IconButton aria-label="settings" onClick={handleClick}>
-                                        <MoreVertIcon />
-                                    </IconButton> :
-                                    <div></div>
-                            }
-
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'basic-button',
-                                }}
-                            >
-                                <MenuItem onClick={handleGenLink}>
-                                    <div style={{ display: "flex" }}>
-
-                                        {
-                                            linkInvite ?
-                                                <div style={{ display: "flex", alignItems: "center", paddingLeft: 15 }}>
-                                                    <p style={{ paddingRight: 15 }}>Copy link mời</p> <ContentCopyIcon /> {linkInvite}
-                                                </div> :
-                                                <div style={{ display: "flex", alignItems: "center", paddingLeft: 15 }}>
-                                                    <p style={{ paddingRight: 15 }}>Đang tạo link mời </p><CircularProgress size={24} />
-                                                </div>
-                                        }
-                                    </div>
-                                </MenuItem>
-                            </Menu>
+                        <div className="cl-code">
+                            <div className="cl-code-header">
+                                <p>Mã lớp</p>
+                                {
+                                    data?.isTeacher ?
+                                        <IconButton aria-label="settings" onClick={handleClick}>
+                                            <MoreVertIcon />
+                                        </IconButton> :
+                                        <div></div>
+                                }
+                                <Menu
+                                    id="basic-menu"
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                >
+                                    <MenuItem onClick={handleGenLink}>
+                                        <div style={{ display: "flex" }}>
+                                            {
+                                                linkInvite ?
+                                                    <div style={{ display: "flex", alignItems: "center", paddingLeft: 15 }}>
+                                                        <p style={{ paddingRight: 15 }}>Copy link mời</p> <ContentCopyIcon /> {linkInvite}
+                                                    </div> :
+                                                    <div style={{ display: "flex", alignItems: "center", paddingLeft: 15 }}>
+                                                        <p style={{ paddingRight: 15 }}>Đang tạo link mời </p><CircularProgress size={24} />
+                                                    </div>
+                                            }
+                                        </div>
+                                    </MenuItem>
+                                </Menu>
+                            </div>
+                            <div style={{ marginLeft: 15 }}>
+                                {id}
+                            </div>
                         </div>
-                        <div style={{ marginLeft: 15 }}>
-                            {id}
+                        <div className="cl-code" style ={{marginTop: "15px"}}>
+                        <div className="cl-code-header">
+                                <p>Cấu trúc điểm</p>
+                                {
+                                    data?.isTeacher ?
+                                        <IconButton aria-label="settings" onClick={handleClickGrade}>
+                                            <MoreVertIcon />
+                                        </IconButton> :
+                                        <div></div>
+                                }
+                                <Menu
+                                    id="basic-menu"
+                                    anchorEl={anchorElGrade}
+                                    open={openGrade}
+                                    onClose={handleCloseGrade}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                >
+                                    <MenuItem>
+                                        <div style={{ display: "flex" }} onClick={_ => history.push('/grades/' + id)}>
+                                            Chỉnh sửa cấu trúc điểm
+                                        </div>
+                                    </MenuItem>
+                                </Menu>
+                            </div>
                         </div>
                     </div>
                     <div className="cl-card">

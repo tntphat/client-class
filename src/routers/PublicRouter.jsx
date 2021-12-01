@@ -10,6 +10,8 @@ export const PublicRouter = ({
   footer: Footer,
   exact,
   path,
+  fullWidth,
+  bgColor,
 }) => {
   const token = readCookie(LOCAL_STORAGE_TOKEN);
   return (
@@ -21,7 +23,7 @@ export const PublicRouter = ({
           return <Redirect to="/" />;
         } else
           return (
-            <Layout header={Header} footer={Footer}>
+            <Layout header={Header} footer={Footer} fullWidth={fullWidth} bgColor={bgColor}>
               <Component {...props} />
             </Layout>
           );
