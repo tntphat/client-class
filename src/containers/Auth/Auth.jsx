@@ -97,7 +97,7 @@ export const Auth = () => {
       >
         Sign in with Google
       </Button>
-      <Button
+      {/* <Button
         sx={{ marginBottom: 2 }}
         startIcon={<FacebookIcon />}
         variant="contained"
@@ -106,7 +106,7 @@ export const Auth = () => {
         onClick={() => loginGg(onSuccessLoginFb)}
       >
         Sign in with Facebook
-      </Button>
+      </Button> */}
       <Box sx={{ display: 'flex' }} alignItems="center" flexDirection="row">
         <div className={classes.divider} />
         <Typography className={classes.or}> Or </Typography>

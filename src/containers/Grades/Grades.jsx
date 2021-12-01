@@ -19,19 +19,17 @@ export const Grades = () => {
 
   const CheckIsTeacher = async (id) => {
     let d = await apiClasses.getClassDetail(id);
-    console.log("data", d);
-    if(d.data.isTeacher) {
-      return true
+    console.log('data', d);
+    if (d.data.isTeacher) {
+      return true;
+    } else {
+      return false;
     }
-    else {
-      return false
-    }
-  }
+  };
 
-  useEffect( async () => {
-    let per = await CheckIsTeacher(id)
-    if(per)
-    {
+  useEffect(async () => {
+    let per = await CheckIsTeacher(id);
+    if (per) {
       apiClasses.getGradeStructure(id).then(({ data }) => {
         if (!data || !data.length) return;
         const listIdx = data.map((ele) => ele.index);
@@ -42,11 +40,9 @@ export const Grades = () => {
         ]);
         setIsPosted(true);
       });
+    } else {
+      history.push('/');
     }
-    else {
-      history.push('/')
-    }
-    
   }, []);
 
   useEffect(() => {
@@ -89,8 +85,8 @@ export const Grades = () => {
     setIsUpdating(true);
     let gradeStructure;
 
+    list.splice(-1);
     if (!isPosted) {
-      list.splice(-1);
       gradeStructure = list.map(({ id, ...rest }, index) => ({
         ...rest,
         index,
@@ -134,7 +130,9 @@ export const Grades = () => {
       <Box sx={{ boxShadow: 5, my: 5, p: 2, borderRadius: 2 }} className={classes.header}>
         <Typography variant="h4">Grade Structure</Typography>
         <Typography variant="body1">Edit your classroom grade structure</Typography>
-        <Typography variant="body2">Overview: {overview}</Typography>
+        <Typography variant="body2">
+          Overview: <b> {overview} </b>
+        </Typography>
       </Box>
       {list.map((item, idx) => (
         <CardGrade
