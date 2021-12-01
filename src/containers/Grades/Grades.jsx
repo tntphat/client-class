@@ -106,7 +106,7 @@ export const Grades = () => {
         gradeStructure: JSON.stringify(gradeStructure),
       })
       .then(() => {
-        history.push(`/course/${id}`);
+        history.push(`/course/${id}/infor`);
       })
       .catch(() => {
         history.push('/');

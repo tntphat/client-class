@@ -19,7 +19,7 @@
     border: solid 1px rgb(187, 187, 187);
     border-radius: 15px;
     width: 200px;
-    height: 100px;
+    background-color:white;
 }
 
 .cl-code-header {
@@ -27,6 +27,7 @@
     justify-content: space-between;
     padding-left: 15px;
     padding-right: 15px;
+    margin-top: 10px;
 }
 
 .cl-infor {
@@ -47,7 +48,7 @@
     border: solid 1px rgb(187, 187, 187);
     border-radius: 15px;
     width: 100%;
-    margin-left: 25px;
+    height: 50px;
 }
 
 .cl-hidden {
@@ -95,4 +96,17 @@
 .cl-btn {
     background-color: white;
     color: rgb(36, 196, 36);
+}
+
+.cl-grade-infor{
+    border: solid 1px rgb(187, 187, 187);
+    border-radius: 15px;
+    width: 200px;
+    background-color:white;
+    margin-top: 10px;
+}
+
+.cl-card-contain {
+    width: 100%;
+    margin-left: 25px;
 }

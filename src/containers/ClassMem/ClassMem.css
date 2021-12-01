@@ -41,14 +41,7 @@
     margin-top: 25px;
 }
 
-.cl-card {
-    display: flex;
-    align-items: center;
-    border: solid 1px rgb(187, 187, 187);
-    border-radius: 15px;
-    width: 100%;
-    margin-left: 25px;
-}
+
 
 .cl-hidden {
     display: none;

@@ -12,13 +12,14 @@ import { SpinnerWrapper } from '../../components/common';
 
 export const ClassInfor = () => {
     let { id } = useParams();
-    const history =useHistory();
+    const history = useHistory();
     const user = useSelector(state => state.user.user)
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElGrade, setAnchorElGrade] = useState(null);
     const [linkInvite, setLinkInvite] = useState(null)
+    const [gradeStructure, setGradeStructure] = useState([{title: '', gradePercentage:''}])
 
     const open = Boolean(anchorEl);
     const openGrade = Boolean(anchorElGrade);
@@ -28,14 +29,19 @@ export const ClassInfor = () => {
         setLoading(true)
     }, [])
 
+    useEffect(() => {
+        console.log("gradeStructure,",gradeStructure);
+    }, [gradeStructure])
+
     const getInfor = async (id) => {
         let d = await apiClasses.getClassDetail(id);
-
         if (d && d.data) {
             console.log(d.data);
+            console.log('d.data?.gradeStructure',JSON.parse(JSON.parse(d.data?.gradeStructure)), typeof JSON.parse(d.data?.gradeStructure));
             setData(d.data)
-            setLoading(false)
+            setGradeStructure(JSON.parse(JSON.parse(d.data?.gradeStructure)) ?? [])
         }
+        setLoading(false);
     }
 
     const handleGenLink = () => {
@@ -65,7 +71,7 @@ export const ClassInfor = () => {
     const handleClickGrade = async (event) => {
         setAnchorElGrade(event.currentTarget)
     };
-    
+
 
     return (
         <SpinnerWrapper loading={loading}>
@@ -77,10 +83,10 @@ export const ClassInfor = () => {
                     </div>
                 </div>
                 <div className="cl-body">
-                    <div className="cl-code">
+                    <div >
                         <div className="cl-code">
                             <div className="cl-code-header">
-                                <p>Mã lớp</p>
+                                <p style={{ fontWeight: "bold" }}>Mã lớp</p>
                                 {
                                     data?.isTeacher ?
                                         <IconButton aria-label="settings" onClick={handleClick}>
@@ -116,9 +122,9 @@ export const ClassInfor = () => {
                                 {id}
                             </div>
                         </div>
-                        <div className="cl-code" style ={{marginTop: "15px"}}>
-                        <div className="cl-code-header">
-                                <p>Cấu trúc điểm</p>
+                        <div className='cl-grade-infor'>
+                            <div className="cl-code-header">
+                                <p style={{ fontWeight: "bold" }}>Cấu trúc điểm</p>
                                 {
                                     data?.isTeacher ?
                                         <IconButton aria-label="settings" onClick={handleClickGrade}>
@@ -142,10 +148,24 @@ export const ClassInfor = () => {
                                     </MenuItem>
                                 </Menu>
                             </div>
+                            <div style={{ marginBottom: 10, marginLeft: '10px', marginRight:'30px' }}>
+                                {
+                                    gradeStructure.length > 0 ?
+                                    gradeStructure.map(i => (
+                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <p>{i.title}</p>
+                                            <p>{i.gradePercentage}</p>
+                                        </div>
+                                    )) :
+                                    <p style={{ marginLeft: 5, fontSize: 12 }}>Chưa có cấu trúc điểm</p>
+                                }
+                            </div>
                         </div>
                     </div>
-                    <div className="cl-card">
-                        <p style={{ marginLeft: 15 }}>Thông báo nội dung cho lớp học</p>
+                    <div className="cl-card-contain">
+                        <div className="cl-card">
+                            <p style={{ marginLeft: 15 }}>Thông báo nội dung cho lớp học</p>
+                        </div>
                     </div>
 
                 </div>
