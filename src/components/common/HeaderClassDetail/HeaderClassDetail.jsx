@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -12,7 +10,6 @@ import { useSelector } from 'react-redux';
 import { logout } from '../../../helpers/auth';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useHistory, useLocation } from 'react-router';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -72,6 +69,7 @@ export const HeaderClassDetail = ({ val }) => {
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                   <Tab value={'infor'} label="BẢNG TIN" />
                   <Tab value={'mem'} label="THÀNH VIÊN" />
+                  <Tab value={'grade-table'} label="BẢNG ĐIỂM" />
                 </Tabs>
               )
             }

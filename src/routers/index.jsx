@@ -6,6 +6,7 @@ import {
   Home,
   Home2,
   ClassDetail,
+  GradeTable,
   Invitation,
   Profile,
   Grades,
@@ -63,6 +64,13 @@ export const Routers = () => {
           component={ClassInfor}
           layout={HeaderLayout}
           header={<HeaderClassDetail val='infor'/>}
+        />
+        <PrivateRouter
+          exact={true}
+          path={'/course/:id/grade-table'}
+          component={GradeTable}
+          layout={HeaderLayout}
+          header={<HeaderClassDetail val='grade-table'/>}
         />
         <PrivateRouter
           exact={true}
