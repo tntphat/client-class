@@ -5,12 +5,19 @@ import { useXlsx } from '../../hooks';
 import { dataTemplate } from '../../constants';
 
 export const Home = () => {
-  const { importFile, exportFile, onChooseFile, isImported, setCallbackImport, setDataExport } =
-    useXlsx('name-file', dataTemplate, console.log);
+  const {
+    importFile,
+    exportFile,
+    onChooseFile,
+    isImported,
+    setCallbackImport,
+    setDataExport,
+    setNameFile,
+  } = useXlsx('name-file', dataTemplate, console.log);
 
   return (
     <Box>
-      <Button onClick={exportFile}>Click me</Button>
+      <Button onClick={exportFile}>Click export</Button>
       <Button onClick={onChooseFile}>Click choose file</Button>
       <Button disabled={!isImported} onClick={importFile}>
         Click import file
@@ -37,6 +44,8 @@ export const Home = () => {
       >
         test change data
       </Button>
+
+      <Button onClick={() => setNameFile('other')}>test change file name</Button>
     </Box>
   );
 };

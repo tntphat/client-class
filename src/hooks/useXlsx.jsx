@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import XLSX from 'xlsx';
 import { useFnState } from '.';
 
-export const useXlsx = (nameFile, initialDataExport, initialCallbackImport) => {
+export const useXlsx = (initialNameFile, initialDataExport, initialCallbackImport) => {
   const refInput = useRef(null);
   const refFile = useRef(null);
   const [isImported, setIsImported] = useState(false);
+  const [nameFile, setNameFile] = useState(initialNameFile);
   const [dataExport, setDataExport] = useState(initialDataExport);
   const [callbackImport, setCallbackImport] = useFnState(initialCallbackImport);
 
@@ -55,7 +56,15 @@ export const useXlsx = (nameFile, initialDataExport, initialCallbackImport) => {
     else reader.readAsArrayBuffer(refFile.current);
   };
 
-  return { importFile, exportFile, onChooseFile, setDataExport, setCallbackImport, isImported };
+  return {
+    importFile,
+    exportFile,
+    onChooseFile,
+    setDataExport,
+    setCallbackImport,
+    isImported,
+    setNameFile,
+  };
 };
 
 /* list of supported file types */
