@@ -10,7 +10,7 @@ import {
   Profile,
   Grades,
   ClassInfor,
-  ClassMem
+  ClassMem,
 } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
@@ -25,7 +25,7 @@ export const Routers = () => {
       <Switch>
         {/* <PublicRouter exact={true} path={'/'} component={Home} layout={BlankLayout} /> */}
 
-        <PrivateRouter
+        <PublicRouter
           exact={true}
           path={'/home'}
           component={Home}
@@ -62,14 +62,14 @@ export const Routers = () => {
           path={'/course/:id/infor'}
           component={ClassInfor}
           layout={HeaderLayout}
-          header={<HeaderClassDetail val='infor'/>}
+          header={<HeaderClassDetail val="infor" />}
         />
         <PrivateRouter
           exact={true}
           path={'/course/:id/mem'}
           component={ClassMem}
           layout={HeaderLayout}
-          header={<HeaderClassDetail val='mem'/>}
+          header={<HeaderClassDetail val="mem" />}
         />
 
         <PrivateRouter
