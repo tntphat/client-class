@@ -21,7 +21,8 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1",
-    "win-node-env": "^0.4.0"
+    "win-node-env": "^0.4.0",
+    "xlsx": "^0.17.4"
   },
   "scripts": {
     "start": "webpack serve --open --mode development",

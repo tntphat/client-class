@@ -1,22 +1,51 @@
 import { Box, Button } from '@mui/material';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Header } from '../../components/common';
-import { doGetClasses } from '../../redux/slice';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useXlsx } from '../../hooks';
+import { dataTemplate } from '../../constants';
 
 export const Home = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { listClasses } = useSelector((state) => state.classes);
-  // console.log(listClasses);
-  useEffect(() => {
-    dispatch(doGetClasses());
-  }, []);
+  const {
+    importFile,
+    exportFile,
+    onChooseFile,
+    isImported,
+    setCallbackImport,
+    setDataExport,
+    setNameFile,
+  } = useXlsx('name-file', dataTemplate, console.log);
+
   return (
     <Box>
-      Home
-      <Button onClick={() => history.push('/auth')}>auth</Button>
+      <Button onClick={exportFile}>Click export</Button>
+      <Button onClick={onChooseFile}>Click choose file</Button>
+      <Button disabled={!isImported} onClick={importFile}>
+        Click import file
+      </Button>
+      <Button
+        onClick={() => {
+          const cb = (data) => {
+            console.log('cb changed:', { data });
+          };
+          setCallbackImport(cb);
+        }}
+      >
+        test change cb
+      </Button>
+      <Button
+        onClick={() => {
+          setDataExport([
+            ['MSSV', 'Ten', 'Grade'],
+            ['18120502', 'Tô Ng~ Tấn Pát', 10],
+            ['18120443', 'Fat', 9],
+            ['18120458', 'Phát Tô', 8],
+          ]);
+        }}
+      >
+        test change data
+      </Button>
+
+      <Button onClick={() => setNameFile('other')}>test change file name</Button>
     </Box>
   );
 };
