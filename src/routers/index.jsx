@@ -25,7 +25,7 @@ export const Routers = () => {
       <Switch>
         {/* <PublicRouter exact={true} path={'/'} component={Home} layout={BlankLayout} /> */}
 
-        <PublicRouter
+        <PrivateRouter
           exact={true}
           path={'/home'}
           component={Home}

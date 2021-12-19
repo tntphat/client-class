@@ -24,7 +24,7 @@ export const ListCourses = ({ listCourses }) => {
             key={course.id}
             teacherName={course.teacherName}
             subject={course.subject}
-            isTeacher={course.isTeacher}
+            isTeacher={course.role !== 'student'}
           />
         ))
       )}

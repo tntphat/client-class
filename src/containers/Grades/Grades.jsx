@@ -14,6 +14,8 @@ export const Grades = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [isPosted, setIsPosted] = useState(false);
   const [overview, setOverview] = useState(0);
+  const [maxIdFromDb, setmaxIdFromDb] = useState(0);
+  const [lengthStructFromDb, setLengStructFromDb] = useState(0);
   const history = useHistory();
   let { id } = useParams();
 
@@ -30,13 +32,14 @@ export const Grades = () => {
     let per = await CheckIsTeacher(id);
     if (per) {
       apiClasses.getGradeStructure(id).then(({ data }) => {
-        if (!data || !data.length) return;
-        const listIdx = data.map((ele) => ele.index);
+        if (data.message) return;
+        maxIndex.current = data.maxId || 0;
+        setmaxIdFromDb(data.maxId || 0);
+        const currStruct = JSON.parse(data.gradeStructure);
+        setLengStructFromDb(currStruct.length);
+        const listIdx = currStruct.map((ele) => ele.id);
         maxIndex.current = Math.max(...listIdx);
-        setList([
-          ...data.map(({ index, ...rest }) => ({ id: index, ...rest })),
-          { id: maxIndex.current + 1, title: '', gradePercentage: '' },
-        ]);
+        setList([...currStruct, { id: maxIndex.current + 1, title: '', gradePercentage: '' }]);
         setIsPosted(true);
       });
     } else {
@@ -82,22 +85,41 @@ export const Grades = () => {
   const handleSubmit = () => {
     setIsUpdating(true);
     let gradeStructure;
-
+    let maxIndex;
     list.splice(-1);
+    // const maxIndex = Math.max.apply(
+    //   Math,
+    //   list.map(function (o) {
+    //     return o.id;
+    //   }),
+    // );
+
     if (!isPosted) {
       gradeStructure = list.map(({ id, ...rest }, index) => ({
         ...rest,
-        index,
+        id: index,
       }));
-    } else
-      gradeStructure = list.map(({ id, ...rest }) => ({
-        ...rest,
-        index: id,
-      }));
+      maxIndex = gradeStructure.length - 1;
+    } else {
+      // let clone = [...list];
+      // const delta = list.length - lengthStructFromDb.length;
+      let count = maxIdFromDb;
+      gradeStructure = list.map((item) =>
+        item.id > maxIdFromDb ? count++ && { ...item, id: count } : item,
+      );
+      maxIndex = Math.max.apply(
+        Math,
+        list.map(function (o) {
+          return o.id;
+        }),
+      );
+    }
+
     apiClasses
       .updateGradeStructure({
         courseId: +id,
         gradeStructure: JSON.stringify(gradeStructure),
+        maxId: maxIndex,
       })
       .then(() => {
         history.push(`/course/${id}/infor`);
