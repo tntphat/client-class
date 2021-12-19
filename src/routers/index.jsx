@@ -26,7 +26,7 @@ export const Routers = () => {
       <Switch>
         {/* <PublicRouter exact={true} path={'/'} component={Home} layout={BlankLayout} /> */}
 
-        <PublicRouter
+        <PrivateRouter
           exact={true}
           path={'/home'}
           component={Home}
@@ -71,6 +71,7 @@ export const Routers = () => {
           component={GradeTable}
           layout={HeaderLayout}
           header={<HeaderClassDetail val='grade-table'/>}
+          fullWidth
         />
         <PrivateRouter
           exact={true}

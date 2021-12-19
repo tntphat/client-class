@@ -49,7 +49,7 @@ export const Auth = () => {
       doAuthSocial({
         mail: profile.getEmail(),
         name: profile.getName(),
-        ggToken: googleUser.wc.id_token,
+        ggToken: googleUser.vc.id_token,
       }),
     )
       .then(unwrapResult)

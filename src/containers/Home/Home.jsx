@@ -25,7 +25,7 @@ export const Home = () => {
       <Button
         onClick={() => {
           const cb = (data) => {
-            console.log('cb changed:', { data });
+            console.log('cb changed:', data);
           };
           setCallbackImport(cb);
         }}
