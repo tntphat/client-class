@@ -16,18 +16,21 @@ export const GradeTable = () => {
     // const handleEditRowsModelChange = React.useCallback((model) => {
     //     setEditRowsModel(model);
     // }, []);
+    const [isTeacher, setIsTeacher] = useState(null)
+
+    const [gradeStructure, setGradeStructure] = useState([])
 
     const {
-        importFile,
         exportFile,
-        onChooseFile,
-        isImported,
-        setCallbackImport,
         setDataExport,
+        isImported,
         setNameFile,
-    } = useXlsx('name-file', dataTemplate, data => {handleImportStudent(data)});
+        setDataThenExport,
+        setCbThenImport,
+    } = useXlsx('name-file', dataTemplate, _ => { });
+    // } = useXlsx('name-file', dataTemplate, data => { handleImportStudent(data) });
 
-    
+
     const [openDialog, setOpenDialog] = useState(false)
     const [messNotification, setMessNotification] = useState('')
 
@@ -77,7 +80,7 @@ export const GradeTable = () => {
                     <p>StudentId</p>
                     <button onClick={e => { e.stopPropagation(); console.log(row); }}>loghead</button>
                     <button onClick={e => { e.stopPropagation(); exportFile(e) }}>export template</button>
-                    <button onClick={e => { e.stopPropagation(); onChooseFile(e) }}>import template</button>
+                    <button onClick={e => { e.stopPropagation(); handleImportStudent() }}>import template</button>
                 </div>
             )
         },
@@ -94,34 +97,35 @@ export const GradeTable = () => {
             width: 100,
             renderCell: (row) => (
                 <div>
-                    
+
                 </div>
             ),
             renderHeader: row => (
-                <button onClick={e => { e.stopPropagation(); handleMarkAll(row.field);  }}>markall</button>
+                <button onClick={e => { e.stopPropagation(); handleMarkAll(row.field); }}>markall</button>
             )
         },
-        {
-            field: "2",
-            headerName: 'Grade1',
-            width: 250,
-            renderCell: (row) => (
-                <div>
-                    {/* <input value={row.value.score} onChange={e => handleSetScore(row.id, row.field, e.target.value.replace(/\D/,''))}/> */}
+        // {
+        //     field: "2",
+        //     headerName: 'Grade1',
+        //     width: 250,
+        //     renderCell: (row) => (
+        //         <div>
+        //             {/* <input value={row.value.score} onChange={e => handleSetScore(row.id, row.field, e.target.value.replace(/\D/,''))}/> */}
 
-                    <div className='c-input'>
-                        <input type='number' value={row.value?.score} className='input-score' onChange={e => handleSetScore(row.id, row.field, e.target.value)} />
-                        <p>{row.value?.isFinal ? "marked" : 'nhap'}</p>
-                    </div>
+        //             <div className='c-input'>
+        //                 <input type='number' value={row.value?.score} className='input-score' onChange={e => handleSetScore(row.id, row.field, e.target.value)} />
+        //                 <p>{row.value?.isFinal ? "marked" : 'nhap'}</p>
+        //                 <button onClick={_ => handleMarkASpecificAssignment(row.id, row.field)}>m</button>
+        //             </div>
 
 
-                    {/* <button onClick={_ => console.log(row)}> a</button> */}
-                </div>
-            ),
-            renderHeader: row => (
-                <button onClick={e => { e.stopPropagation(); handleMarkAll(row.field);  }}>Grade1</button>
-            )
-        },
+        //             {/* <button onClick={_ => console.log(row)}> a</button> */}
+        //         </div>
+        //     ),
+        //     renderHeader: row => (
+        //         <button onClick={e => { e.stopPropagation(); handleMarkAll(row.field); }}>Grade1</button>
+        //     )
+        // },
         // {
         //     field: "2",
         //     headerName: 'Grade2',
@@ -150,11 +154,6 @@ export const GradeTable = () => {
         console.log(score);
     }, [score])
 
-    useEffect(() => {
-        if(isImported)
-        importFile()
-    }, [isImported])
-
     const onCloseDialog = () => {
         setOpenDialog(false)
         setMessNotification('')
@@ -165,27 +164,32 @@ export const GradeTable = () => {
         setOpenDialog(true)
     }
 
-    const handleImportStudent = (data) => {
-        console.log('data', data);
-        let listInportedStudent = []
-        for( let i = 1; i < data.length -1 ; i++)
-        {
-            let id = data[i][0]
-            let name = data[i][1]
-            let IsExistedStudent = score.filter( i => i.id === id).length > 0
-            if(!IsExistedStudent) {
-                listInportedStudent.push({
-                    id: id,
-                    name: name
-                })
+    const handleImportStudent = () => {
+        console.log('chay hàm student ');
+        const cb = (data) => {
+            console.log('chay import student');
+            // console.log('data', data);
+            let listInportedStudent = []
+            for (let i = 1; i < data.length ; i++) {
+                let id = data[i][0]
+                let name = data[i][1]
+                let IsExistedStudent = score.filter(i => i.id === id)
+                if (!(IsExistedStudent.length > 0)) {
+                    listInportedStudent.push({
+                        id: id,
+                        name: name
+                    })
+                }
+                else {
+                    continue
+                }
             }
-            else {
-                continue
-            }
+
+            let scoreTemp = JSON.parse(JSON.stringify(refScore.current))
+            setScore(scoreTemp.concat(listInportedStudent));
         }
 
-        let scoreTemp = JSON.parse(JSON.stringify(refScore.current))
-        setScore(scoreTemp.concat(listInportedStudent));
+        setCbThenImport(cb);
     }
 
 
@@ -224,10 +228,6 @@ export const GradeTable = () => {
         let temp = scoreTemp.map(i => {
             let t = { ...i };
 
-            if (t[`${field}`].score === '' || t[`${field}`].score === null || t[`${field}`].score === undefined) {
-                isFullScore = false
-            }
-
             t[`${field}`] = {
                 score: t[`${field}`].score,
                 isFinal: true
@@ -238,7 +238,7 @@ export const GradeTable = () => {
         setScore([...temp]);
     }
 
-    const handleSetScore = (id, filed, val) => {
+    const handleSetScore = (id, field, val) => {
         let value = val;
         if (isNaN(value)) {
             value = ''
@@ -254,7 +254,7 @@ export const GradeTable = () => {
 
                 // if(t[`${filed}`].score === undefined)
 
-                t[`${filed}`] = {
+                t[`${field}`] = {
                     isFinal: false,
                     score: value
                 }
@@ -265,6 +265,94 @@ export const GradeTable = () => {
             }
         })
         setScore([...temp]);
+    }
+
+    const handleMarkASpecificAssignment = (id, field) => {
+        let scoreTemp = JSON.parse(JSON.stringify(refScore.current))
+        let temp = scoreTemp.map(i => {
+            if (i.id == id) {
+                let t = { ...i };
+
+                // if(t[`${filed}`].score === undefined)
+
+                t[`${field}`] = {
+                    isFinal: true,
+                    score: t[`${field}`].score
+                }
+                return t
+            }
+            else {
+                return { ...i }
+            }
+        })
+        setScore([...temp]);
+    }
+
+    const handleDownloadTemplate = (title) => {
+        let arr = [
+            ['MSSV', 'Ten', 'Diem ' + `${title}`]
+        ]
+
+        for (let i = 0; i < score.length; i++) {
+            arr.push([score[i].id.toString(), score[i].name])
+        }
+
+        console.log(arr);
+
+        setDataThenExport(arr);
+
+    }
+
+    const handleImportScore = (field) => {
+        console.log('chay hàm score');
+        const cb = (data) => {
+            console.log('chay import score');
+            let scoreTemp = JSON.parse(JSON.stringify(refScore.current))
+
+            let temp = scoreTemp.map(i => {
+                let t = { ...i };
+                let scoreTemp = t[`${field}`]?.score ?? '';
+
+                for (let i = 1; i < data.length; i++) {
+                    if (t.id == data[i][0]) {
+                        if (data[i].length === 3) scoreTemp = data[i][2]
+                        break;
+                    }
+                }
+
+                t[`${field}`] = {
+                    score: scoreTemp,
+                    isFinal: false
+                }
+
+                return t
+            })
+            setScore([...temp]);
+        };
+
+        setCbThenImport(cb)
+    }
+
+    const handleExportEntireBoard = () => {
+        let title = ['MSSV', 'Ten']
+        for (let i = 0; i < gradeStructure.length; i++) {
+            title.push('Diem ' + `${gradeStructure[i].title}`)
+        }
+        let arr = [title]
+
+        for (let i = 0; i < score.length; i++) {
+            arr.push([
+                score[i].id.toString(),
+                score[i].name,
+                ...gradeStructure.map( j => {
+                    return score[i][`${j.index.toString()}`]?.score ?? ''
+                })
+            ])
+        }
+
+        console.log(arr);
+
+        setDataThenExport(arr);
     }
 
 
@@ -280,7 +368,9 @@ export const GradeTable = () => {
     const getInfor = async (id) => {
         let d = await apiClasses.getClassDetail(id);
         if (d && d.data) {
+            setIsTeacher(d.data.isTeacher)
             let temp = (JSON.parse(JSON.parse(d.data?.gradeStructure)) ?? []);
+            setGradeStructure(temp)
             // setCol([...col, ...temp.map(i => ({
             //         field: i.index, 
             //         headerName: i.title, 
@@ -296,18 +386,23 @@ export const GradeTable = () => {
                 renderCell: (row) => (
                     <div>
                         {/* <input value={row.value.score} onChange={e => handleSetScore(row.id, row.field, e.target.value.replace(/\D/,''))}/> */}
-    
+
                         <div className='c-input'>
                             <input type='number' value={row.value?.score} className='input-score' onChange={e => handleSetScore(row.id, row.field, e.target.value)} />
                             <p>{row.value?.isFinal ? "marked" : 'nhap'}</p>
+                            <button onClick={_ => handleMarkASpecificAssignment(row.id, row.field)}>m</button>
                         </div>
-    
-    
+
+
                         {/* <button onClick={_ => console.log(row)}> a</button> */}
                     </div>
                 ),
                 renderHeader: row => (
-                    <button onClick={e => { e.stopPropagation(); handleMarkAll(row.field);  }}>{i.title}</button>
+                    <div style={{ display: 'flex' }}>
+                        <button onClick={e => { e.stopPropagation(); handleMarkAll(row.field); }}>{i.title}</button>
+                        <button onClick={e => { e.stopPropagation(); handleDownloadTemplate(row.field, i.title); }}>tải template</button>
+                        <button onClick={e => { e.stopPropagation(); handleImportScore(row.field); }}>import diem</button>
+                    </div>
                 )
             }))])
         }
@@ -344,7 +439,6 @@ export const GradeTable = () => {
 
 
 
-
     const CheckIsTeacher = async (id) => {
         let d = await apiClasses.getClassDetail(id);
         if (d.data.isTeacher) {
@@ -364,6 +458,7 @@ export const GradeTable = () => {
                 {messNotification}
             </ConfirmDialog>
             <div style={{ width: '100%' }}>
+                <button onClick={handleExportEntireBoard}>Export board</button>
                 <div style={{ height: 400, width: '100%' }}>
                     <DataGrid
                         rows={score}
