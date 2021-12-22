@@ -32,7 +32,9 @@ export const ClassInfor = () => {
     let d = await apiClasses.getClassDetail(id);
     if (d && d.data) {
       setData(d.data);
-      setGradeStructure(JSON.parse(JSON.parse(d.data?.gradeStructure)) ?? []);
+      console.log(d.data?.gradeStructure);
+      if (d.data?.gradeStructure)
+        setGradeStructure(JSON.parse(JSON.parse(d.data?.gradeStructure).gradeStructure) ?? []);
     }
     setLoading(false);
   };
