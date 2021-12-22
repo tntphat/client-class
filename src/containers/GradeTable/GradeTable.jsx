@@ -139,17 +139,17 @@ export const GradeTable = () => {
     const handleCalScore = (row) => {
         let temp = ''
         console.log(row);
-        console.log('gradeStructure', gradeStructure);
+        // console.log('gradeStructure', gradeStructure);
 
         let sum  =0
         
         let m = refGrade.current.reduce((pre, cur) => {
-            console.log('asdfa',cur.gradePercentage, row[`${cur.id}`]);
+            // console.log('asdfa',cur.gradePercentage, row[`${cur.id}`]);
             sum +=  +cur.gradePercentage ;
             return Number.isNaN(row[`${cur.id}`].score) ? pre : pre + cur.gradePercentage*+row[`${cur.id}`].score
         }, 0)
 
-        console.log('sum', sum);
+        // console.log('sum', sum);
         let res = m/sum
 
         return (
@@ -169,7 +169,7 @@ export const GradeTable = () => {
             }
             return false
         })
-        console.log("missScore,missScore", missScore);
+        // console.log("missScore,missScore", missScore);
 
         if (missScore.length > 0) {
             onOpenDialog('Cột điểm chưa đủ')
@@ -244,11 +244,13 @@ export const GradeTable = () => {
             ['MSSV', 'Ten', 'Diem ' + `${title}`]
         ]
 
-        for (let i = 0; i < score.length; i++) {
-            arr.push([score[i].id.toString(), score[i].name])
+        let scoreTemp = JSON.parse(JSON.stringify(refScore.current))
+
+        for (let i = 0; i < scoreTemp.length; i++) {
+            arr.push([scoreTemp[i].id.toString(), scoreTemp[i].name])
         }
 
-        console.log(arr);
+        console.log('aaaa', arr);
         setNameFile('Diem ' + `${title}`)
         setDataThenExport(arr);
 
@@ -422,7 +424,7 @@ export const GradeTable = () => {
             <div style={{ width: '100%' }}>
                 <div style={{ display: 'flex', justifyContent: 'end', paddingRight: '50px', paddingBottom: '50px' }}>
                     <div className="dropdown">
-                        <button className="dropbtn">Dropdown</button>
+                        <button className="dropbtn">Action</button>
                         <div className="dropdown-content">
                             <a href="#" onClick={handleExportEntireBoard}>Export board</a>
                             <a href="#" onClick={e => { setLoading(true); handleUpdateClassGrade(); }}>Update</a>
