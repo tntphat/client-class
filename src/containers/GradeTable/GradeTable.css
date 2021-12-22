@@ -2,8 +2,8 @@
     background-color: #04AA6D;
     color: white;
     font-size: 16px;
-    border: none;
     z-index: 99999999;
+    padding: 10px;
   }
   
   .dropdown {
@@ -19,6 +19,7 @@
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 99999999;
+    right: 0;
   }
   
   .dropdown-content a {

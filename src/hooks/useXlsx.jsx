@@ -9,6 +9,7 @@ export const useXlsx = (initialNameFile, initialDataExport, initialCallbackImpor
   const [xlsxFile, setXlsxFile] = useState(null);
   const [dataExport, setDataExport] = useState(initialDataExport);
 
+  const refNameFile = useRef('');
   const refDataExport = useRef(null);
   const [callbackImport, setCallbackImport] = useFnState(initialCallbackImport);
 
@@ -32,6 +33,10 @@ export const useXlsx = (initialNameFile, initialDataExport, initialCallbackImpor
   }, [dataExport]);
 
   useEffect(() => {
+    refNameFile.current = nameFile;
+  }, [nameFile]);
+
+  useEffect(() => {
     console.log('hi');
     if (!xlsxFile) return;
     importFile();
@@ -43,7 +48,7 @@ export const useXlsx = (initialNameFile, initialDataExport, initialCallbackImpor
     const ws = XLSX.utils.aoa_to_sheet(refDataExport.current);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'SheetJS');
-    const file = (nameFile || 'data') + '.xlsx';
+    const file = (refNameFile.current || 'data') + '.xlsx';
     XLSX.writeFile(wb, file);
   };
 
