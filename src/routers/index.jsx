@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
 import {
   Auth,
   Courses,
@@ -12,17 +12,25 @@ import {
   Grades,
   ClassInfor,
   ClassMem,
+  Admins,
 } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
-import { BlankLayout, HeaderLayout } from '../layouts';
+import { AdminLayout, BlankLayout, HeaderLayout } from '../layouts';
 import { Header, HeaderClassDetail } from '../components/common';
+import { loadGA } from '../helpers';
+import { useDispatch } from 'react-redux';
+import { doPushGa } from '../redux/slice';
+// import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import GA from '../components/GA/GA';
 
 // import { Header, Footer } from '../components';
 
 export const Routers = () => {
   return (
     <Router>
+      <GA />
       <Switch>
         {/* <PublicRouter exact={true} path={'/'} component={Home} layout={BlankLayout} /> */}
 
@@ -70,7 +78,7 @@ export const Routers = () => {
           path={'/course/:id/grade-table'}
           component={GradeTable}
           layout={HeaderLayout}
-          header={<HeaderClassDetail val='grade-table'/>}
+          header={<HeaderClassDetail val="grade-table" />}
           fullWidth
         />
         <PrivateRouter
@@ -106,6 +114,9 @@ export const Routers = () => {
           bgColor="#ffcccc"
           fullWidth
         />
+        <PrivateRouter exact={true} path={'/admin'} component={Admins} layout={AdminLayout} />
+        <PrivateRouter exact={true} path={'/admin/users'} component={Home} layout={AdminLayout} />
+        <PrivateRouter exact={true} path={'/admin/classes'} component={Home} layout={AdminLayout} />
       </Switch>
     </Router>
   );

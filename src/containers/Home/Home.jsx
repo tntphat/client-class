@@ -5,5 +5,5 @@ import { useXlsx } from '../../hooks';
 import { dataTemplate } from '../../constants';
 
 export const Home = () => {
-  return <div></div>;
+  return <div>Home page</div>;
 };

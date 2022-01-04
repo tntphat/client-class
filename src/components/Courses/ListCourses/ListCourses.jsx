@@ -8,9 +8,8 @@ export const ListCourses = ({ listCourses }) => {
     <Box
       mt={5}
       sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-        gridGap: 20,
+        display: 'flex',
+        flexWrap: 'wrap',
         // width: '100%',
       }}
     >

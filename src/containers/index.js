@@ -5,7 +5,8 @@ export * from './Courses/Courses';
 export * from './Invitation/Invitation';
 export * from './ClassInfor/ClassInfor';
 export * from './ClassMem/ClassMem';
-export * from './GradeTable/GradeTable'
+export * from './GradeTable/GradeTable';
 export * from './ClassDetail/ClassDetails';
 export * from './Profile/Profile';
 export * from './Grades/Grades';
+export * from './Admin';

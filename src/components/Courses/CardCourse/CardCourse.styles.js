@@ -5,6 +5,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: 'unset',
+    marginRight: '20px',
+    marginBottom: '20px',
     // margin: '0 auto',
   },
   name: {

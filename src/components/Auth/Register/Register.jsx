@@ -28,6 +28,7 @@ export const Register = ({}) => {
         history.push({ pathname: '/auth', state: { Tab: 1 } });
       });
   };
+  console.log(errors?.mail);
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
       <InputText
@@ -46,11 +47,11 @@ export const Register = ({}) => {
         name="mail"
         register={register}
         rules={{
-          required: true,
           pattern: {
             value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
             message: 'Please fill in a valid email',
           },
+          required: true,
         }}
       />
 

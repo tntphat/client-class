@@ -11,12 +11,12 @@ import { useHistory } from 'react-router';
 
 export default function CardClass({ name, subject, id, teacherName, isTeacher }) {
   const classes = useStyles();
-  const history = useHistory()
+  const history = useHistory();
   return (
-    <Card className={classes.root} sx={{ maxWidth: 345 }}>
+    <Card className={classes.root} sx={{ width: 300 }}>
       <CardMedia
         component="img"
-        height="50"
+        height="100"
         image={
           isTeacher
             ? 'https://gstatic.com/classroom/themes/Geography.jpg'
@@ -36,7 +36,12 @@ export default function CardClass({ name, subject, id, teacherName, isTeacher })
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button variant="contained" size="small" onClick={() => history.push("/course/" + id + "/infor")} color={isTeacher ? 'primary' : 'secondary'}>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => history.push('/course/' + id + '/infor')}
+          color={isTeacher ? 'primary' : 'secondary'}
+        >
           go to class
         </Button>
       </CardActions>

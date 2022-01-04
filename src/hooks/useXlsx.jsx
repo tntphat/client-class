@@ -23,6 +23,9 @@ export const useXlsx = (initialNameFile, initialDataExport, initialCallbackImpor
       setXlsxFile(e.target.files[0]);
       setIsImported(!!e.target.files[0]);
     });
+    refInput.current.addEventListener('click', () => {
+      console.log('clicked ne');
+    });
     return () => {
       input.remove();
     };
@@ -88,6 +91,7 @@ export const useXlsx = (initialNameFile, initialDataExport, initialCallbackImpor
     setNameFile,
     setDataThenExport,
     setCbThenImport,
+    refInput,
   };
 };
 
