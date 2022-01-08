@@ -105,7 +105,7 @@ export const Grades = () => {
       // const delta = list.length - lengthStructFromDb.length;
       let count = maxIdFromDb;
       gradeStructure = list.map((item) =>
-        item.id > maxIdFromDb ? count++ && { ...item, id: count } : item,
+        item.id > maxIdFromDb ? ++count && { ...item, id: count } : item,
       );
       maxIndex = Math.max.apply(
         Math,

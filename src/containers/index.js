@@ -8,5 +8,6 @@ export * from './ClassMem/ClassMem';
 export * from './GradeTable/GradeTable';
 export * from './ClassDetail/ClassDetails';
 export * from './Profile/Profile';
+export * from './ContainerGradeTable/ContainerGradeTable'
 export * from './Grades/Grades';
 export * from './Admin';
