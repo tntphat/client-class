@@ -8,7 +8,7 @@ import { Register, SignIn } from '../../components/Auth';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authWithGg, loadScript, login, loginGg } from '../../helpers';
-import { doAuthSocial, doClearError } from '../../redux/slice';
+import { doAuthSocial, doClearError, doClearErrors } from '../../redux/slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { ConfirmDialog } from '../../components/common';
 
@@ -19,11 +19,13 @@ export const Auth = () => {
   const classes = useStyles();
   const location = useLocation();
   const Tab = location.state?.Tab;
+  const isAdmin = location.pathname.includes('/admin');
   const history = useHistory();
 
   const dispatch = useDispatch();
 
   const { error, isLoading } = useSelector((state) => state.user);
+  const { isLoading: isLoadingAdmin } = useSelector((state) => state.admin);
   // useEffect
 
   useEffect(() => {
@@ -58,9 +60,7 @@ export const Auth = () => {
       });
   };
 
-  const onFailure = () => {
-    setIsLoggedIn(false);
-  };
+  const onFailure = () => {};
 
   const onSuccessLoginFb = ({ data, accessToken }) => {
     dispatch(
@@ -78,6 +78,7 @@ export const Auth = () => {
 
   const onCloseDialog = () => {
     dispatch(doClearError());
+    dispatch(doClearErrors());
     setOpenDialog(false);
   };
   return (
@@ -85,19 +86,21 @@ export const Auth = () => {
       <Box mb={2}>
         <Typography variant="h4">{tab === 0 ? 'Register' : 'Sign In'}</Typography>
       </Box>
+      {!isAdmin ? (
+        <>
+          <Button
+            id="customBtn"
+            sx={{ marginBottom: 1 }}
+            startIcon={<GoogleIcon />}
+            variant="contained"
+            // color="primary"
+            fullWidth
+            className={classes.btn}
+          >
+            Sign in with Google
+          </Button>
 
-      <Button
-        id="customBtn"
-        sx={{ marginBottom: 1 }}
-        startIcon={<GoogleIcon />}
-        variant="contained"
-        // color="primary"
-        fullWidth
-        className={classes.btn}
-      >
-        Sign in with Google
-      </Button>
-      {/* <Button
+          {/* <Button
         sx={{ marginBottom: 2 }}
         startIcon={<FacebookIcon />}
         variant="contained"
@@ -107,13 +110,15 @@ export const Auth = () => {
       >
         Sign in with Facebook
       </Button> */}
-      <Box sx={{ display: 'flex' }} alignItems="center" flexDirection="row">
-        <div className={classes.divider} />
-        <Typography className={classes.or}> Or </Typography>
-        <div className={classes.divider} />
-      </Box>
+          <Box sx={{ display: 'flex' }} alignItems="center" flexDirection="row">
+            <div className={classes.divider} />
+            <Typography className={classes.or}> Or </Typography>
+            <div className={classes.divider} />
+          </Box>
+        </>
+      ) : null}
 
-      {tab === 0 ? <Register /> : <SignIn />}
+      {tab === 0 ? <Register /> : <SignIn isAdmin={isAdmin} />}
 
       <ConfirmDialog
         openDialog={openDialog}
@@ -125,7 +130,7 @@ export const Auth = () => {
       </ConfirmDialog>
 
       {/* <Container fixed> */}
-      {isLoading ? (
+      {isLoading || isLoadingAdmin ? (
         <Box
           sx={{
             bgcolor: 'rgba(0,0,0,.2)',

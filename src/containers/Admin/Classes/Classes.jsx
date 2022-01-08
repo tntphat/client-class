@@ -11,7 +11,7 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { DialogUser, FormAddUser } from '../../../components/Admin/Users';
-import { doClearErrors, doGetAllAdmins } from '../../../redux/slice';
+import { doClearErrors, doGetAllAdmins, doGetAllClasses } from '../../../redux/slice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -24,15 +24,15 @@ const columns = (handleClickView) => [
     minWidth: 140,
   },
   {
-    field: 'mail',
-    headerName: 'mail',
+    field: 'subject',
+    headerName: 'subject',
     flex: 1,
     width: 140,
     minWidth: 140,
   },
   {
-    field: 'userName',
-    headerName: 'Username',
+    field: 'description',
+    headerName: 'description',
     flex: 1,
     width: 140,
     minWidth: 140,
@@ -56,12 +56,6 @@ const columns = (handleClickView) => [
             title: 'View profile',
             callback: () => handleClickView(row.row),
           },
-          {
-            title: 'Lock',
-            callback: () => {
-              console.log('hi');
-            },
-          },
         ]}
       />
     ),
@@ -69,17 +63,17 @@ const columns = (handleClickView) => [
   },
 ];
 
-export const Admins = () => {
+export const Classes = () => {
   // const [selectedRows, setSelectedRows] = useState([]);
-  // const refSelectedRows = useRef([]);
-  const [openDialog, setOpenDialog] = useState(false);
+  // const [openDialog, setOpenDialog] = useState(false);
   const [openDetailUser, setOpenDetailUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
+  // const refSelectedRows = useRef([]);
   const dispatch = useDispatch();
-  const { admins } = useSelector((state) => state.admin);
+  const { classes } = useSelector((state) => state.admin);
 
   useEffect(() => {
-    dispatch(doGetAllAdmins());
+    dispatch(doGetAllClasses());
   }, []);
 
   // useEffect(() => {
@@ -94,24 +88,24 @@ export const Admins = () => {
   return (
     <div style={{ height: 0, minHeight: 400, width: '100%' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }} my={2}>
-        <Typography variant="h4">Admins</Typography>
-        <Button variant="contained" endIcon={<AddIcon />} onClick={() => setOpenDialog(true)}>
+        <Typography variant="h4">Classes</Typography>
+        {/* <Button variant="contained" endIcon={<AddIcon />} onClick={() => setOpenDialog(true)}>
           Add User
-        </Button>
+        </Button> */}
       </Box>
       <DataGrid
-        disableSelectionOnClick
         pageSize={10}
         columns={columns(handleClickView)}
-        rows={admins}
+        rows={classes}
         onSelectionModelChange={(newSelection) => {
           setSelectedRows(newSelection);
         }}
         autoHeight
+        disableSelectionOnClick
       />
-      <ConfirmDialog openDialog={openDialog} setOpenDialog={setOpenDialog} textBtn="Ok">
+      {/* <ConfirmDialog openDialog={openDialog} setOpenDialog={setOpenDialog} textBtn="Ok">
         <FormAddUser setOpenDialog={setOpenDialog} />
-      </ConfirmDialog>
+      </ConfirmDialog> */}
       <ConfirmDialog openDialog={openDetailUser} setOpenDialog={setOpenDetailUser} textBtn="Ok">
         <DialogUser selectedUser={selectedUser} />
       </ConfirmDialog>

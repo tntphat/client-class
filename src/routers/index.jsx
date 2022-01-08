@@ -13,6 +13,8 @@ import {
   ClassInfor,
   ClassMem,
   Admins,
+  Users,
+  Classes,
 } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
@@ -24,6 +26,7 @@ import { doPushGa } from '../redux/slice';
 // import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import GA from '../components/GA/GA';
+import { AdminRouter } from './AdminRouter';
 
 // import { Header, Footer } from '../components';
 
@@ -105,7 +108,7 @@ export const Routers = () => {
           header={<Header />}
         />
 
-        <PublicRouter exact={true} path={'/auth'} component={Auth} layout={BlankLayout} />
+        <PublicRouter exact={false} path={'/auth'} component={Auth} layout={BlankLayout} />
         <PrivateRouter
           exact={true}
           path={'/grades/:id'}
@@ -114,9 +117,17 @@ export const Routers = () => {
           bgColor="#ffcccc"
           fullWidth
         />
-        <PrivateRouter exact={true} path={'/admin'} component={Admins} layout={AdminLayout} />
-        <PrivateRouter exact={true} path={'/admin/users'} component={Home} layout={AdminLayout} />
-        <PrivateRouter exact={true} path={'/admin/classes'} component={Home} layout={AdminLayout} />
+
+        {/* Admin */}
+        {/* <PublicRouter exact={true} path={'/admin/auth'} component={Auth} layout={BlankLayout} /> */}
+        <AdminRouter exact={true} path={'/admin'} component={Admins} layout={AdminLayout} />
+        <AdminRouter exact={true} path={'/admin/users'} component={Users} layout={AdminLayout} />
+        <AdminRouter
+          exact={true}
+          path={'/admin/classes'}
+          component={Classes}
+          layout={AdminLayout}
+        />
       </Switch>
     </Router>
   );

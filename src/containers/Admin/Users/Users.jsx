@@ -11,11 +11,13 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { DialogUser, FormAddUser } from '../../../components/Admin/Users';
-import { doClearErrors, doGetAllAdmins } from '../../../redux/slice';
+import { doBanUser, doClearErrors, doGetAllAdmins, doGetAllUsers } from '../../../redux/slice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { apiAdmin } from '../../../services/apiAdmin';
+import useStyles from './Users.style';
 
-const columns = (handleClickView) => [
+const columns = (handleClickView, handleClickBan) => [
   {
     field: 'name',
     headerName: 'name',
@@ -31,8 +33,8 @@ const columns = (handleClickView) => [
     minWidth: 140,
   },
   {
-    field: 'userName',
-    headerName: 'Username',
+    field: 'studentId',
+    headerName: 'Student Id',
     flex: 1,
     width: 140,
     minWidth: 140,
@@ -58,9 +60,7 @@ const columns = (handleClickView) => [
           },
           {
             title: 'Lock',
-            callback: () => {
-              console.log('hi');
-            },
+            callback: () => handleClickBan(row.row.id, !!row.row.deletedAt),
           },
         ]}
       />
@@ -69,49 +69,80 @@ const columns = (handleClickView) => [
   },
 ];
 
-export const Admins = () => {
-  // const [selectedRows, setSelectedRows] = useState([]);
-  // const refSelectedRows = useRef([]);
-  const [openDialog, setOpenDialog] = useState(false);
+export const Users = () => {
+  const [selectedRows, setSelectedRows] = useState([]);
+  // const [openDialog, setOpenDialog] = useState(false);
   const [openDetailUser, setOpenDetailUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
+  const refSelectedRows = useRef([]);
   const dispatch = useDispatch();
-  const { admins } = useSelector((state) => state.admin);
+  const { users } = useSelector((state) => state.admin);
+  const classes = useStyles();
 
   useEffect(() => {
-    dispatch(doGetAllAdmins());
+    dispatch(doGetAllUsers());
   }, []);
 
-  // useEffect(() => {
-  //   refSelectedRows.current = selectedRows;
-  // }, [selectedRows]);
+  useEffect(() => {
+    refSelectedRows.current = selectedRows;
+  }, [selectedRows]);
 
   const handleClickView = (user) => {
     setSelectedUser(user);
     setOpenDetailUser(true);
   };
 
+  const handleClickBan = (id, isBanned = false) => {
+    // setSelectedUser(user);
+    console.log('clicked');
+    dispatch(doBanUser({ id, isBanned }));
+    // apiAdmin.banUser(user.id);
+  };
+
   return (
     <div style={{ height: 0, minHeight: 400, width: '100%' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }} my={2}>
-        <Typography variant="h4">Admins</Typography>
-        <Button variant="contained" endIcon={<AddIcon />} onClick={() => setOpenDialog(true)}>
+        <Typography variant="h4">Users</Typography>
+        {/* <Button variant="contained" endIcon={<AddIcon />} onClick={() => setOpenDialog(true)}>
           Add User
-        </Button>
+        </Button> */}
       </Box>
+      {selectedRows.length ? (
+        <Box sx={{ display: 'flex' }}>
+          <Button
+            variant="outlined"
+            startIcon={<LockIcon />}
+            onClick={() => {
+              handleClickBan(refSelectedRows.current);
+            }}
+          >
+            Ban all selected
+          </Button>
+          <Button
+            onClick={() => {
+              handleClickBan(refSelectedRows.current, true);
+            }}
+            variant="outlined"
+            startIcon={<LockOpenIcon />}
+          >
+            Unban all selected
+          </Button>
+        </Box>
+      ) : null}
       <DataGrid
-        disableSelectionOnClick
+        checkboxSelection
         pageSize={10}
-        columns={columns(handleClickView)}
-        rows={admins}
+        columns={columns(handleClickView, handleClickBan)}
+        rows={users}
         onSelectionModelChange={(newSelection) => {
           setSelectedRows(newSelection);
         }}
         autoHeight
+        getRowClassName={(row) => row.row.deletedAt && classes.bannedRow}
       />
-      <ConfirmDialog openDialog={openDialog} setOpenDialog={setOpenDialog} textBtn="Ok">
+      {/* <ConfirmDialog openDialog={openDialog} setOpenDialog={setOpenDialog} textBtn="Ok">
         <FormAddUser setOpenDialog={setOpenDialog} />
-      </ConfirmDialog>
+      </ConfirmDialog> */}
       <ConfirmDialog openDialog={openDetailUser} setOpenDialog={setOpenDetailUser} textBtn="Ok">
         <DialogUser selectedUser={selectedUser} />
       </ConfirmDialog>

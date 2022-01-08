@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_TOKEN } from '../constants';
+import { LOCAL_STORAGE_TOKEN, LOCAL_STORAGE_TOKEN_ADMIN } from '../constants';
 
 export async function loginGg(callback) {
   const authResponse = await new Promise((resolve, reject) =>
@@ -140,18 +140,45 @@ export function deleteAllCookies() {
     document.cookie = allCookies[i] + '=;expires=' + new Date(0).toUTCString();
 }
 
-export const login = (token) => {
-  deleteAllCookies();
-  setCookie(365, token, LOCAL_STORAGE_TOKEN, window.location.hostname);
-  window.location.replace('/');
+export function getCookie(name) {
+  return document.cookie.split(';').some((c) => {
+    return c.trim().startsWith(name + '=');
+  });
+}
+
+export const login = (token, isAdmin) => {
+  // deleteAllCookies();
+  setCookie(
+    365,
+    token,
+    isAdmin ? LOCAL_STORAGE_TOKEN_ADMIN : LOCAL_STORAGE_TOKEN,
+    window.location.hostname,
+  );
+  window.location.replace(isAdmin ? '/admin' : '/');
 };
 
-export const logout = () => {
-  deletetAllCookieOfDomain(window.location.hostname);
-  // logOutFb();
-  // logOutGg();
-  window.location.replace('/auth');
+export const logout = (isAdmin = false) => {
+  // deletetAllCookieOfDomain(window.location.hostname);
+  deleteCookie(
+    isAdmin ? LOCAL_STORAGE_TOKEN_ADMIN : LOCAL_STORAGE_TOKEN,
+    '/',
+    window.location.hostname,
+  );
+  const newLocation = `/auth/${isAdmin ? 'admin' : ''}`;
+  window.location.replace(newLocation);
 };
+
+export function deleteCookie(name, path, domain) {
+  console.log(name, path, domain);
+  if (getCookie(name)) {
+    document.cookie =
+      name +
+      '=' +
+      (path ? ';path=' + path : '') +
+      (domain ? ';domain=' + domain : '') +
+      ';expires=Thu, 01 Jan 1970 00:00:01 GMT';
+  }
+}
 
 export const loadGA = () => {
   (function (i, s, o, g, r, a, m) {
