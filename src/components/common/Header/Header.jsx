@@ -87,7 +87,7 @@ export const Header = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleNavigateProfile}>Profile</MenuItem>
-                <MenuItem onClick={logout}>Log out</MenuItem>
+                <MenuItem onClick={() => logout(false)}>Log out</MenuItem>
               </Menu>
             </div>
           ) : (

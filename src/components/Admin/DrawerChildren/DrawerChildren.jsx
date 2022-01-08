@@ -17,6 +17,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 import { useStyles, DrawerData } from './DrawerChildren.style';
 import { useTheme } from '@material-ui/core';
+import { logout } from '../../../helpers';
 
 export const DrawerChildren = ({ children, isMobile, handleDrawerClose, ...rest }) => {
   const classes = useStyles();
@@ -53,7 +54,7 @@ export const DrawerChildren = ({ children, isMobile, handleDrawerClose, ...rest 
       </List>
       <Divider />
       <List>
-        <ListItem button key="Log Out">
+        <ListItem button key="Log Out" onClick={() => logout(true)}>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>

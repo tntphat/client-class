@@ -5,11 +5,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core';
 import { Navbar, DrawerRespon } from '../../components/Admin';
 import { useStyles, styles } from './AdminLayout.style';
+import { useSelector } from 'react-redux';
+import { ModalLoading } from '../../components/common';
 
 function AdminPage({ children }) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [open, setOpen] = React.useState(true);
+  const { isLoading } = useSelector((state) => state.admin);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -48,6 +51,7 @@ function AdminPage({ children }) {
         <div className={classes.toolbar} />
         {children}
       </main>
+      {isLoading ? <ModalLoading /> : null}
     </div>
   );
 }

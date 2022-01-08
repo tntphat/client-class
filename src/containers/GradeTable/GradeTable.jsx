@@ -338,13 +338,17 @@ export const GradeTable = () => {
     getInfor(id);
     getClassGrade();
   }, []);
-
+  console.log(gradeStructure, 'gradeeeeee');
   const getInfor = async (id) => {
     let d = await apiClasses.getClassDetail(id);
     if (d && d.data) {
       setIsTeacher(d.data.isTeacher);
-      let temp = JSON.parse(JSON.parse(d.data?.gradeStructure).gradeStructure) ?? [];
-      setGradeStructure(temp);
+      let temp = [];
+      if (d.data?.gradeStructure) {
+        temp = JSON.parse(JSON.parse(d.data?.gradeStructure)?.gradeStructure) ?? [];
+        setGradeStructure(temp);
+      }
+
       setCol([
         ...col,
         ...temp.map((i) => {

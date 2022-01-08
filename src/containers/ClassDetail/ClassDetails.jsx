@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { apiClasses, apiUser } from '../../services/api';
+import { apiClasses, apiGrade, apiUser } from '../../services/api';
 import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import './ClassDetail.css';
@@ -56,6 +56,7 @@ export const ClassDetail = () => {
 
   useEffect(() => {
     getInfor(id);
+    getStudentGrade(id);
     setLoading(true);
     setValue('1');
   }, []);
@@ -85,6 +86,17 @@ export const ClassDetail = () => {
     }
   };
 
+  const getStudentGrade = async (id) => {
+    console.log('getting student grade');
+    let d = await apiGrade.getStudentGrade({ courseId: id });
+    console.log(d.data, 'ok');
+    // if (d && d.data) {
+    //   console.log(d.data);
+    //   setData(d.data);
+    //   setLoading(false);
+    // }
+  };
+
   const handleAddTeacher = async (email) => {
     try {
       console.log('email', email, user);
@@ -98,7 +110,6 @@ export const ClassDetail = () => {
       setLoading(true);
       let res = await apiClasses.inviteByEmail(param);
       if (res) {
-        console.log('ré', res);
         setInforApi(res?.data?.message ?? '');
         setOpenNotify(true);
         setLoading(false);
