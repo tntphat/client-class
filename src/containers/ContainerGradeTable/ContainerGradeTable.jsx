@@ -25,9 +25,10 @@ export const ContainerGradeTable = () => {
     return (
         <div>
             {
-                isTeacher !== null && isTeacher ?
-                <GradeTable/> :
-                    <div></div>
+                isTeacher !== null && isTeacher  && <GradeTable/> 
+            }
+            {
+                isTeacher !== null && !isTeacher && <GradeTableForStudent/>
             }
         </div>
 
