@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ConfirmDialog, SpinnerWrapper, MenuComp, RequestReviewModal } from '../../components/common';
 import { DataGrid } from '@mui/x-data-grid';
-import { apiClasses, apiGrade } from '../../services/api';
+import { apiClasses, apiGrade, apiGradeReview } from '../../services/api';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -15,6 +15,8 @@ export const GradeTableForStudent = () => {
     const [messNotification, setMessNotification] = useState('');
 
     const [openReq, setOpenReq] = useState(false);
+    const [requestReviewInfor, setRequestReviewInfor] = useState({})
+
     const { user } = useSelector((state) => state.user);
 
     const refScore = useRef([]);
@@ -97,9 +99,40 @@ export const GradeTableForStudent = () => {
     };
 
     const handleRequestReview = (field) => {
-        console.log('field',field);
-
+        console.log('field', field);
+        setOpenReq(true)
+        setRequestReviewInfor({ gradeItemId: field })
     };
+
+    const onCloseReqReview = () => {
+        setOpenReq(false)
+        setRequestReviewInfor({})
+    }
+
+    const submitRequestReview = async (param) => {
+        let res = await apiGradeReview.addGradeReview(param)
+        console.log('res', res);
+        if(res.data)
+        {
+            onOpenDialog('Create request review successfully')
+        }
+        setLoading(false);
+    }
+    
+    const handleOkReqReview = ({ explanation, expectationScore }) => {
+        console.log('explanation', explanation,expectationScore);
+        setOpenReq(false)
+        let param = {
+            gradeItemId: requestReviewInfor.gradeItemId,
+            explanation: explanation,
+            expectationScore: expectationScore,
+            courseId: id,
+            studentId: user.studentId
+        }
+        submitRequestReview(param)
+        setLoading(true)
+    }
+
 
     useEffect(() => {
         setLoading(true);
@@ -107,8 +140,8 @@ export const GradeTableForStudent = () => {
     }, []);
 
     useEffect(() => {
-        if(user)
-        {
+        if (user) {
+            console.log('user', user);
             setLoading(true);
             getClassGrade();
         }
@@ -119,26 +152,22 @@ export const GradeTableForStudent = () => {
     const getClassGrade = async () => {
         // console.log('userid', user.studentId); 
         let userId = user.studentId;
-        if(userId === null)
-        {
+        if (userId === null) {
             onOpenDialog("Bạn chưa map mã số sinh viên")
         }
-        else
-        {
-            let res = await apiGrade.getStudentGrade({courseId: id});
-            if(res.data?.length === 0)
-            {
+        else {
+            let res = await apiGrade.getStudentGrade({ courseId: id });
+            if (res.data?.length === 0) {
                 onOpenDialog("Mã số sinh viên không có trong bảng điểm")
             }
-            else
-            {
+            else {
                 let data = res.data?.map(({ student_id, student_name, id, ...i }) => ({
                     ...i,
                     id: student_id,
                     name: student_name,
-                  }));
-                  console.log('data', data);
-                  setScore(data ?? []);
+                }));
+                console.log('data', data);
+                setScore(data ?? []);
             }
         }
         setLoading(false);
@@ -172,7 +201,7 @@ export const GradeTableForStudent = () => {
                                         />
                                         <div>/10</div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         ),
@@ -204,6 +233,8 @@ export const GradeTableForStudent = () => {
         <SpinnerWrapper loading={loading}>
             <RequestReviewModal
                 open={openReq}
+                onClose={onCloseReqReview}
+                onOk={ handleOkReqReview}
             />
             <ConfirmDialog
                 openDialog={openDialog}
