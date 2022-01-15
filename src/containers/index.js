@@ -10,4 +10,6 @@ export * from './ClassDetail/ClassDetails';
 export * from './Profile/Profile';
 export * from './ContainerGradeTable/ContainerGradeTable'
 export * from './Grades/Grades';
+export * from './ListRequestReview/ListRequestReview';
+export * from './RequestReview/RequestReview';
 export * from './Admin';

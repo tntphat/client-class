@@ -4,10 +4,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import { apiClasses, apiGrade, apiGradeReview } from '../../services/api';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 export const GradeTableForStudent = () => {
     const [loading, setLoading] = useState(false);
     let { id } = useParams();
+    const history = useHistory()
 
     const [gradeStructure, setGradeStructure] = useState([]);
 
@@ -24,7 +26,7 @@ export const GradeTableForStudent = () => {
     const [score, setScore] = useState([]);
 
     const [col, setCol] = useState([
-        {
+        { 
             field: 'id',
             type: 'number',
             editable: false,
@@ -211,10 +213,17 @@ export const GradeTableForStudent = () => {
                                 <MenuComp
                                     array={[
                                         {
-                                            title: 'Request review',
+                                            title: 'Create Request review',
                                             callback: (e) => {
                                                 e.stopPropagation();
                                                 handleRequestReview(row.field);
+                                            },
+                                        },
+                                        {
+                                            title: 'View Request review',
+                                            callback: (e) => {
+                                                e.stopPropagation();
+                                                history.push( '/request-review/'+id+'/'+ row.field )
                                             },
                                         },
                                     ]}

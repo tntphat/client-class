@@ -12,6 +12,8 @@ import {
   Grades,
   ClassInfor,
   ClassMem,
+  ListRequestReview,
+  RequestReview,
   Admins,
   Users,
   Classes,
@@ -75,6 +77,21 @@ export const Routers = () => {
           component={ClassInfor}
           layout={HeaderLayout}
           header={<HeaderClassDetail val="infor" />}
+        />
+        <PrivateRouter
+          exact={true}
+          path={'/course/:id/list-request-review'}
+          component={ListRequestReview}
+          layout={HeaderLayout}
+          header={<HeaderClassDetail val="list-request-review" />}
+          fullWidth
+        />
+        <PrivateRouter
+          exact={true}
+          path={'/request-review/:id/:gradeItemId'}
+          component={RequestReview}
+          layout={BlankLayout}
+          fullWidth
         />
         <PrivateRouter
           exact={true}

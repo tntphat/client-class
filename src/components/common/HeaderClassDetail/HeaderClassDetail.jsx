@@ -48,7 +48,7 @@ export const HeaderClassDetail = ({ val }) => {
     <Box className={classes.root} sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
       <AppBar position="static" style={{ backgroundColor: 'white' }} className={classes.nav}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '10px', width: '300px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '10px', width: '300px', paddingLeft:14, paddingTop: 6 }}>
             <IconButton
               size="large"
               edge="start"
@@ -59,17 +59,18 @@ export const HeaderClassDetail = ({ val }) => {
             >
               <MenuIcon />
             </IconButton>
-            <div style={{ fontWeight: 450, fontSize: '1.25rem', color: 'black' }} onClick={() => history.push('/')}>
+            <div style={{ fontWeight: 480, fontSize: '1.25rem', color: 'black' }} onClick={() => history.push('/')}>
               Classrooms Managerss
             </div>
           </div>
-          <div style={{ width: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ width: '550px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {
               value && (
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                  <Tab value={'infor'} label="BẢNG TIN" />
-                  <Tab value={'mem'} label="THÀNH VIÊN" />
-                  <Tab value={'grade-table'} label="BẢNG ĐIỂM" />
+                  <Tab value={'infor'} label="DASHBOARD" />
+                  <Tab value={'mem'} label="MEMBERS" />
+                  <Tab value={'grade-table'} label="GRADE TABLE" />
+                  <Tab value={'list-request-review'} label="REQUEST REVIEW" />
                 </Tabs>
               )
             }
