@@ -14,26 +14,45 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useHistory } from 'react-router';
-
-export const Header = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Badge from '@mui/material/Badge';
+import { MenuComp } from '../../common';
+import { useDispatch } from 'react-redux';
+import { doMarkReadedAll } from '../../../redux/slice';
+export const Header = ({ children }) => {
   const classes = useStyles();
-  useEffect(() => {}, []);
+  const dispatch = useDispatch;
   const { user, isLoading } = useSelector((state) => state.user);
+  const { listNotifications } = useSelector((state) => state.notification);
   const history = useHistory();
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
   const handleNavigateProfile = () => {
-    setAnchorEl(null);
     history.push('/profile');
+  };
+  const handleNavigateChangePass = () => {
+    history.push('/change-pass');
   };
   const handleNavigateAuth = () => {
     history.push('/auth');
   };
+  const menuUser = [
+    { callback: handleNavigateProfile, title: 'Profile' },
+    { callback: handleNavigateChangePass, title: 'Change pass' },
+    { callback: () => logout(false), title: 'Log out' },
+  ];
+
+  const menuNotification = listNotifications.map((noti) => ({
+    id: noti.id,
+    title: (
+      <Box className={classes.itemNoti}>
+        <Avatar>{noti.message[0]}</Avatar>
+        <p className={classes.textNoti}>{noti.message}</p>
+      </Box>
+    ),
+  }));
+  const handleMarkReadedAll = () => {
+    dispatch(doMarkReadedAll());
+  };
+
   return (
     <Box className={classes.root} sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: 'white' }} className={classes.nav}>
@@ -55,41 +74,42 @@ export const Header = () => {
             component="div"
             sx={{ flexGrow: 1, cursor: 'pointer' }}
           >
-            Classrooms Managerss
+            Classrooms Managers
           </Typography>
+          {children}
+
           {user ? (
-            <div>
-              <Avatar sx={{ bgcolor: '#e15f41', cursor: 'pointer' }} onClick={handleMenu}>
-                {user?.name.trim()[0]}
-              </Avatar>
-              {/* <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                // color="inherit"
-              >
-                <AccountCircle color="black" />
-              </IconButton> */}
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleNavigateProfile}>Profile</MenuItem>
-                <MenuItem onClick={() => logout(false)}>Log out</MenuItem>
-              </Menu>
-            </div>
+            <>
+              <MenuComp
+                isNoti
+                icon={
+                  <IconButton
+                    size="large"
+                    aria-label="show 17 new notifications"
+                    style={{ marginRight: 10 }}
+                  >
+                    <Badge
+                      badgeContent={listNotifications.filter((noti) => !noti.readed).length}
+                      color="error"
+                    >
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                }
+                array={menuNotification}
+              />
+
+              <div>
+                <MenuComp
+                  array={menuUser}
+                  icon={
+                    <Avatar sx={{ bgcolor: '#e15f41', cursor: 'pointer' }}>
+                      {user?.name.trim()[0]}
+                    </Avatar>
+                  }
+                />
+              </div>
+            </>
           ) : (
             <Button
               onClick={handleNavigateAuth}

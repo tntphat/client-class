@@ -10,7 +10,7 @@ import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { doCreateUser } from '../../../redux/slice';
 
-export const Register = ({}) => {
+export const Register = ({ setOpenDialog }) => {
   const {
     register,
     handleSubmit,
@@ -25,10 +25,13 @@ export const Register = ({}) => {
     dispatch(doCreateUser(data))
       .then(unwrapResult)
       .then((res) => {
-        history.push({ pathname: '/auth', state: { Tab: 1 } });
+        if (res.result) {
+          history.push({ pathname: '/auth', state: { Tab: 1 } });
+          return;
+        }
+        setOpenDialog(res.message);
       });
   };
-  console.log(errors?.mail);
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
       <InputText
@@ -48,8 +51,9 @@ export const Register = ({}) => {
         register={register}
         rules={{
           pattern: {
-            value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-            message: 'Please fill in a valid email',
+            value:
+              /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
+            message: 'Invalid email',
           },
           required: true,
         }}

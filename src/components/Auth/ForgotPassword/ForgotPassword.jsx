@@ -4,14 +4,15 @@ import { InputText } from '../../common';
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import { Button } from '@mui/material';
-import useStyles from './SignIn.styles';
+import useStyles from './ForgotPassword.styles';
 import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { doLogin, doLoginAdmin } from '../../../redux/slice';
+import { doLogin, doLoginAdmin, doRenewPassword } from '../../../redux/slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { login } from '../../../helpers';
+import { apiAuth } from '../../../services/api';
 
-export const SignIn = ({ isAdmin, setOpenDialog }) => {
+export const ForgotPassword = ({ isAdmin, setOpenDialog }) => {
   const {
     register,
     handleSubmit,
@@ -21,17 +22,9 @@ export const SignIn = ({ isAdmin, setOpenDialog }) => {
   const classes = useStyles();
   const history = useHistory();
   const onSubmit = (data) => {
-    // console.log(data);
-    dispatch(isAdmin ? doLoginAdmin(data) : doLogin(data))
+    dispatch(doRenewPassword(data))
       .then(unwrapResult)
-      .then((res) => {
-        console.log(res);
-        if (res.result) {
-          login(res.token, isAdmin);
-          return;
-        }
-        setOpenDialog(res.message);
-      });
+      .then((res) => setOpenDialog(res.message));
   };
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
@@ -61,32 +54,17 @@ export const SignIn = ({ isAdmin, setOpenDialog }) => {
           }}
         />
       )}
-
-      <InputText
-        classNameLabel={classes.label}
-        error={errors.password}
-        label="Password"
-        name="password"
-        type="password"
-        register={register}
-      />
       {!isAdmin ? (
         <Typography className={classes.subText}>
-          Not a member?
-          <span onClick={() => history.replace({ pathname: '/auth', state: { Tab: 0 } })}>
-            Sign Up
+          Remembered Password ?
+          <span onClick={() => history.replace({ pathname: '/auth', state: { Tab: 1 } })}>
+            Sign In
           </span>
-          <div
-            onClick={() => history.replace({ pathname: '/auth', state: { Tab: 2 } })}
-            className={classes.forgot}
-          >
-            Forgot password?
-          </div>
         </Typography>
       ) : null}
       <Box mt={2}>
         <Button color="primary" variant="contained" fullWidth type="submit">
-          Sign in
+          Send
         </Button>
       </Box>
     </form>

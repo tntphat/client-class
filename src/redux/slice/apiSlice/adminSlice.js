@@ -64,7 +64,7 @@ const slice = createSlice({
     });
     builder.addCase(doCreateAdmin.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.admins = [...state.admins, action.payload];
+      if (action.payload.result) state.admins = [...state.admins, action.payload.user];
     });
     builder.addCase(doCreateAdmin.rejected, (state, action) => {
       const error = action.error;

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import useStyles from './Auth.styles';
-import { Register, SignIn } from '../../components/Auth';
+import { ForgotPassword, Register, SignIn } from '../../components/Auth';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authWithGg, loadScript, login, loginGg } from '../../helpers';
@@ -15,7 +15,7 @@ import { ConfirmDialog } from '../../components/common';
 export const Auth = () => {
   // state
   const [tab, setTab] = useState(1);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState('');
   const classes = useStyles();
   const location = useLocation();
   const Tab = location.state?.Tab;
@@ -38,11 +38,11 @@ export const Auth = () => {
     if (Tab >= 0) setTab(Tab);
   }, [Tab]);
 
-  useEffect(() => {
-    if (error) {
-      setOpenDialog(true);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     setOpenDialog(true);
+  //   }
+  // }, [error]);
 
   // handle
   const onSuccess = (googleUser) => {
@@ -79,14 +79,17 @@ export const Auth = () => {
   const onCloseDialog = () => {
     dispatch(doClearError());
     dispatch(doClearErrors());
-    setOpenDialog(false);
+    setOpenDialog('');
   };
+
   return (
     <Box className={classes.root}>
       <Box mb={2}>
-        <Typography variant="h4">{tab === 0 ? 'Register' : 'Sign In'}</Typography>
+        <Typography variant="h4">
+          {tab === 0 ? 'Register' : tab === 1 ? 'Sign In' : 'Renew password'}
+        </Typography>
       </Box>
-      {!isAdmin ? (
+      {!isAdmin && tab !== 2 ? (
         <>
           <Button
             id="customBtn"
@@ -100,16 +103,16 @@ export const Auth = () => {
             Sign in with Google
           </Button>
 
-          {/* <Button
-        sx={{ marginBottom: 2 }}
-        startIcon={<FacebookIcon />}
-        variant="contained"
-        fullWidth
-        className={classes.btn}
-        onClick={() => loginGg(onSuccessLoginFb)}
-      >
-        Sign in with Facebook
-      </Button> */}
+          <Button
+            sx={{ marginBottom: 2 }}
+            startIcon={<FacebookIcon />}
+            variant="contained"
+            fullWidth
+            className={classes.btn}
+            onClick={() => loginGg(onSuccessLoginFb)}
+          >
+            Sign in with Facebook
+          </Button>
           <Box sx={{ display: 'flex' }} alignItems="center" flexDirection="row">
             <div className={classes.divider} />
             <Typography className={classes.or}> Or </Typography>
@@ -117,16 +120,20 @@ export const Auth = () => {
           </Box>
         </>
       ) : null}
+      {tab === 0 && <Register setOpenDialog={setOpenDialog} />}
 
-      {tab === 0 ? <Register /> : <SignIn isAdmin={isAdmin} />}
+      {tab === 1 && <SignIn setOpenDialog={setOpenDialog} isAdmin={isAdmin} />}
+
+      {tab === 2 && <ForgotPassword setOpenDialog={setOpenDialog} />}
+      {/* {tab === 0 ? <Register /> : <SignIn isAdmin={isAdmin} />} */}
 
       <ConfirmDialog
-        openDialog={openDialog}
+        openDialog={!!openDialog}
         setOpenDialog={setOpenDialog}
         onClickAction={onCloseDialog}
         textBtn="Ok"
       >
-        {tab ? 'Wrong mail or password' : 'Existed mail. Please register with another mail'}
+        {openDialog}
       </ConfirmDialog>
 
       {/* <Container fixed> */}

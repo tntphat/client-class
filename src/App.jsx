@@ -1,16 +1,16 @@
 import './App.css';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { Routers } from './routers/index';
-import { loadGA } from './helpers';
-import GA from './components/GA/GA';
-// import ReactGA from 'react-ga';
-// ReactGA.initialize('UA-216010316-1');
+import { useDispatch, useSelector } from 'react-redux';
+import { ModalLoading } from './components/common';
+
 function App() {
+  const { isLoading } = useSelector((state) => state.modalLoading);
+
   return (
     <div className="App">
-      {/* <GA /> */}
       <Routers></Routers>
+      {isLoading ? <ModalLoading /> : null}
     </div>
   );
 }

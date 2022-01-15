@@ -21,8 +21,9 @@ export const FormAddUser = ({ setOpenDialog }) => {
     // console.log(data);
     dispatch(doCreateAdmin(data))
       .then(unwrapResult)
-      .then(() => {
-        setOpenDialog(false);
+      .then((res) => {
+        if (res.result) setOpenDialog(false);
+        else setOpenDialogErr(res.message);
       })
       .catch(() => {
         setOpenDialogErr(true);
@@ -87,12 +88,12 @@ export const FormAddUser = ({ setOpenDialog }) => {
         Ok
       </Button>
       <ConfirmDialog
-        openDialog={openDialogErr}
+        openDialog={!!openDialogErr}
         setOpenDialog={setOpenDialogErr}
         onClickAction={onCloseDialog}
         textBtn="Ok"
       >
-        Existed username. Pls fill in another one
+        {openDialogErr}
       </ConfirmDialog>
     </form>
   );

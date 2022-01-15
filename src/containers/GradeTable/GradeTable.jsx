@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ConfirmDialog, SpinnerWrapper, MenuComp } from '../../components/common';
 import { DataGrid } from '@mui/x-data-grid';
-import { apiClasses, apiGrade } from '../../services/api';
+import { apiClasses, apiGrade, apiNotification } from '../../services/api';
 import { useParams } from 'react-router-dom';
 import './GradeTable.css';
 import { useXlsx } from '../../hooks';
@@ -151,9 +151,10 @@ export const GradeTable = () => {
     return res.toFixed(2);
   };
 
-  const handleMarkAll = (field) => {
+  const handleMarkAll = (field, titleCol) => {
+    setLoading(true);
     let scoreTemp = JSON.parse(JSON.stringify(refScore.current));
-
+    console.log('field', field);
     let missScore = scoreTemp.filter((i) => {
       let t = { ...i };
 
@@ -184,6 +185,12 @@ export const GradeTable = () => {
       return t;
     });
     setScore([...temp]);
+    setTimeout(() => {
+      Promise.all([
+        apiNotification.createFinalizedNotifications({ courseId: id, title: titleCol }),
+        handleUpdateClassGrade(),
+      ]);
+    }, 50);
   };
 
   const handleSetScore = (id, field, val) => {
@@ -257,7 +264,7 @@ export const GradeTable = () => {
   const handleUpdateClassGrade = async () => {
     let param = {
       courseId: id,
-      gradeList: score.map(({ id, name, ...i }) => ({
+      gradeList: refScore.current.map(({ id, name, ...i }) => ({
         ...i,
         studentId: id.toString(),
         studentName: name,
@@ -398,7 +405,8 @@ export const GradeTable = () => {
                       title: 'Mark all',
                       callback: (e) => {
                         e.stopPropagation();
-                        handleMarkAll(row.field);
+                        // console.log('row: ', );
+                        handleMarkAll(row.field, row.colDef.headerName);
                       },
                     },
                     {

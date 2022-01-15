@@ -14,6 +14,7 @@ export const ModalLoading = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex: 999999,
       }}
     >
       <CircularProgress />

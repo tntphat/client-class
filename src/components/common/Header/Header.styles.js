@@ -12,6 +12,16 @@ const useStyles = makeStyles(() => ({
     height: '100%',
     minHeight: 'unset',
   },
+  itemNoti: {
+    maxWidth: 500,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  textNoti: {
+    wordBreak: 'break-word',
+    whiteSpace: 'normal',
+    marginLeft: 10,
+  },
 }));
 
 export default useStyles;

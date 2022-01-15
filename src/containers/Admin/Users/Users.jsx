@@ -59,7 +59,7 @@ const columns = (handleClickView, handleClickBan) => [
             callback: () => handleClickView(row.row),
           },
           {
-            title: 'Lock',
+            title: row.row.deletedAt ? 'Unban' : 'Ban',
             callback: () => handleClickBan(row.row.id, !!row.row.deletedAt),
           },
         ]}

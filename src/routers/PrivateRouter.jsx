@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, setCookie } from '../helpers';
-import { doGetInforUser } from '../redux/slice';
+import { doGetInforUser, doGetNotifications } from '../redux/slice';
 import { useLocation } from 'react-router-dom';
 
 export const PrivateRouter = ({
@@ -22,6 +22,9 @@ export const PrivateRouter = ({
   useEffect(() => {
     dispatch(doGetInforUser());
   }, []);
+  useEffect(() => {
+    dispatch(doGetNotifications());
+  }, [location.pathname]);
 
   return (
     <Route

@@ -15,6 +15,7 @@ import {
   Admins,
   Users,
   Classes,
+  ChangePass,
 } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
@@ -104,6 +105,14 @@ export const Routers = () => {
           exact={true}
           path={'/profile'}
           component={Profile}
+          layout={HeaderLayout}
+          header={<Header />}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={'/change-pass'}
+          component={ChangePass}
           layout={HeaderLayout}
           header={<Header />}
         />

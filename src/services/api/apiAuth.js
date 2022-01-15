@@ -14,4 +14,12 @@ export const apiAuth = {
     const url = baseUrl + 'socialLogin';
     return axios.post(url, params);
   },
+  changePassword: (params) => {
+    const url = baseUrl + 'changePassword';
+    return axios.post(url, params);
+  },
+  renewPassword: (params) => {
+    const url = baseUrl + 'renewPassword';
+    return axios.post(url, params);
+  },
 };

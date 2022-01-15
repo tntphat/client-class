@@ -26,6 +26,11 @@ export const doUpdateInforUser = createAsyncThunk('user@put/updateInforUser', as
   return result.data;
 });
 
+export const doRenewPassword = createAsyncThunk('user@post/renewPassword', async (params) => {
+  const result = await apiAuth.renewPassword(params);
+  return result.data;
+});
+
 const initialState = {
   isLoading: false,
   user: null,
@@ -57,7 +62,7 @@ const slice = createSlice({
     });
 
     //login
-    builder.addCase(doLogin.pending, (state) => {
+    builder.addCase(doLogin.pending, (state, action) => {
       state.isLoading = true;
       state.error = null;
     });
@@ -111,6 +116,20 @@ const slice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(doUpdateInforUser.rejected, (state, action) => {
+      const error = action.error;
+      state.error = error;
+      state.isLoading = false;
+    });
+
+    //renewpass
+    builder.addCase(doRenewPassword.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(doRenewPassword.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(doRenewPassword.rejected, (state, action) => {
       const error = action.error;
       state.error = error;
       state.isLoading = false;
