@@ -103,7 +103,7 @@ export const ClassMem = () => {
       <div>
         <div>
           <div className="cl-head-mem">
-            <div style={{ fontSize: 30 }}>Giáo viên</div>
+            <div style={{ fontSize: 30 }}>Teachers</div>
             <div className="cl-icon">
               {data?.isTeacher && (
                 <Button
@@ -120,7 +120,7 @@ export const ClassMem = () => {
             {teachers.length === 0 && (
               <div className="cl-card-mem">
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  Không có giáo viên
+                  No teacher
                 </div>
               </div>
             )}
@@ -137,14 +137,14 @@ export const ClassMem = () => {
           </div>
           <ModalAddUser
             open={openTeacher}
-            title="Mời giáo viên"
+            title="Invite teacher"
             onOk={handleAddTeacher}
             setOpen={(val) => setOpenTeacher(val)}
           />
         </div>
         <div>
           <div className="cl-head-mem">
-            <div style={{ fontSize: 30 }}>Học sinh</div>
+            <div style={{ fontSize: 30 }}>Students</div>
             <div className="cl-icon">
               {data?.isTeacher && (
                 <Button
@@ -161,7 +161,7 @@ export const ClassMem = () => {
             {students.length === 0 && (
               <div className="cl-card-mem">
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  Không có học sinh
+                  No student
                 </div>
               </div>
             )}
@@ -184,7 +184,7 @@ export const ClassMem = () => {
           </div>
           <ModalAddUser
             open={openStudent}
-            title="Mời học sinh"
+            title="Invite student"
             onOk={handleAddStudent}
             setOpen={(val) => setOpenStudent(val)}
           />

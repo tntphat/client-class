@@ -78,7 +78,7 @@ export const ClassInfor = () => {
           <div>
             <div className="cl-code">
               <div className="cl-code-header">
-                <p style={{ fontWeight: 'bold' }}>Mã lớp</p>
+                <p style={{ fontWeight: 'bold' }}>Code</p>
                 {data?.isTeacher ? (
                   <IconButton aria-label="settings" onClick={handleClick}>
                     <MoreVertIcon />
@@ -99,21 +99,11 @@ export const ClassInfor = () => {
                     <div style={{ display: 'flex' }}>
                       {linkInvite ? (
                         <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 15 }}>
-                          <p
-                            style={{
-                              paddingRight: 15,
-                              maxWidth: 250,
-                              wordBreak: 'break-word',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                            }}
-                          >
-                            Copy link mời <ContentCopyIcon /> {linkInvite}{' '}
-                          </p>
+                          <ContentCopyIcon /> <p style={{ paddingRight: 15 }}>Copy link</p>
                         </div>
                       ) : (
                         <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 15 }}>
-                          <p style={{ paddingRight: 15 }}>Đang tạo link mời </p>
+                          <p style={{ paddingRight: 15 }}>Creating link</p>
                           <CircularProgress size={24} />
                         </div>
                       )}
@@ -125,7 +115,7 @@ export const ClassInfor = () => {
             </div>
             <div className="cl-grade-infor">
               <div className="cl-code-header">
-                <p style={{ fontWeight: 'bold' }}>Cấu trúc điểm</p>
+                <p style={{ fontWeight: 'bold' }}>Grade structure</p>
                 {data?.isTeacher ? (
                   <IconButton aria-label="settings" onClick={handleClickGrade}>
                     <MoreVertIcon />
@@ -144,7 +134,7 @@ export const ClassInfor = () => {
                 >
                   <MenuItem>
                     <div style={{ display: 'flex' }} onClick={(_) => history.push('/grades/' + id)}>
-                      Chỉnh sửa cấu trúc điểm
+                      Edit grade structure
                     </div>
                   </MenuItem>
                 </Menu>
@@ -158,14 +148,14 @@ export const ClassInfor = () => {
                     </div>
                   ))
                 ) : (
-                  <p style={{ marginLeft: 5, fontSize: 12 }}>Chưa có cấu trúc điểm</p>
+                  <p style={{ marginLeft: 5, fontSize: 12 }}>No grade structure</p>
                 )}
               </div>
             </div>
           </div>
           <div className="cl-card-contain">
             <div className="cl-card">
-              <p style={{ marginLeft: 15 }}>Thông báo nội dung cho lớp học</p>
+              <p style={{ marginLeft: 15 }}>Information classroom</p>
             </div>
           </div>
         </div>

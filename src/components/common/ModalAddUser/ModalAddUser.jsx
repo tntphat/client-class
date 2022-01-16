@@ -26,7 +26,7 @@ export const ModalAddUser = ({ onOk, title, open, setOpen }) => {
             setEmail(null);
             handleClose();
         }
-        else{
+        else {
             setWarning(true);
         }
 
@@ -36,9 +36,8 @@ export const ModalAddUser = ({ onOk, title, open, setOpen }) => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 300,
+        width: 500,
         bgcolor: 'background.paper',
-        border: '2px solid #000',
         boxShadow: 24,
         p: 4,
     };
@@ -53,27 +52,27 @@ export const ModalAddUser = ({ onOk, title, open, setOpen }) => {
             >
                 <Card sx={style}>
                     <CardContent>
-                        <div style={{ fontSize: 25, marginBottom: 15, fontWeight: "bold" }}>
+                        <div style={{ fontSize: 25, marginBottom: 15, fontWeight: "bold", color: 'rgb(99,99,99)' }}>
                             {title}
                         </div>
 
                         <div>
-                            <label style={{marginRight: 15}}>Email</label>
-                            <Input onChange={val => setEmail(val.target.value)} ></Input>
+                            <label style={{ marginRight: 15 }}>Email</label>
+                            <Input style={{ width: 400 }} onChange={val => setEmail(val.target.value)} ></Input>
                         </div>
                         <div>
                             {
                                 warning && (
-                                    <div style={{ color: "red" }}>Email không đúng</div>
+                                    <div style={{ color: "red" }}>Email incorrect</div>
                                 )
                             }
                         </div>
 
                     </CardContent>
-                    <CardActions>
-                        <Button onClick={handleClose}>Huỷ</Button>
-                        <Button onClick={handleOnOk}>Mời</Button>
-                    </CardActions>
+                    <div style={{ display: 'flex', justifyContent: 'end', marginTop: 25 }}>
+                        <Button variant='outlined' style={{ marginRight: 15 }} onClick={handleOnOk}>Send</Button>
+                        <Button variant='outlined' color="error" onClick={handleClose}>Cancel</Button>
+                    </div>
                 </Card>
             </Modal>
         </div>
