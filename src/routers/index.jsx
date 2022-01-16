@@ -6,7 +6,7 @@ import {
   Home,
   Home2,
   ClassDetail,
-  GradeTable,
+  ContainerGradeTable,
   Invitation,
   Profile,
   Grades,
@@ -16,6 +16,7 @@ import {
   Users,
   Classes,
   ChangePass,
+  VerifyOtp,
 } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
@@ -26,7 +27,7 @@ import { useDispatch } from 'react-redux';
 import { doPushGa } from '../redux/slice';
 // import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import GA from '../components/GA/GA';
+// import GA from '../components/GA/GA';
 import { AdminRouter } from './AdminRouter';
 
 // import { Header, Footer } from '../components';
@@ -34,7 +35,7 @@ import { AdminRouter } from './AdminRouter';
 export const Routers = () => {
   return (
     <Router>
-      <GA />
+      {/* <GA /> */}
       <Switch>
         {/* <PublicRouter exact={true} path={'/'} component={Home} layout={BlankLayout} /> */}
 
@@ -80,7 +81,7 @@ export const Routers = () => {
         <PrivateRouter
           exact={true}
           path={'/course/:id/grade-table'}
-          component={GradeTable}
+          component={ContainerGradeTable}
           layout={HeaderLayout}
           header={<HeaderClassDetail val="grade-table" />}
           fullWidth
@@ -103,6 +104,14 @@ export const Routers = () => {
 
         <PrivateRouter
           exact={true}
+          path={'/courses/joinClass'}
+          component={Invitation}
+          layout={BlankLayout}
+          // header={<Header />}
+        />
+
+        <PrivateRouter
+          exact={true}
           path={'/profile'}
           component={Profile}
           layout={HeaderLayout}
@@ -118,6 +127,7 @@ export const Routers = () => {
         />
 
         <PublicRouter exact={false} path={'/auth'} component={Auth} layout={BlankLayout} />
+        <PublicRouter exact={true} path={'/verify'} component={VerifyOtp} layout={BlankLayout} />
         <PrivateRouter
           exact={true}
           path={'/grades/:id'}

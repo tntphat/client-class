@@ -9,7 +9,7 @@ import Avatar from '@mui/material/Avatar';
 
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
-import { ModalAddUser, SpinnerWrapper } from '../../components/common';
+import { ConfirmDialog, ModalAddUser, SpinnerWrapper } from '../../components/common';
 import { Box, sizeHeight } from '@mui/system';
 import { Menu, MenuItem, Modal, Typography } from '@mui/material';
 
@@ -62,8 +62,7 @@ export const ClassMem = () => {
       setLoading(true);
       let res = await apiClasses.inviteByEmail(param);
       if (res) {
-        console.log('ré', res);
-        setInforApi(res?.data?.message ?? '');
+        setInforApi(res?.data?.messsage ?? '');
         setOpenNotify(true);
         setLoading(false);
       }
@@ -88,7 +87,7 @@ export const ClassMem = () => {
       let res = await apiClasses.inviteByEmail(param);
       console.log('resafa ', res);
       if (res) {
-        setInforApi(res?.data?.message ?? '');
+        setInforApi(res?.data?.messsage ?? '');
         setOpenNotify(true);
         setLoading(false);
       }
@@ -191,6 +190,10 @@ export const ClassMem = () => {
           />
         </div>
       </div>
+
+      <ConfirmDialog setOpenDialog={setOpenNotify} openDialog={openNotify} textBtn="Ok">
+        {inforApi}
+      </ConfirmDialog>
     </SpinnerWrapper>
   );
 };

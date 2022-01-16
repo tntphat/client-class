@@ -74,7 +74,7 @@ export const Header = ({ children }) => {
             component="div"
             sx={{ flexGrow: 1, cursor: 'pointer' }}
           >
-            Classrooms Managers
+            Class
           </Typography>
           {children}
 
@@ -97,6 +97,7 @@ export const Header = ({ children }) => {
                   </IconButton>
                 }
                 array={menuNotification}
+                classMenu={classes.classMenu}
               />
 
               <div>

@@ -30,7 +30,10 @@ export const Invitation = () => {
   }, []);
 
   const handleClickJoin = () => {
-    apiClasses.joinClassByLink(token).then(() => {
+    const promise = location.pathname.includes('ByLink')
+      ? apiClasses.joinClassByLink(token)
+      : apiClasses.joinClass(token);
+    promise.then(() => {
       history.push(`/course/${idCourse}`);
     });
   };

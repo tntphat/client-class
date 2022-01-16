@@ -22,6 +22,9 @@ const useStyles = makeStyles(() => ({
     whiteSpace: 'normal',
     marginLeft: 10,
   },
+  classMenu: {
+    maxHeight: 400,
+  },
 }));
 
 export default useStyles;

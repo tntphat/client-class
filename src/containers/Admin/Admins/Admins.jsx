@@ -56,12 +56,6 @@ const columns = (handleClickView) => [
             title: 'View profile',
             callback: () => handleClickView(row.row),
           },
-          {
-            title: 'Lock',
-            callback: () => {
-              console.log('hi');
-            },
-          },
         ]}
       />
     ),

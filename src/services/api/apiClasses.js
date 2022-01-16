@@ -26,6 +26,10 @@ export const apiClasses = {
     const url = baseUrl + 'joinClassByLink';
     return axios.get(url + `?token=${token}`);
   },
+  joinClass: (token) => {
+    const url = baseUrl + 'joinClass';
+    return axios.get(url + `?token=${token}`);
+  },
   getInforByToken: (token) => {
     const url = baseUrl + 'courseInfoFromToken';
     return axios.get(url + `/${token}`);

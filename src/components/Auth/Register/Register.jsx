@@ -9,6 +9,8 @@ import useStyles from './Register.styles';
 import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { doCreateUser } from '../../../redux/slice';
+import { apiOtp } from '../../../services/api';
+import { useModalLoading } from '../../../hooks';
 
 export const Register = ({ setOpenDialog }) => {
   const {
@@ -16,21 +18,35 @@ export const Register = ({ setOpenDialog }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { handleOpenModalLoading, handleCloseModalLoading } = useModalLoading();
 
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    dispatch(doCreateUser(data))
-      .then(unwrapResult)
+    handleOpenModalLoading();
+    // dispatch(doCreateUser(data))
+    //   .then(unwrapResult)
+    //   .then((res) => {
+    //     if (res.result) {
+    //       history.push({ pathname: '/auth', state: { Tab: 1 } });
+    //       return;
+    //     }
+    //     setOpenDialog(res.message);
+    //   });
+
+    apiOtp
+      .requestOtp(data)
       .then((res) => {
-        if (res.result) {
-          history.push({ pathname: '/auth', state: { Tab: 1 } });
+        handleCloseModalLoading();
+        if (res.data.result) {
+          history.push({ pathname: '/verify', state: { data } });
           return;
         }
         setOpenDialog(res.message);
-      });
+      })
+      .catch(() => handleCloseModalLoading());
   };
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>

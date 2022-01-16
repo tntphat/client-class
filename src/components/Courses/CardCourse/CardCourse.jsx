@@ -13,7 +13,7 @@ export default function CardClass({ name, subject, id, teacherName, isTeacher })
   const classes = useStyles();
   const history = useHistory();
   return (
-    <Card className={classes.root} sx={{ width: 300 }}>
+    <Card className={classes.root} sx={{ width: 250 }}>
       <CardMedia
         component="img"
         height="100"

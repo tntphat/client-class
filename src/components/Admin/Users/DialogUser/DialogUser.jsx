@@ -18,6 +18,7 @@ export const DialogUser = ({ selectedUser }) => {
     // apiAdmin.getUserDetail(1).then(console.log);
     // apiAdmin.getAdminDetail(selectedUser.userName).then((res) => console.log(res.data));
   });
+  console.log(selectedUser.countIsStudent, Number.isNaN(selectedUser.countIsStudent));
   return (
     <Box className={classes.root}>
       <Avatar
@@ -29,7 +30,7 @@ export const DialogUser = ({ selectedUser }) => {
       <Typography align="center" variant="h5" sx={{ margin: '10px 0 20px' }}>
         {selectedUser.name}
       </Typography>
-      {!Number.isNaN(selectedUser.countIsStudent) ? (
+      {selectedUser.countIsStudent !== undefined ? (
         <div className={classes.userCourses}>
           <div>
             <p>Studying {selectedUser.countIsStudent}</p>

@@ -63,6 +63,7 @@ export const Profile = () => {
           error={errors.studentId}
           label="StudentId"
           name="studentId"
+          type="number"
           register={register}
           rules={{ required: true }}
         />

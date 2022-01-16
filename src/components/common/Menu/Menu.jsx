@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import { useDispatch } from 'react-redux';
 import { doMarkReadedAll } from '../../../redux/slice';
 
-export const MenuComp = ({ array, icon, isNoti }) => {
+export const MenuComp = ({ array, icon, isNoti, classMenu }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
@@ -49,6 +49,7 @@ export const MenuComp = ({ array, icon, isNoti }) => {
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
+        className={classMenu}
       >
         {array.map((i) => {
           return (

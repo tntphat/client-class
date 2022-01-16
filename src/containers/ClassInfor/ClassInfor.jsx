@@ -99,8 +99,17 @@ export const ClassInfor = () => {
                     <div style={{ display: 'flex' }}>
                       {linkInvite ? (
                         <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 15 }}>
-                          <p style={{ paddingRight: 15 }}>Copy link mời</p> <ContentCopyIcon />{' '}
-                          {linkInvite}
+                          <p
+                            style={{
+                              paddingRight: 15,
+                              maxWidth: 250,
+                              wordBreak: 'break-word',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            Copy link mời <ContentCopyIcon /> {linkInvite}{' '}
+                          </p>
                         </div>
                       ) : (
                         <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 15 }}>
