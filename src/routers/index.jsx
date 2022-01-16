@@ -88,9 +88,10 @@ export const Routers = () => {
         />
         <PrivateRouter
           exact={true}
-          path={'/request-review/:id/:gradeItemId'}
+          path={'/request-review/:id/:courseId'}
           component={RequestReview}
-          layout={BlankLayout}
+          layout={HeaderLayout}
+          header={<Header />}
           fullWidth
         />
         <PrivateRouter

@@ -6,13 +6,13 @@
 }
 
 .pending {
-    background-color: gold;
+    background-color: rgb(196, 166, 0);
 }
 .accept {
-    background-color: rgb(77, 252, 42);
+    background-color: rgb(56, 180, 31);
 }
 .reject {
-    background-color: rgb(255, 89, 98);
+    background-color: rgb(180, 0, 9);
 }
 
 .header-review {
@@ -33,7 +33,17 @@
 
 .content-header {
     font-weight: bold;
-    color: rgb(145, 145, 145);
+    color: rgb(255, 255, 255);
+}
+
+.status {
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+.name-cl {
+    font-weight: bold;
+    color: rgb(99, 99, 99);
 }
 
 .content-container {
@@ -41,4 +51,5 @@
     background-color: rgb(252, 252, 208);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    color: rgb(99, 99, 99);
 }
