@@ -1,0 +1,55 @@
+.card-review {
+    width: 800px;
+    margin: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pending {
+    background-color: rgb(196, 166, 0);
+}
+.accept {
+    background-color: rgb(56, 180, 31);
+}
+.reject {
+    background-color: rgb(180, 0, 9);
+}
+
+.header-review {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+
+.field-review {
+    padding-bottom: 15px;
+}
+
+.content-header {
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+.status {
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+.name-cl {
+    font-weight: bold;
+    color: rgb(99, 99, 99);
+}
+
+.content-container {
+    padding: 25px;
+    background-color: rgb(252, 252, 208);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    color: rgb(99, 99, 99);
+}

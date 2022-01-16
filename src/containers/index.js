@@ -12,4 +12,6 @@ export * from './ChangePass/ChangePass';
 export * from './ContainerGradeTable/ContainerGradeTable';
 export * from './Grades/Grades';
 export * from './VerifyOtp/VerifyOtp';
+export * from './ListRequestReview/ListRequestReview';
+export * from './RequestReview/RequestReview';
 export * from './Admin';

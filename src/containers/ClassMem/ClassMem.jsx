@@ -177,7 +177,7 @@ export const ClassMem = () => {
                   <div style={{ display: 'flex', alignItems: 'center' }}>{i.name}</div>
                 </div>
                 <div style={{ paddingLeft: '15px' }}>
-                  {i?.studentId ? <p>{i?.studentId}</p> : <p>____</p>}
+                  {i?.studentId ? <p>{i?.studentId}</p> : <p>NOT MAP</p>}
                 </div>
               </div>
             ))}

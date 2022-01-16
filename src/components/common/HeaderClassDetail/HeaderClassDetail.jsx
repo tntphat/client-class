@@ -16,11 +16,9 @@ import Tabs from '@mui/material/Tabs';
 import { Header } from '..';
 
 export const HeaderClassDetail = ({ val }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
   const [value, setValue] = useState(val);
   const location = useLocation();
 
-  const classes = useStyles();
   useEffect(() => {}, []);
   const history = useHistory();
 
@@ -35,7 +33,7 @@ export const HeaderClassDetail = ({ val }) => {
     <Header>
       <div
         style={{
-          width: '500px',
+          width: '550px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -46,9 +44,10 @@ export const HeaderClassDetail = ({ val }) => {
       >
         {value && (
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab value={'infor'} label="BẢNG TIN" />
-            <Tab value={'mem'} label="THÀNH VIÊN" />
-            <Tab value={'grade-table'} label="BẢNG ĐIỂM" />
+            <Tab value={'infor'} label="DASHBOARD" />
+            <Tab value={'mem'} label="MEMBERS" />
+            <Tab value={'grade-table'} label="GRADE TABLE" />
+            <Tab value={'list-request-review'} label="REQUEST REVIEW" />
           </Tabs>
         )}
       </div>
