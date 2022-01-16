@@ -22,12 +22,16 @@ export const apiGradeReview = {
     const url = baseUrl + 'getAll/'+ id;
     return axios.get(url);
   },
+  getAllStudentGradeReview: (id) => {
+    const url = baseUrl + 'getAllOf/'+ id;
+    return axios.get(url);
+  },
   getStudentGradeReview: (param) => {
     const url = baseUrl + 'get';
     return axios.post(url, param);
   },
-  getGradeReviewDetail: () => {
-    const url = baseUrl + 'get/:id';
+  getGradeReviewDetail: (id) => {
+    const url = baseUrl + 'get/'+ id;
     return axios.get(url);
   },
   updateScoreAndStatus: (param) => {

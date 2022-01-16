@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { apiGradeReview } from '../../services/api';
+import { apiClasses, apiGradeReview } from '../../services/api';
 import { RequestReviewCard } from '../../components/RequestReview'
 import { SpinnerWrapper } from '../../components/common';
 import { useSelector } from 'react-redux';
@@ -8,14 +8,14 @@ import { useSelector } from 'react-redux';
 export const ListRequestReview = () => {
     let { id } = useParams();
     const [loading, setLoading] = useState(false);
-    const [listReqReview, setListReqReview] = useState([])
+    const [listReqReview, setListReqReview] = useState(null)
 
     const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
         setLoading(true)
         getListReqReview()
-    }, [user])
+    }, [])
 
     const getListReqReview = async () => {
         let res = await apiGradeReview.getAllGradeReview(id)
@@ -31,10 +31,14 @@ export const ListRequestReview = () => {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <div>
                     {
-                        listReqReview.map(req => (
+                        listReqReview && listReqReview.length>0 && listReqReview.map(req => (
                             <RequestReviewCard reqReview={req} />
                         ))
                     }
+                    {
+                        listReqReview && listReqReview.length===0 && <p>NO REQUEST REVIEW</p>
+                    }
+
                 </div>
             </div>
 

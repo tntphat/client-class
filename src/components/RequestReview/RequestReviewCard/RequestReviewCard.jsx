@@ -1,26 +1,30 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import { apiClasses } from '../../../services/api'
 import './RequestReview.css'
 
 export const RequestReviewCard = ({ reqReview }) => {
-    const { courseId, expectationScore, gradeItemId, status, studentId, explanation, name } = reqReview
+    const { courseId, expectationScore, gradeItemId, status, studentId, explanation, name, title, id } = reqReview
     const history = useHistory()
 
     const handelRedirect = () => {
-        history.push('/request-review/' + courseId + '/' + gradeItemId)
+        history.push('/request-review/' + id + '/' + courseId)
     }
 
     return (
         <div className='card-review' onClick={handelRedirect}>
-            <div className= {`header-review  ${status}`}>
+            <div className={`header-review  ${status}`}>
                 <p className='content-header'>{studentId} - {name}</p>
                 <div className='status'>
-                    {status}
+                    {status?.toUpperCase()}
                 </div>
             </div>
             <div className='content-container'>
                 <div className='field-review'>
-                    <p>Expectation grade</p>
+                    <p className='status'>{title?.toUpperCase()}</p>
+                </div>
+                <div className='field-review'>
+                    <p >Expectation grade</p>
                     <div className='content-review'>
                         {
                             expectationScore

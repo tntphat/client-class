@@ -101,9 +101,9 @@ export const GradeTableForStudent = () => {
     };
 
     const handleRequestReview = (field) => {
-        console.log('field', field);
+        let m = refScore.current;
         setOpenReq(true)
-        setRequestReviewInfor({ gradeItemId: field })
+        setRequestReviewInfor({ gradeItemId: m[0][field].grade_item_id})
     };
 
     const onCloseReqReview = () => {
@@ -216,7 +216,7 @@ export const GradeTableForStudent = () => {
                                             title: 'Create Request review',
                                             callback: (e) => {
                                                 e.stopPropagation();
-                                                handleRequestReview(row.field);
+                                                handleRequestReview( row.field);
                                             },
                                         },
                                         {

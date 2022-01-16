@@ -33,7 +33,12 @@
 
 .content-header {
     font-weight: bold;
-    color: rgb(145, 145, 145);
+    color: rgb(133, 132, 132);
+}
+
+.status {
+    font-weight: bold;
+    color: rgb(133, 132, 132);
 }
 
 .content-container {
@@ -41,4 +46,5 @@
     background-color: rgb(252, 252, 208);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    color: rgb(112, 112, 112);
 }
