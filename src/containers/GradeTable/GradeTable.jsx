@@ -29,7 +29,7 @@ export const GradeTable = () => {
   }, [gradeStructure]);
 
   const { exportFile, setDataExport, isImported, setNameFile, setDataThenExport, setCbThenImport } =
-    useXlsx('name-file', dataTemplate, (_) => {});
+    useXlsx('name-file', dataTemplate, (_) => { });
   // } = useXlsx('name-file', dataTemplate, data => { handleImportStudent(data) });
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -464,7 +464,7 @@ export const GradeTable = () => {
               Download template list
             </Button>
             <Button
-              style={{ textTransform: 'none' }}
+              style={{ marginRight: '5px', textTransform: 'none' }}
               variant="outlined"
               startIcon={<UploadIcon />}
               color="info"
@@ -472,15 +472,27 @@ export const GradeTable = () => {
             >
               Upload list student
             </Button>
+            <Button
+              onClick={handleExportEntireBoard}
+              style={{ textTransform: 'none' }}
+              variant="contained"
+              startIcon={<DownloadIcon />}
+            >
+              Export grade board
+            </Button>
           </div>
 
           <Button
-            onClick={handleExportEntireBoard}
-            style={{ textTransform: 'none' }}
+            onClick={(e) => {
+              setLoading(true);
+              handleUpdateClassGrade();
+            }}
+            style={{ textTransform: 'none', margin: '10px 0 20px' }}
             variant="contained"
-            startIcon={<DownloadIcon />}
+            startIcon={<CheckCircleIcon />}
+            color="success"
           >
-            Export grade board
+            Save Grade Board
           </Button>
           {/* <div className="dropdown">
             <button className="dropbtn">Action</button>
@@ -506,18 +518,7 @@ export const GradeTable = () => {
             </div>
           </div> */}
         </div>
-        <Button
-          onClick={(e) => {
-            setLoading(true);
-            handleUpdateClassGrade();
-          }}
-          style={{ textTransform: 'none', margin: '10px 0 20px' }}
-          variant="contained"
-          startIcon={<CheckCircleIcon />}
-          color="success"
-        >
-          Save Grade Board
-        </Button>
+
         <div style={{ height: 400, width: '100%' }}>
           <DataGrid
             autoHeight
