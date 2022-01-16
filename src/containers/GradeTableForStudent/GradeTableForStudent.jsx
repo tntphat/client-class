@@ -218,14 +218,7 @@ export const GradeTableForStudent = () => {
                                                 e.stopPropagation();
                                                 handleRequestReview( row.field);
                                             },
-                                        },
-                                        {
-                                            title: 'View Request review',
-                                            callback: (e) => {
-                                                e.stopPropagation();
-                                                history.push( '/request-review/'+id+'/'+ row.field )
-                                            },
-                                        },
+                                        }
                                     ]}
                                 />
                             </div>

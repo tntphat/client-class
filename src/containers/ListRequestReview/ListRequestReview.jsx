@@ -9,19 +9,51 @@ export const ListRequestReview = () => {
     let { id } = useParams();
     const [loading, setLoading] = useState(false);
     const [listReqReview, setListReqReview] = useState(null)
+    const [classDetail, setClassDetail] = useState(null)
 
     const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
         setLoading(true)
-        getListReqReview()
+        getDetail()
     }, [])
+    
+    useEffect(() => {
+        if(classDetail && classDetail.isTeacher)
+        {
+            setLoading(true)
+            getListReqReview()
+        }
+        if(classDetail && !classDetail.isTeacher)
+        {
+            setLoading(true)
+            getListReqReviewStudent()
+        }
+    }, [classDetail])
 
     const getListReqReview = async () => {
         let res = await apiGradeReview.getAllGradeReview(id)
         if (res.data) {
             console.log('res', res.data);
             setListReqReview(res.data ?? [])
+        }
+        setLoading(false)
+    }
+    
+    const getListReqReviewStudent = async () => {
+        let res = await apiGradeReview.getAllStudentGradeReview(id)
+        if (res.data) {
+            console.log('res', res.data);
+            setListReqReview(res.data ?? [])
+        }
+        setLoading(false)
+    }
+
+    const getDetail = async () => {
+        let res = await apiClasses.getClassDetail(id)
+        if(res.data)
+        {
+            setClassDetail(res.data)
         }
         setLoading(false)
     }

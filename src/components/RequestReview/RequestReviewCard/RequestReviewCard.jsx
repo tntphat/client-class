@@ -21,7 +21,7 @@ export const RequestReviewCard = ({ reqReview }) => {
             </div>
             <div className='content-container'>
                 <div className='field-review'>
-                    <p className='status'>{title?.toUpperCase()}</p>
+                    <p className='name-cl'>{title?.toUpperCase()}</p>
                 </div>
                 <div className='field-review'>
                     <p >Expectation grade</p>

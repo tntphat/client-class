@@ -37,7 +37,7 @@ export const UpdateReviewModal = ({ open, onClose, onOk, status, oldScore }) => 
                 onClose={onClose}
             >
                 <Box sx={style}>
-                    <div style={{fontWeight: 500, color: 'grey', fontSize: 20, paddingBottom: 15}}>
+                    <div style={{ fontWeight: 500, color: 'grey', fontSize: 20, paddingBottom: 15 }}>
                         UPDATE STATUS
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -50,16 +50,29 @@ export const UpdateReviewModal = ({ open, onClose, onOk, status, oldScore }) => 
                             disabled
                         />
 
-                        <InputText
-                            error={errors.newScore}
-                            label="New score"
-                            name="newScore"
-                            register={register}
-                            type='number'
-                            rules={{ required: true, validate: val => val <= 10 || 'Value must be less than 10' }}
-                        />
+                        {
+                            status === 'accept' && <InputText
+                                error={errors.newScore}
+                                label="New score"
+                                name="newScore"
+                                register={register}
+                                type='number'
+                                rules={{ required: true, validate: val => val <= 10 || 'Value must be less than 10' }}
+                            />
+                        }
+                        {
+                            status === 'reject' && <InputText
+                                error={errors.newScore}
+                                label="New score"
+                                name="newScore"
+                                register={register}
+                                value={oldScore}
+                                disabled
+                            />
+                        }
+
                         <div style={{ display: 'flex', justifyContent: 'end', marginTop: 25 }}>
-                            <Button variant="outlined" style={{marginRight: 15}} type="submit">
+                            <Button variant="outlined" style={{ marginRight: 15 }} type="submit">
                                 Ok
                             </Button>
                             <Button variant="outlined" color="error" onClick={onClose}>
