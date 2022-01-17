@@ -62,7 +62,7 @@ export const GradeTableForStudent = () => {
 
     useEffect(() => {
         refScore.current = score;
-        // console.log(score);
+        console.log("score", score);
     }, [score]);
 
     useEffect(() => {
@@ -210,7 +210,7 @@ export const GradeTableForStudent = () => {
                         renderHeader: (row) => (
                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                 <div>{i.title}</div>
-                                <MenuComp
+                                {refScore.current.length > 0 && refScore.current[0][row.field] && <MenuComp
                                     array={[
                                         {
                                             title: 'Create Request review',
@@ -220,7 +220,8 @@ export const GradeTableForStudent = () => {
                                             },
                                         }
                                     ]}
-                                />
+                                />}
+                                
                             </div>
                         ),
                         sortable: false,
