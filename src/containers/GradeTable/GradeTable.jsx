@@ -169,7 +169,7 @@ export const GradeTable = () => {
     // console.log("missScore,missScore", missScore);
 
     if (missScore.length > 0) {
-      onOpenDialog('Cột điểm chưa đủ');
+      onOpenDialog('Score column is not enough');
       return;
     }
 

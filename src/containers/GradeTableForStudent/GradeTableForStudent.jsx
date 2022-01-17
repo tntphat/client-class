@@ -155,12 +155,12 @@ export const GradeTableForStudent = () => {
         // console.log('userid', user.studentId); 
         let userId = user.studentId;
         if (userId === null) {
-            onOpenDialog("Bạn chưa map mã số sinh viên")
+            onOpenDialog("You have not mapped the student Id")
         }
         else {
             let res = await apiGrade.getStudentGrade({ courseId: id });
             if (res.data?.length === 0) {
-                onOpenDialog("Mã số sinh viên không có trong bảng điểm")
+                onOpenDialog("StudentId is not in the grade table")
             }
             else {
                 let data = res.data?.map(({ student_id, student_name, id, ...i }) => ({

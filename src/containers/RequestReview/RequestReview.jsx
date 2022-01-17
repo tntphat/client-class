@@ -2,7 +2,7 @@ import { Avatar, Button, Input, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
-import {  MenuComp, SpinnerWrapper } from '../../components/common';
+import { MenuComp, SpinnerWrapper } from '../../components/common';
 import { UpdateReviewModal } from '../../components/RequestReview';
 import { apiGradeReview, apiClasses } from '../../services/api';
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
@@ -21,6 +21,7 @@ export const RequestReview = () => {
     const [isTeacher, setIsTeacher] = useState(false)
     const [status, setStatus] = useState("")
     const [classDetail, setClassDetail] = useState({})
+    const [invalid, setInvalid] = useState(false)
 
     useEffect(() => {
         setLoading(true)
@@ -88,16 +89,29 @@ export const RequestReview = () => {
     }
 
     const sendComment = async () => {
-        let param = {
-            courseId: courseId,
-            gradeReviewId: id,
-            comment: valueComment
+         await sendCommentServer()
+         setLoading(false)
+    }
+    
+
+    const sendCommentServer = async () => {
+        if (valueComment && valueComment !== "") {
+            setLoading(true)
+            let param = {
+                courseId: courseId,
+                gradeReviewId: id,
+                comment: valueComment
+            }
+            let res = await apiGradeReview.addComment(param)
+            if (res.data) {
+                console.log('res', res);
+                setValueComment("")
+                getInforRequestReview()
+            }
+            setInvalid(false)
         }
-        let res = await apiGradeReview.addComment(param)
-        if (res.data) {
-            console.log('res', res);
-            setValueComment("")
-            getInforRequestReview()
+        else{
+            setInvalid(true)
         }
     }
 
@@ -116,12 +130,12 @@ export const RequestReview = () => {
                         <div style={{ display: "flex", justifyContent: 'space-between', borderBottom: "1px solid grey", paddingBottom: 10 }}>
                             <div>
                                 <p style={{ fontSize: 25, fontWeight: '500', color: "#2e2eb8" }}>
-                                    <AutoAwesomeMotionIcon/> REQUEST REVIEW
+                                    <AutoAwesomeMotionIcon /> REQUEST REVIEW
                                 </p>
                                 <p style={{ fontSize: 19, fontWeight: '500', color: "#2e2eb8" }}>
                                     {classDetail.name} - {reqInfor.title?.toUpperCase()}
                                 </p>
-                                <p style={{color: 'rgb(99, 99, 99)'}}>
+                                <p style={{ color: 'rgb(99, 99, 99)' }}>
                                     {reqInfor.studentId} - {reqInfor.name}
                                 </p>
                             </div>
@@ -158,13 +172,13 @@ export const RequestReview = () => {
                         </div>
                         <div style={{ padding: 15, borderBottom: "1px solid grey", paddingBottom: 10 }}>
 
-                            <p style={{ fontSize: 20, fontWeight:'bold', color: 'rgb(99, 99, 99)' }}>Expectation grade</p>
+                            <p style={{ fontSize: 20, fontWeight: 'bold', color: 'rgb(99, 99, 99)' }}>Expectation grade</p>
                             <div>
                                 {
                                     reqInfor.expectationScore
                                 }
                             </div>
-                            <p style={{ fontSize: 20, fontWeight:'bold', color: 'rgb(99, 99, 99)' }}>Explanation message</p>
+                            <p style={{ fontSize: 20, fontWeight: 'bold', color: 'rgb(99, 99, 99)' }}>Explanation message</p>
                             <div >
                                 {
                                     reqInfor.explanation
@@ -172,7 +186,7 @@ export const RequestReview = () => {
                             </div>
                         </div >
                         <div>
-                            <p style={{color: 'rgb(99, 99, 99)'}}>{comments.length} Comments</p>
+                            <p style={{ color: 'rgb(99, 99, 99)' }}>{comments.length} Comments</p>
                             <div>
                                 {
                                     comments.map(i =>
@@ -203,7 +217,10 @@ export const RequestReview = () => {
                                     </Avatar>
                                 </div>
                                 <div style={{ paddingLeft: 15, display: 'flex', justifyContent: 'space-between', width: 780 }}>
-                                    <TextField id="outlined-basic" value={valueComment} label="Write comment" variant="outlined" onChange={e => handleSetValueComment(e.target.value)} style={{ width: 600 }} />
+                                    <div>
+                                        <TextField id="outlined-basic" value={valueComment} label="Write comment" variant="outlined" onChange={e => handleSetValueComment(e.target.value)} style={{ width: 600 }} />
+                                        {invalid && <div style={{ color: "red" }}>This is required</div>}
+                                    </div>
                                     <Button variant="outlined" style={{ marginRight: 15 }} onClick={sendComment}>
                                         SEND
                                     </Button>
