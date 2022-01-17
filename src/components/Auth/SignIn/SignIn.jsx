@@ -71,7 +71,7 @@ export const SignIn = ({ isAdmin, setOpenDialog }) => {
         register={register}
       />
       {!isAdmin ? (
-        <Typography className={classes.subText}>
+        <div className={classes.subText}>
           Not a member?
           <span onClick={() => history.replace({ pathname: '/auth', state: { Tab: 0 } })}>
             Sign Up
@@ -82,7 +82,7 @@ export const SignIn = ({ isAdmin, setOpenDialog }) => {
           >
             Forgot password?
           </div>
-        </Typography>
+        </div>
       ) : null}
       <Box mt={2}>
         <Button color="primary" variant="contained" fullWidth type="submit">

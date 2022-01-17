@@ -42,9 +42,14 @@ export const ClassMem = () => {
       res = res?.data;
       console.log(d.data);
       setData(d.data);
-      console.log(res, typeof res);
-      setTeachers(res?.users?.filter((i) => i.role !== 'student') ?? []);
-      setStudents(res?.users?.filter((i) => i.role === 'student') ?? []);
+      console.log(res.users);
+      if (res?.users) {
+        const teachers = res?.users?.filter((i) => i.role !== 'student');
+        const students = res?.users?.filter((i) => i.role === 'student');
+        console.log('aaaaaa', teachers, students);
+        setTeachers(teachers);
+        setStudents(students);
+      }
       setLoading(false);
     }
   };

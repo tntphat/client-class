@@ -34,7 +34,7 @@ export const Invitation = () => {
       ? apiClasses.joinClassByLink(token)
       : apiClasses.joinClass(token);
     promise.then(() => {
-      history.push(`/course/${idCourse}`);
+      history.push(`/course/${idCourse}/infor`);
     });
   };
 

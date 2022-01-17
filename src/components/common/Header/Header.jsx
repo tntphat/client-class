@@ -19,6 +19,8 @@ import Badge from '@mui/material/Badge';
 import { MenuComp } from '../../common';
 import { useDispatch } from 'react-redux';
 import { doMarkReadedAll } from '../../../redux/slice';
+import moment from 'moment';
+
 export const Header = ({ children }) => {
   const classes = useStyles();
   const dispatch = useDispatch;
@@ -45,13 +47,22 @@ export const Header = ({ children }) => {
     title: (
       <Box className={classes.itemNoti}>
         <Avatar>{noti.message[0]}</Avatar>
-        <p className={classes.textNoti}>{noti.message}</p>
+        <div className={classes.textNoti}>
+          <p>{noti.message}</p>
+          <Typography variant="subtitle2" style={{ color: '#636e72' }}>
+            {moment(noti.createdAt).from(moment(new Date()))}
+          </Typography>
+        </div>
       </Box>
     ),
+    callback: () => {
+      if (noti.type === 1) {
+        history.push(`/course/${noti.courseId}/grade-table`);
+        return;
+      }
+      history.push(`/course/${noti.courseId}/list-request-review`);
+    },
   }));
-  const handleMarkReadedAll = () => {
-    dispatch(doMarkReadedAll());
-  };
 
   return (
     <Box className={classes.root} sx={{ flexGrow: 1 }}>

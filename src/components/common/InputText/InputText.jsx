@@ -30,6 +30,7 @@ export const InputText = ({
         variant="outlined"
         {...register(name, rules)}
         fullWidth
+        autoComplete="off"
       />
       <ErrroMessage errMsgRow error={error} />
     </>

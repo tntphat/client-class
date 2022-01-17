@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     cursor: 'pointer',
     color: theme.palette.primary.main,
+    display: 'inline-block',
   },
 }));
 
