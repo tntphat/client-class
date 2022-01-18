@@ -42,7 +42,7 @@ export const GradeTable = () => {
   const [col, setCol] = useState([
     {
       field: 'id',
-      type: 'number',
+      type: 'string',
       editable: false,
       flex: 1,
       width: 0,
@@ -133,19 +133,13 @@ export const GradeTable = () => {
 
   const handleCalScore = (row) => {
     let temp = '';
-    // console.log('gradeStructure', gradeStructure);
 
     let sum = 0;
-    // console.log(refGrade, row);
     let m = refGrade.current.reduce((pre, cur) => {
-      // console.log('asdfa',cur.gradePercentage, row[`${cur.id}`]);
       sum += +cur.gradePercentage;
-      return Number.isNaN(row[`${cur.id}`]?.score)
-        ? pre
-        : pre + cur.gradePercentage * +row[`${cur.id}`]?.score;
+      return !row[`${cur.id}`]?.score ? pre : pre + cur.gradePercentage * +row[`${cur.id}`]?.score;
     }, 0);
 
-    console.log('sum', m, sum);
     let res = m / sum;
     if (sum) return res.toFixed(2);
     return 0;
@@ -157,11 +151,11 @@ export const GradeTable = () => {
     console.log('field', field);
     let missScore = scoreTemp.filter((i) => {
       let t = { ...i };
-      console.log(t, t[`${field}`].score, 'tttttt');
+      console.log(t, t[`${field}`], t[`${field}`]?.score, 'tttttt');
       if (
-        t[`${field}`].score === '' ||
-        t[`${field}`].score === null ||
-        t[`${field}`].score === undefined
+        t[`${field}`]?.score === '' ||
+        t[`${field}`]?.score === null ||
+        t[`${field}`]?.score === undefined
       ) {
         return true;
       }
@@ -170,7 +164,7 @@ export const GradeTable = () => {
     // console.log("missScore,missScore", missScore);
 
     if (missScore.length > 0) {
-      onOpenDialog('Cột điểm chưa đủ');
+      onOpenDialog('Please fill in full mark of this column');
       setLoading(false);
       return;
     }
@@ -348,7 +342,6 @@ export const GradeTable = () => {
     getInfor(id);
     getClassGrade();
   }, []);
-  console.log(gradeStructure, 'gradeeeeee');
   const getInfor = async (id) => {
     let d = await apiClasses.getClassDetail(id);
     if (d && d.data) {
@@ -379,9 +372,7 @@ export const GradeTable = () => {
                       className="input-score"
                       step="any"
                       onChange={(e) =>
-                        +e.target.value <= 10 &&
-                        e.target.value &&
-                        handleSetScore(row.id, row.field, e.target.value)
+                        +e.target.value <= 10 && handleSetScore(row.id, row.field, e.target.value)
                       }
                       onKeyPress={(e) => {
                         if (e.key === '-') e.preventDefault();

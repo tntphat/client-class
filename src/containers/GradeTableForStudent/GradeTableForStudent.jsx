@@ -86,22 +86,16 @@ export const GradeTableForStudent = () => {
 
   const handleCalScore = (row) => {
     let temp = '';
-    // console.log('gradeStructure', gradeStructure);
 
     let sum = 0;
-    // console.log(refGrade, row);
     let m = refGrade.current.reduce((pre, cur) => {
-      // console.log('asdfa',cur.gradePercentage, row[`${cur.id}`]);
       sum += +cur.gradePercentage;
-      return Number.isNaN(row[`${cur.id}`]?.score)
-        ? pre
-        : pre + cur.gradePercentage * +row[`${cur.id}`]?.score;
+      return !row[`${cur.id}`]?.score ? pre : pre + cur.gradePercentage * +row[`${cur.id}`]?.score;
     }, 0);
 
-    // console.log('sum', sum);
     let res = m / sum;
-
-    return res.toFixed(2);
+    if (sum) return res.toFixed(2);
+    return 0;
   };
 
   const handleRequestReview = (field) => {
@@ -155,11 +149,11 @@ export const GradeTableForStudent = () => {
     // console.log('userid', user.studentId);
     let userId = user.studentId;
     if (userId === null) {
-      onOpenDialog('Bạn chưa map mã số sinh viên');
+      onOpenDialog("You haven't mapped student id");
     } else {
       let res = await apiGrade.getStudentGrade({ courseId: id });
       if (res.data?.length === 0) {
-        onOpenDialog('Mã số sinh viên không có trong bảng điểm');
+        onOpenDialog('No mark finalized');
       } else {
         let data = res.data?.map(({ student_id, student_name, id, ...i }) => ({
           ...i,

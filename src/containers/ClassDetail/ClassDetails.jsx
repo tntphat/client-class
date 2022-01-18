@@ -115,7 +115,7 @@ export const ClassDetail = () => {
         setLoading(false);
       }
     } catch (error) {
-      setInforApi('Đã có lỗi xảy ra');
+      setInforApi('Something wrong happenned');
       setLoading(false);
       setOpenNotify(true);
     }
@@ -139,7 +139,7 @@ export const ClassDetail = () => {
         setLoading(false);
       }
     } catch (error) {
-      setInforApi('Đã có lỗi xảy ra');
+      setInforApi('Something wrong happenned');
       setLoading(false);
       setOpenNotify(true);
     }
@@ -228,12 +228,12 @@ export const ClassDetail = () => {
                         <div style={{ display: 'flex' }}>
                           {linkInvite ? (
                             <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 15 }}>
-                              <p style={{ paddingRight: 15 }}>Copy link mời</p> <ContentCopyIcon />{' '}
-                              {linkInvite}
+                              <p style={{ paddingRight: 15 }}>Copy link invite</p>{' '}
+                              <ContentCopyIcon /> {linkInvite}
                             </div>
                           ) : (
                             <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 15 }}>
-                              <p style={{ paddingRight: 15 }}>Đang tạo link mời </p>
+                              <p style={{ paddingRight: 15 }}>Creating invite link... </p>
                               <CircularProgress size={24} />
                             </div>
                           )}
@@ -271,7 +271,7 @@ export const ClassDetail = () => {
                     <div
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
-                      Không có giáo viên
+                      None teacher here
                     </div>
                   </div>
                 )}
@@ -288,14 +288,14 @@ export const ClassDetail = () => {
               </div>
               <ModalAddUser
                 open={openTeacher}
-                title="Mời giáo viên"
+                title="Invite teacher"
                 onOk={handleAddTeacher}
                 setOpen={(val) => setOpenTeacher(val)}
               />
             </div>
             <div>
               <div className="cl-head-mem">
-                <div style={{ fontSize: 30 }}>Học sinh</div>
+                <div style={{ fontSize: 30 }}>Student</div>
                 <div className="cl-icon">
                   {data?.isTeacher && (
                     <Button
@@ -314,7 +314,7 @@ export const ClassDetail = () => {
                     <div
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
-                      Không có học sinh
+                      None students here
                     </div>
                   </div>
                 )}
@@ -337,7 +337,7 @@ export const ClassDetail = () => {
               </div>
               <ModalAddUser
                 open={openStudent}
-                title="Mời học sinh"
+                title="Invite student"
                 onOk={handleAddStudent}
                 setOpen={(val) => setOpenStudent(val)}
               />

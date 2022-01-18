@@ -46,7 +46,6 @@ export const ClassMem = () => {
       if (res?.users) {
         const teachers = res?.users?.filter((i) => i.role !== 'student');
         const students = res?.users?.filter((i) => i.role === 'student');
-        console.log('aaaaaa', teachers, students);
         setTeachers(teachers);
         setStudents(students);
       }
@@ -67,12 +66,12 @@ export const ClassMem = () => {
       setLoading(true);
       let res = await apiClasses.inviteByEmail(param);
       if (res) {
-        setInforApi(res?.data?.messsage ?? '');
+        setInforApi(res?.data?.message ?? '');
         setOpenNotify(true);
         setLoading(false);
       }
     } catch (error) {
-      setInforApi('Đã có lỗi xảy ra');
+      setInforApi('Something wrong happenned');
       setLoading(false);
       setOpenNotify(true);
     }
@@ -90,14 +89,13 @@ export const ClassMem = () => {
       };
       setLoading(true);
       let res = await apiClasses.inviteByEmail(param);
-      console.log('resafa ', res);
       if (res) {
-        setInforApi(res?.data?.messsage ?? '');
+        setInforApi(res?.data?.message ?? '');
         setOpenNotify(true);
         setLoading(false);
       }
     } catch (error) {
-      setInforApi('Đã có lỗi xảy ra');
+      setInforApi('Something wrong happenned');
       setLoading(false);
       setOpenNotify(true);
     }

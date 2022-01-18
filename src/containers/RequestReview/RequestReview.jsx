@@ -86,6 +86,7 @@ export const RequestReview = () => {
   };
 
   const sendComment = async () => {
+    if (!valueComment) return;
     let param = {
       courseId: courseId,
       gradeReviewId: id,
@@ -216,7 +217,12 @@ export const RequestReview = () => {
                     onChange={(e) => handleSetValueComment(e.target.value)}
                     style={{ width: 600 }}
                   />
-                  <Button variant="outlined" style={{ marginRight: 15 }} onClick={sendComment}>
+                  <Button
+                    variant="outlined"
+                    style={{ marginRight: 15 }}
+                    onClick={sendComment}
+                    disabled={!valueComment}
+                  >
                     SEND
                   </Button>
                 </div>
