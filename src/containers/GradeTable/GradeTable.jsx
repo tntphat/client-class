@@ -29,7 +29,7 @@ export const GradeTable = () => {
   }, [gradeStructure]);
 
   const { exportFile, setDataExport, isImported, setNameFile, setDataThenExport, setCbThenImport } =
-    useXlsx('name-file', dataTemplate, (_) => { });
+    useXlsx('name-file', dataTemplate, (_) => {});
   // } = useXlsx('name-file', dataTemplate, data => { handleImportStudent(data) });
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -70,7 +70,7 @@ export const GradeTable = () => {
       minWidth: 100,
       width: 0,
       // renderCell: (row) => handleCalScore(row.row),
-      valueGetter: (cell) => handleCalScore(cell.row),
+      valueGetter: (cell) => handleCalScore(cell.row) || 0,
     },
   ]);
 
@@ -145,10 +145,10 @@ export const GradeTable = () => {
         : pre + cur.gradePercentage * +row[`${cur.id}`]?.score;
     }, 0);
 
-    // console.log('sum', sum);
+    console.log('sum', m, sum);
     let res = m / sum;
-
-    return res.toFixed(2);
+    if (sum) return res.toFixed(2);
+    return 0;
   };
 
   const handleMarkAll = (field, titleCol) => {
@@ -157,7 +157,7 @@ export const GradeTable = () => {
     console.log('field', field);
     let missScore = scoreTemp.filter((i) => {
       let t = { ...i };
-
+      console.log(t, t[`${field}`].score, 'tttttt');
       if (
         t[`${field}`].score === '' ||
         t[`${field}`].score === null ||
@@ -171,9 +171,9 @@ export const GradeTable = () => {
 
     if (missScore.length > 0) {
       onOpenDialog('Cột điểm chưa đủ');
+      setLoading(false);
       return;
     }
-
     let temp = scoreTemp.map((i) => {
       let t = { ...i };
 
@@ -186,6 +186,7 @@ export const GradeTable = () => {
     });
     setScore([...temp]);
     setTimeout(() => {
+      console.log('vcl ??');
       Promise.all([
         apiNotification.createFinalizedNotifications({ courseId: id, title: titleCol }),
         handleUpdateClassGrade(),
@@ -218,7 +219,9 @@ export const GradeTable = () => {
     setScore([...temp]);
   };
 
-  const handleMarkASpecificAssignment = (id, field) => {
+  const handleMarkASpecificAssignment = (id, field, row) => {
+    console.log(row.row[field]);
+    if (row.row[field].score === '') return;
     let scoreTemp = JSON.parse(JSON.stringify(refScore.current));
     let temp = scoreTemp.map((i) => {
       if (i.id == id) {
@@ -376,14 +379,19 @@ export const GradeTable = () => {
                       className="input-score"
                       step="any"
                       onChange={(e) =>
-                        +e.target.value <= 10 && handleSetScore(row.id, row.field, e.target.value)
+                        +e.target.value <= 10 &&
+                        e.target.value &&
+                        handleSetScore(row.id, row.field, e.target.value)
                       }
+                      onKeyPress={(e) => {
+                        if (e.key === '-') e.preventDefault();
+                      }}
                     />
                     <div>/10</div>
                   </div>
                   <div
                     className="checkbox-wrapper"
-                    onClick={(_) => handleMarkASpecificAssignment(row.id, row.field)}
+                    onClick={(_) => handleMarkASpecificAssignment(row.id, row.field, row)}
                   >
                     {row.value?.isFinal ? (
                       <CheckBoxIcon style={{ color: 'green' }} />

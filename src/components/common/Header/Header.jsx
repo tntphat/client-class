@@ -107,7 +107,11 @@ export const Header = ({ children }) => {
                     </Badge>
                   </IconButton>
                 }
-                array={menuNotification}
+                array={
+                  menuNotification.length
+                    ? menuNotification
+                    : [{ title: 'You have none notifications' }]
+                }
                 classMenu={classes.classMenu}
               />
 

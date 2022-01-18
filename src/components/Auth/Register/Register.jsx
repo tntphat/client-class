@@ -44,7 +44,7 @@ export const Register = ({ setOpenDialog }) => {
           history.push({ pathname: '/verify', state: { data } });
           return;
         }
-        setOpenDialog(res.message);
+        setOpenDialog(res.data.message);
       })
       .catch(() => handleCloseModalLoading());
   };
