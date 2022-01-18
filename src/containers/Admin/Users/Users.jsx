@@ -108,13 +108,14 @@ export const Users = () => {
         </Button> */}
       </Box>
       {selectedRows.length ? (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', marginBottom: 2 }}>
           <Button
             variant="outlined"
             startIcon={<LockIcon />}
             onClick={() => {
               handleClickBan(refSelectedRows.current);
             }}
+            style={{ marginRight: 10 }}
           >
             Ban all selected
           </Button>
